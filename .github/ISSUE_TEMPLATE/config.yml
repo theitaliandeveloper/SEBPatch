@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Wiki
+    url: https://github.com/school-cheating/SEBPatch/wiki
+    about: Before opening an issue, check out the wiki to see if your issue is listed there.

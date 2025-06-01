@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+  <Entry key="LogWindow_Title">Application Log</Entry>
+  <Entry key="Version">Version</Entry>
+  <Entry key="Notification_AboutTooltip">
+    Hello world       
+  </Entry>
+  <Entry key="Notification_LogTooltip"></Entry>
+</Text>
