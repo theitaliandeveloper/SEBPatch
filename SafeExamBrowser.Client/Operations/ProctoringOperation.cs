@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,7 +25,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ITaskbar taskbar;
 		private readonly IUserInterfaceFactory uiFactory;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ProctoringOperation(

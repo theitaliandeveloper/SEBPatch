@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,10 +15,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class LowerHandRequest : BaseRequest
+	internal class LowerHandRequest : Request
 	{
 		internal LowerHandRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

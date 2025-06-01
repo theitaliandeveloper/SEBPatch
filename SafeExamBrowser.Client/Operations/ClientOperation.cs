@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,11 @@ namespace SafeExamBrowser.Client.Operations
 	{
 		protected ClientContext Context { get; private set; }
 
-		public abstract event ActionRequiredEventHandler ActionRequired;
+		/// <summary>
+		/// TODO: In case this event is neither used by the runtime, either remove it completely or then move it to a separate interface!
+		/// </summary>
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+
 		public abstract event StatusChangedEventHandler StatusChanged;
 
 		public ClientOperation(ClientContext context)

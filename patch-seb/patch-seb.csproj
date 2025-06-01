@@ -94,15 +94,13 @@
     <None Include="Resources\x64\SafeExamBrowser.exe" />
     <None Include="Resources\x64\SafeExamBrowser.Monitoring.dll" />
     <None Include="Resources\x64\SafeExamBrowser.UserInterface.Desktop.dll" />
-    <None Include="Resources\x64\SafeExamBrowser.UserInterface.Shared.dll" />
-    <None Include="Resources\x64\SafeExamBrowser.WindowsApi.dll" />
     <None Include="Resources\x86\SafeExamBrowser.Client.exe" />
     <None Include="Resources\x86\SafeExamBrowser.Configuration.dll" />
     <None Include="Resources\x86\SafeExamBrowser.exe" />
     <None Include="Resources\x86\SafeExamBrowser.Monitoring.dll" />
     <None Include="Resources\x86\SafeExamBrowser.UserInterface.Desktop.dll" />
-    <None Include="Resources\x86\SafeExamBrowser.UserInterface.Shared.dll" />
-    <None Include="Resources\x86\SafeExamBrowser.WindowsApi.dll" />
+    <None Include="Resources\x64\SafeExamBrowser.UserInterface.Mobile.dll" />
+    <None Include="Resources\x86\SafeExamBrowser.UserInterface.Mobile.dll" />
     <Content Include="SafeExamBrowser.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

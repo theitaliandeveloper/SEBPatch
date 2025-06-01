@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        ¿Desea abandonar la página actual?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        ¿Abandonar?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        ¿Desea recargar la página actual?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        ¿Recargar?
+    </Entry>
     <Entry key="MessageBox_Quit">
         ¿Quiere terminar SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Error de reconfiguración
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        ¿Desea recargar la página actual?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        ¿Recargar?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         El sistema parece estar ejecutándose en una sesión remota. La configuración seleccionada no permite que SEB se ejecute en una sesión remota.
@@ -684,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Contraseña requerida
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Abortar
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirmar
     </Entry>
@@ -700,7 +709,10 @@
         Esperando para ejecutar operación de transmisión %%_COUNT_%% de %%_TOTAL_%% en %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        Esperando para reanudar %%_COUNT_%% las operaciones de transmisión en %%_TIME_%%...
+        Esperando para reanudar %%_COUNT_%% operaciones de transmisión...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        Esperando para reanudar %%_COUNT_%% operaciones de transmisión en %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Finalización del proctoring de pantalla

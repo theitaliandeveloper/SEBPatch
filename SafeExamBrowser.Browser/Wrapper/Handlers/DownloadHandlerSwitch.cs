@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -35,20 +35,24 @@ namespace SafeExamBrowser.Browser.Wrapper.Handlers
 			return args.Value;
 		}
 
-		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public bool OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
+			var args = new GenericEventArgs();
+
 			if (browser.IsPopup)
 			{
 				var control = ChromiumHostControl.FromBrowser(browser) as CefSharpPopupControl;
 
-				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback);
+				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback, args);
 			}
 			else
 			{
 				var control = ChromiumWebBrowser.FromBrowser(browser) as CefSharpBrowserControl;
 
-				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback);
+				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback, args);
 			}
+
+			return args.Value;
 		}
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)

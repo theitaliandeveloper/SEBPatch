@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
 	internal class ServiceDataMapper : BaseDataMapper
 	{
-		public static bool enable = true;
 		internal override void Map(string key, object value, AppSettings settings)
 		{
 			switch (key)
@@ -71,145 +70,119 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapEnableChromeNotifications(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableChromeNotifications = !enable;
-			}
-			*/
-			settings.Service.DisableChromeNotifications = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableChromeNotifications = !enable;
+			//}
+			settings.Service.DisableChromeNotifications = false;
 		}
 
 		private void MapEnableEaseOfAccessOptions(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableEaseOfAccessOptions = !enable;
-			}
-			*/
-			settings.Service.DisableEaseOfAccessOptions = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableEaseOfAccessOptions = !enable;
+			//}
+			settings.Service.DisableEaseOfAccessOptions = false;
 		}
 
 		private void MapEnableFindPrinter(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableFindPrinter = !enable;
-			}
-			*/
-			settings.Service.DisableFindPrinter = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableFindPrinter = !enable;
+			//}
+			settings.Service.DisableFindPrinter = false;
 		}
 
 		private void MapEnableNetworkOptions(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableNetworkOptions = !enable;
-			}
-			*/
-			settings.Service.DisableNetworkOptions = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableNetworkOptions = !enable;
+			//}
+			settings.Service.DisableNetworkOptions = false;
 		}
 
 		private void MapEnablePasswordChange(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisablePasswordChange = !enable;
-			}
-			*/
-			settings.Service.DisablePasswordChange = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisablePasswordChange = !enable;
+			//}
+			settings.Service.DisablePasswordChange = false;
 		}
 
 		private void MapEnablePowerOptions(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisablePowerOptions = !enable;
-			}
-			*/
-			settings.Service.DisablePowerOptions = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisablePowerOptions = !enable;
+			//}
+			settings.Service.DisablePowerOptions = false;
 		}
 
 		private void MapEnableRemoteConnections(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableRemoteConnections = !enable;
-			}
-			*/
-			settings.Service.DisableRemoteConnections = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableRemoteConnections = !enable;
+			//}
+			settings.Service.DisableRemoteConnections = false;
 		}
 
 		private void MapEnableSignout(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableSignout = !enable;
-			}
-			*/
-			settings.Service.DisableSignout = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableSignout = !enable;
+			//}
+			settings.Service.DisableSignout = false;
 		}
 
 		private void MapEnableTaskManager(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableTaskManager = !enable;
-			}
-			*/
-			settings.Service.DisableTaskManager = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableTaskManager = !enable;
+			//}
+			settings.Service.DisableTaskManager = false;
 		}
 
 		private void MapEnableUserLock(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableUserLock = !enable;
-			}
-			*/
-			settings.Service.DisableUserLock = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableUserLock = !enable;
+			//}
+			settings.Service.DisableUserLock = false;
 		}
 
 		private void MapEnableUserSwitch(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableUserSwitch = !enable;
-			}
-			*/
-			settings.Service.DisableUserSwitch = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableUserSwitch = !enable;
+			//}
+			settings.Service.DisableUserSwitch = false;
 		}
 
 		private void MapEnableVmwareOverlay(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableVmwareOverlay = !enable;
-			}
-			*/
-			settings.Service.DisableVmwareOverlay = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableVmwareOverlay = !enable;
+			//}
+			settings.Service.DisableVmwareOverlay = false;
 		}
 
 		private void MapEnableWindowsUpdate(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enable)
-			{
-				settings.Service.DisableWindowsUpdate = !enable;
-			}
-			*/
-			settings.Service.DisableWindowsUpdate = !enable;
+			//if (value is bool enable)
+			//{
+			//	settings.Service.DisableWindowsUpdate = !enable;
+			//}
+			settings.Service.DisableWindowsUpdate = false;
 		}
 
 		private void MapIgnoreService(AppSettings settings, object value)
@@ -218,12 +191,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//{
 			//	settings.Service.IgnoreService = ignore;
 			//}
-			settings.Service.IgnoreService = enable;
+			settings.Service.IgnoreService = true;
 		}
 
 		private void MapPolicy(AppSettings settings, object value)
 		{
-			/*
 			const int WARN = 1;
 			const int FORCE = 2;
 
@@ -231,18 +203,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				settings.Service.Policy = policy == FORCE ? ServicePolicy.Mandatory : (policy == WARN ? ServicePolicy.Warn : ServicePolicy.Optional);
 			}
-			*/
-			settings.Service.Policy = ServicePolicy.Optional;
 		}
 
 		private void MapSetVmwareConfiguration(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool set)
-			{
-				settings.Service.SetVmwareConfiguration = set;
-			}
-			*/
+			//if (value is bool set)
+			//{
+			//	settings.Service.SetVmwareConfiguration = set;
+			//}
 			settings.Service.SetVmwareConfiguration = false;
 		}
 	}

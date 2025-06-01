@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,14 +17,14 @@ using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class AvailableExamsRequest : BaseRequest
+	internal class AvailableExamsRequest : Request
 	{
 		private readonly AppConfig appConfig;
 		private readonly ISystemInfo systemInfo;
 		private readonly IUserInfo userInfo;
 
 		internal AvailableExamsRequest(
-			ApiVersion1 api,
+			Api api,
 			AppConfig appConfig,
 			HttpClient httpClient,
 			ILogger logger,

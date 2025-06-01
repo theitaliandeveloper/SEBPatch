@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,16 +14,17 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class SelectExamRequest : BaseRequest
+	internal class SelectExamRequest : Request
 	{
-		internal SelectExamRequest(ApiVersion1 api, HttpClient httpClient, ILogger logger, Parser parser, ServerSettings settings) : base(api, httpClient, logger, parser, settings)
+		internal SelectExamRequest(Api api, HttpClient httpClient, ILogger logger, Parser parser, ServerSettings settings) : base(api, httpClient, logger, parser, settings)
 		{
 		}
 
 		internal bool TryExecute(Exam exam, out string message, out string appSignatureKeySalt, out string browserExamKey)
 		{
 			var content = $"examId={exam.Id}";
-			var success = TryExecute(HttpMethod.Put, api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
+			var method = new HttpMethod("PATCH");
+			var success = TryExecute(method, api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
 
 			appSignatureKeySalt = default;
 			browserExamKey = default;

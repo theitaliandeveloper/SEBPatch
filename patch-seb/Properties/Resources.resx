@@ -148,16 +148,10 @@
   <data name="SafeExamBrowser_UserInterface_Desktop1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\x86\SafeExamBrowser.UserInterface.Desktop.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SafeExamBrowser_UserInterface_Shared" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x64\SafeExamBrowser.UserInterface.Shared.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="SafeExamBrowser_UserInterface_Mobile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\x64\SafeExamBrowser.UserInterface.Mobile.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SafeExamBrowser_UserInterface_Shared1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x86\SafeExamBrowser.UserInterface.Shared.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SafeExamBrowser_WindowsApi" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x64\SafeExamBrowser.WindowsApi.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SafeExamBrowser_WindowsApi1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x86\SafeExamBrowser.WindowsApi.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="SafeExamBrowser_UserInterface_Mobile1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\x86\SafeExamBrowser.UserInterface.Mobile.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

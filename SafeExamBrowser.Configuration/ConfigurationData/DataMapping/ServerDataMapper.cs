@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -88,10 +88,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapPerformFallback(AppSettings settings, object value)
 		{
-			if (value is bool perform)
-			{
-				settings.Server.PerformFallback = perform;
-			}
+			//if (value is bool perform)
+			//{
+			//	settings.Server.PerformFallback = perform;
+			//}
+			settings.Server.PerformFallback = true;
 		}
 
 		private void MapRequestAttempts(AppSettings settings, object value)

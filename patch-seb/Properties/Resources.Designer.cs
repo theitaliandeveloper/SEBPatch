@@ -153,9 +153,9 @@ namespace patch_seb.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Byte[].
         /// </summary>
-        internal static byte[] SafeExamBrowser_UserInterface_Shared {
+        internal static byte[] SafeExamBrowser_UserInterface_Mobile {
             get {
-                object obj = ResourceManager.GetObject("SafeExamBrowser_UserInterface_Shared", resourceCulture);
+                object obj = ResourceManager.GetObject("SafeExamBrowser_UserInterface_Mobile", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -163,29 +163,9 @@ namespace patch_seb.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Byte[].
         /// </summary>
-        internal static byte[] SafeExamBrowser_UserInterface_Shared1 {
+        internal static byte[] SafeExamBrowser_UserInterface_Mobile1 {
             get {
-                object obj = ResourceManager.GetObject("SafeExamBrowser_UserInterface_Shared1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Byte[].
-        /// </summary>
-        internal static byte[] SafeExamBrowser_WindowsApi {
-            get {
-                object obj = ResourceManager.GetObject("SafeExamBrowser_WindowsApi", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Byte[].
-        /// </summary>
-        internal static byte[] SafeExamBrowser_WindowsApi1 {
-            get {
-                object obj = ResourceManager.GetObject("SafeExamBrowser_WindowsApi1", resourceCulture);
+                object obj = ResourceManager.GetObject("SafeExamBrowser_UserInterface_Mobile1", resourceCulture);
                 return ((byte[])(obj));
             }
         }

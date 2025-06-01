@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,6 +45,15 @@ namespace SafeExamBrowser.Monitoring.Mouse
 		private bool MouseHookCallback(MouseButton button, MouseButtonState state, MouseInformation info)
 		{
 			var block = false;
+
+			block |= button == MouseButton.Auxiliary;
+			block |= button == MouseButton.Middle && !settings.AllowMiddleButton;
+			block |= button == MouseButton.Right && !settings.AllowRightButton;
+
+			if (block)
+			{
+				logger.Info($"Blocked {button.ToString().ToLower()} mouse button when {state.ToString().ToLower()}.");
+			}
 
 			return block;
 		}

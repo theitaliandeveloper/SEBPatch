@@ -10,7 +10,7 @@
         Inhoud geblokkeerd
     </Entry>
     <Entry key="Browser_BlockedPageButton">
-        Terug naar vorige pagina
+        Ga terug naar de vorige pagina
     </Entry>
     <Entry key="Browser_BlockedPageMessage">
         Toegang tot deze pagina is niet toegestaan volgens de huidige configuratie.
@@ -22,7 +22,7 @@
         Er is een fout opgetreden tijdens het laden van de pagina "%%URL%%":
     </Entry>
     <Entry key="Browser_LoadErrorTitle">
-        Pagina laden fout
+        Fout bij het laden van de pagina
     </Entry>
     <Entry key="Browser_Name">
         Browser
@@ -43,13 +43,13 @@
         Geannuleerd.
     </Entry>
     <Entry key="BrowserWindow_DownloadComplete">
-        Gedownloaded.
+        Gedownload.
     </Entry>
     <Entry key="BrowserWindow_FindCaseSensitive">
-        Zoeken op hoofdletters en kleine letters
+        Hoofdlettergevoelig zoeken
     </Entry>
     <Entry key="BrowserWindow_FindMenuItem">
-        Zoek pagina...
+        Zoeken op deze pagina...
     </Entry>
     <Entry key="BrowserWindow_ReloadButton">
         Herladen
@@ -82,19 +82,19 @@
         Paginazoom
     </Entry>
     <Entry key="BrowserWindow_ZoomMenuPlus">
-        Paginazoom vergroten
+        Inzoomen
     </Entry>
     <Entry key="BrowserWindow_ZoomMenuMinus">
-        Paginazoom verlagen
+        Uitzoomen
     </Entry>
     <Entry key="BrowserWindow_SearchTextBox">
         Voer tekst in om te zoeken
     </Entry>
     <Entry key="BrowserWindow_SearchNext">
-        Volgend zoekresultaat
+        Volgende zoekresultaat
     </Entry>
     <Entry key="BrowserWindow_SearchPrevious">
-        Volgend zoekresultaat
+        Vorige zoekresultaat
     </Entry>
     <Entry key="Build">
         Build
@@ -298,7 +298,7 @@
         De lokale clientconfiguratie is mislukt! Raadpleeg de logbestanden voor meer informatie. SEB zal nu afsluiten...
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
-        Configuratie fout
+        Er is een fout in je configuratie
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
         De clientconfiguratie is opgeslagen en zal worden gebruikt wanneer je SEB de volgende keer opstart. Wil je nu stoppen?
@@ -307,7 +307,7 @@
         Configuratie succesvol
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadError">
-        De clientconfiguratie is opgeslagen en zal worden gebruikt wanneer je SEB de volgende keer opstart. Wil je nu stoppen?
+        Fout bij het downloaden van de configuratie
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
         Download fout
@@ -352,7 +352,7 @@
         SEB kan alleen worden beëindigd door het juiste wachtwoord voor afsluiten in te voeren.
     </Entry>
     <Entry key="MessageBox_InvalidQuitPasswordTitle">
-        Ongeldig verlaat wachtwoord
+        Ongeldig afsluitwachtwoord
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPassword">
         SEB kan alleen worden ontgrendeld door het juiste wachtwoord in te voeren.
@@ -372,17 +372,29 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_Quit">
-        Wil je SEB verlaten?
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Wil je de huidige pagina verlaten?
     </Entry>
-    <Entry key="MessageBox_QuitTitle">
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
         Verlaten?
     </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Wil je de huidige pagina opnieuw laden?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Herladen?
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        Wil je SEB sluiten?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Sluiten?
+    </Entry>
     <Entry key="MessageBox_QuitError">
-        De client is er niet in geslaagd het uitschakelverzoek door te geven aan de runtime!
+        De client kon het afsluitverzoek niet doorgeven aan de runtime!
     </Entry>
     <Entry key="MessageBox_QuitErrorTitle">
-        Verlaten fout
+        Sluitfout
     </Entry>
     <Entry key="MessageBox_ReconfigurationDenied">
         U mag SEB niet herconfigureren.
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Herconfiguratie fout
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Wilt u de huidige pagina opnieuw laden?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Herladen?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Het systeem lijkt in een sessie op afstand te draaien. De geselecteerde configuratie staat niet toe dat SEB wordt uitgevoerd in een sessie op afstand.
@@ -460,10 +466,10 @@
         Het uploaden van bestanden is niet toegestaan in de huidige SEB-instellingen. Meld dit aan je examenprovider.
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
-        Uploading wordt niet toegestaan!
+        Uploaden is niet toegestaan!
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        De geïnstalleerde SEB-versie %%_VERSIE_%% kan niet worden gebruikt omdat de geselecteerde configuratie een specifieke versie vereist:%%_REQUIRED_VERSIONS_%% Download en installeer de vereiste versie van de officiële website (safeexambrowser.org/download) of van de repository van SEB voor Windows op GitHub (github.com/safeexambrowser).
+        De geïnstalleerde SEB-versie %%_VERSIE_%% kan niet worden gebruikt omdat de geselecteerde configuratie een specifieke versie vereist:%%_REQUIRED_VERSIONS_%% Download en installeer de vereiste versie van de officiële website (safeexambrowser.org/download) of van de repository van SEB op GitHub (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
         Ongeldige SEB versie
@@ -499,16 +505,16 @@
         Applicatielog
     </Entry>
     <Entry key="Notification_ProctoringActiveTooltip">
-        Proctoreren op afstand is actief
+        Examenbewaking op afstand is actief
     </Entry>
     <Entry key="Notification_ProctoringHandLowered">
-        Hand wordt neergelaten
+        Hand is neergelaten
     </Entry>
     <Entry key="Notification_ProctoringHandRaised">
-        Hand wordt omhooggestoken
+        Hand is opgestoken
     </Entry>
     <Entry key="Notification_ProctoringInactiveTooltip">
-        Proctoreren op afstand is inactief
+        Examenbewaking op afstand is inactief
     </Entry>
     <Entry key="Notification_ProctoringLowerHand">
         Hand omlaag
@@ -607,7 +613,7 @@
         Het onderscheppen van muizen aan het stoppen
     </Entry>
     <Entry key="OperationStatus_TerminateBrowser">
-        Browser aan het afsluiten
+        Browser aan het sluiten
     </Entry>
     <Entry key="OperationStatus_TerminateProctoring">
         Proctoraat op afstand aan het afsluiten
@@ -673,7 +679,7 @@
         Wachtwoord vereist
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Voer het wachtwoord voor afsluiten in om SEB te beëindigen:
+        Voer het wachtwoord in om SEB te af te sluiten:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Wachtwoord vereist
@@ -684,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Wachtwoord vereist
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Afbreken
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Bevestigen
     </Entry>
@@ -691,7 +700,7 @@
         De resterende bewerkingen konden niet worden voltooid omdat er een probleem is met het netwerk en/of de schermproctoringservice.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
-        Gelieve te wachten terwijl de schermprootoring zijn resterende operaties uitvoert. Dit kan even duren, afhankelijk van het netwerk en de status van de screen proctoring service.
+        Gelieve te wachten terwijl de schermproctoring zijn resterende operaties uitvoert. Dit kan even duren, afhankelijk van het netwerk en de status van de screen proctoring service.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Uitvoeren van overdrachtsoperatie %%_COUNT_%% van %%_TOTAL_%%.
@@ -700,6 +709,9 @@
         Wachten om overdrachtsoperatie %%_COUNT_%% van %%_TOTAL_%% uit te voeren op %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Wachten om %%_COUNT_%% transmissiebewerkingen te hervatten...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         Wachten om %%_COUNT_%% transmissiebewerkingen te hervatten op %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
@@ -748,16 +760,16 @@
         Volledig opgeladen (%%CHARGE%%%)
     </Entry>
     <Entry key="SystemControl_BatteryChargeCriticalWarning">
-        De batterij is bijna leeg. Sluit uw computer aan op een stroomvoorziening!
+        De batterij is bijna leeg. Sluit de computer meteen aan op de oplader!
     </Entry>
     <Entry key="SystemControl_BatteryChargeLowInfo">
-        De batterij raakt leeg. Overweeg om de computer op tijd op een stroomvoorziening aan te sluiten...
+        De batterij is bijna leeg. Sluit de computer op tijd aan op de oplader.
     </Entry>
     <Entry key="SystemControl_BatteryRemainingCharge">
         %%HOURS%%h %%MINUTES%%min resterend (%%CHARGE%%%)
     </Entry>
     <Entry key="SystemControl_KeyboardLayoutTooltip">
-        De huidige lay-out is "%%LAYOUT%%"
+        De huidige indeling van het toetsenbord is "%%LAYOUT%%"
     </Entry>
     <Entry key="SystemControl_NetworkDisconnected">
         Verbinding verbroken

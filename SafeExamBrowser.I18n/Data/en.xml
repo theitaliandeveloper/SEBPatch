@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Would you like to leave the current page?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Leave?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Would you like to reload the current page?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Reload?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Do you want to quit SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Reconfiguration Error
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Would you like to reload the current page?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Reload?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         The system appears to be running in a remote session. The selected configuration does not allow SEB to be run in a remote session.
@@ -684,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Password Required
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Abort
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirm
     </Entry>
@@ -700,6 +709,9 @@
         Waiting to execute transmission operation %%_COUNT_%% of %%_TOTAL_%% at %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Waiting to resume %%_COUNT_%% transmission operations...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         Waiting to resume %%_COUNT_%% transmission operations at %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">

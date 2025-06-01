@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,10 +11,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using SafeExamBrowser.Applications;
+using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Client.Communication;
+using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Client.Responsibilities;
 using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
@@ -22,14 +25,17 @@ using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Configuration.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
+using SafeExamBrowser.Core.ResponsibilityModel;
 using SafeExamBrowser.I18n;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring;
 using SafeExamBrowser.Monitoring.Applications;
+using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Display;
+using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
@@ -51,6 +57,7 @@ using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Shared.Activators;
 using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -78,8 +85,8 @@ namespace SafeExamBrowser.Client
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
 		private INetworkAdapter networkAdapter;
+		private ISplashScreen splashScreen;
 		private IPowerSupply powerSupply;
-		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private ITaskview taskview;
@@ -97,7 +104,6 @@ namespace SafeExamBrowser.Client
 			InitializeText();
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
-			var registry = new Registry(ModuleLogger(nameof(Registry)));
 
 			uiFactory = BuildUserInterfaceFactory();
 			actionCenter = uiFactory.CreateActionCenter();
@@ -106,8 +112,8 @@ namespace SafeExamBrowser.Client
 			nativeMethods = new NativeMethods();
 			applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
 			networkAdapter = new NetworkAdapter(ModuleLogger(nameof(NetworkAdapter)), nativeMethods);
-			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
-			systemInfo = new SystemInfo(registry);
+			splashScreen = uiFactory.CreateSplashScreen();
+			systemInfo = new SystemInfo(new Registry(ModuleLogger(nameof(Registry))));
 			taskbar = uiFactory.CreateTaskbar(ModuleLogger("Taskbar"));
 			taskview = uiFactory.CreateTaskview();
 			userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
@@ -118,10 +124,39 @@ namespace SafeExamBrowser.Client
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystemDialog = BuildFileSystemDialog();
-			var hashAlgorithm = new HashAlgorithm();
-			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, registry);
-			var splashScreen = uiFactory.CreateSplashScreen();
+			var runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
+			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, new Registry(ModuleLogger(nameof(Registry))));
 
+			var operations = BuildOperations(applicationFactory, clipboard, displayMonitor, fileSystemDialog, runtimeProxy);
+			var responsibilities = BuildResponsibilities(coordinator, displayMonitor, explorerShell, runtimeProxy, sentinel, shutdown);
+
+			context.HashAlgorithm = new HashAlgorithm();
+			context.MessageBox = messageBox;
+			context.Responsibilities = responsibilities;
+			context.Runtime = runtimeProxy;
+			context.UserInterfaceFactory = uiFactory;
+
+			ClientController = new ClientController(context, logger, operations, responsibilities, runtimeProxy, splashScreen);
+		}
+
+		internal void LogStartupInformation()
+		{
+			logger.Log($"# New client instance started at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
+			logger.Log(string.Empty);
+		}
+
+		internal void LogShutdownInformation()
+		{
+			logger?.Log($"# Client instance terminated at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
+		}
+
+		private ClientOperationSequence BuildOperations(
+			IApplicationFactory applicationFactory,
+			IClipboard clipboard,
+			IDisplayMonitor displayMonitor,
+			IFileSystemDialog fileSystemDialog,
+			IRuntimeProxy runtimeProxy)
+		{
 			var operations = new Queue<IOperation>();
 
 			operations.Enqueue(new I18nOperation(logger, text));
@@ -134,7 +169,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new ClientHostDisconnectionOperation(context, logger, FIVE_SECONDS));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
-			operations.Enqueue(new ApplicationOperation(context, applicationFactory, applicationMonitor, logger, text));
+			operations.Enqueue(new ApplicationOperation(context, applicationFactory, fileSystemDialog, logger, messageBox, applicationMonitor, splashScreen, text));
 			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
@@ -142,39 +177,30 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildProctoringOperation));
 			operations.Enqueue(new ClipboardOperation(context, clipboard, logger));
 
-			var sequence = new OperationSequence(logger, operations);
-
-			ClientController = new ClientController(
-				actionCenter,
-				applicationMonitor,
-				context,
-				coordinator,
-				displayMonitor,
-				explorerShell,
-				fileSystemDialog,
-				hashAlgorithm,
-				logger,
-				messageBox,
-				networkAdapter,
-				sequence,
-				runtimeProxy,
-				shutdown,
-				splashScreen,
-				sentinel,
-				taskbar,
-				text,
-				uiFactory);
+			return new ClientOperationSequence(logger, operations, splashScreen);
 		}
 
-		internal void LogStartupInformation()
+		private ResponsibilityCollection<ClientTask> BuildResponsibilities(
+			ICoordinator coordinator,
+			IDisplayMonitor displayMonitor,
+			IExplorerShell explorerShell,
+			IRuntimeProxy runtimeProxy,
+			ISystemSentinel sentinel,
+			Action shutdown)
 		{
-			logger.Log($"# New client instance started at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
-			logger.Log(string.Empty);
-		}
+			var responsibilities = new Queue<ClientResponsibility>();
 
-		internal void LogShutdownInformation()
-		{
-			logger?.Log($"# Client instance terminated at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
+			responsibilities.Enqueue(new ApplicationsResponsibility(context, ModuleLogger(nameof(ApplicationsResponsibility))));
+			responsibilities.Enqueue(new BrowserResponsibility(context, coordinator, ModuleLogger(nameof(BrowserResponsibility)), messageBox, runtimeProxy, splashScreen, taskbar));
+			responsibilities.Enqueue(new CommunicationResponsibility(context, coordinator, ModuleLogger(nameof(CommunicationResponsibility)), messageBox, runtimeProxy, shutdown, splashScreen, text, uiFactory));
+			responsibilities.Enqueue(new IntegrityResponsibility(context, ModuleLogger(nameof(IntegrityResponsibility)), text));
+			responsibilities.Enqueue(new MonitoringResponsibility(actionCenter, applicationMonitor, context, coordinator, displayMonitor, explorerShell, ModuleLogger(nameof(MonitoringResponsibility)), sentinel, taskbar, text));
+			responsibilities.Enqueue(new NetworkResponsibility(context, ModuleLogger(nameof(NetworkResponsibility)), networkAdapter, text, uiFactory));
+			responsibilities.Enqueue(new ProctoringResponsibility(context, ModuleLogger(nameof(ProctoringResponsibility)), uiFactory));
+			responsibilities.Enqueue(new ServerResponsibility(context, coordinator, ModuleLogger(nameof(ServerResponsibility)), text));
+			responsibilities.Enqueue(new ShellResponsibility(actionCenter, context, new HashAlgorithm(), ModuleLogger(nameof(ShellResponsibility)), messageBox, taskbar, uiFactory));
+
+			return new ResponsibilityCollection<ClientTask>(logger, responsibilities);
 		}
 
 		private void ValidateCommandLineArguments()

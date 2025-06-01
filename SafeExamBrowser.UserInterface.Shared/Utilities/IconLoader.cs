@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -66,7 +66,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 		private static extern int DestroyIcon(IntPtr hIcon);
 
 		[DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-		static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
+		private static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, StringBuilder lpIconPath, out ushort lpiIcon);
 
 		[DllImport("shell32.dll", CharSet = CharSet.Unicode)]
 		private static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);

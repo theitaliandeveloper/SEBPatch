@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
 	internal class InputDataMapper : BaseDataMapper
 	{
+		public static bool enabled = true; //Simplify my life
 		internal override void Map(string key, object value, AppSettings settings)
 		{
 			switch (key)
@@ -84,233 +85,191 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapEnableAltEsc(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowAltEsc = enabled;
-			}
-			*/
-			settings.Keyboard.AllowAltEsc = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowAltEsc = enabled;
+			//}
+			settings.Keyboard.AllowAltEsc = enabled;
 		}
 
 		private void MapEnableAltF4(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowAltF4 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowAltF4 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowAltF4 = enabled;
+			//}
+			settings.Keyboard.AllowAltF4 = enabled;
 		}
 
 		private void MapEnableAltTab(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowAltTab = enabled;
-			}
-			*/
-			settings.Keyboard.AllowAltTab = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowAltTab = enabled;
+			//}
+			settings.Keyboard.AllowAltTab = enabled;
 		}
 
 		private void MapEnableCtrlEsc(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowCtrlEsc = enabled;
-			}
-			*/
-			settings.Keyboard.AllowCtrlEsc = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowCtrlEsc = enabled;
+			//}
+			settings.Keyboard.AllowCtrlEsc = enabled;
 		}
 
 		private void MapEnableEsc(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowEsc = enabled;
-			}
-			*/
-			settings.Keyboard.AllowEsc = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowEsc = enabled;
+			//}
+			settings.Keyboard.AllowEsc = enabled;
 		}
 
 		private void MapEnableF1(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF1 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF1 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF1 = enabled;
+			//}
+			settings.Keyboard.AllowF1 = enabled;
 		}
 
 		private void MapEnableF2(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF2 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF2 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF2 = enabled;
+			//}
+			settings.Keyboard.AllowF2 = enabled;
 		}
 
 		private void MapEnableF3(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF3 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF3 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF3 = enabled;
+			//}
+			settings.Keyboard.AllowF3 = enabled;
 		}
 
 		private void MapEnableF4(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF4 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF4 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF4 = enabled;
+			//}
+			settings.Keyboard.AllowF4 = enabled;
 		}
 
 		private void MapEnableF5(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF5 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF5 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF5 = enabled;
+			//}
+			settings.Keyboard.AllowF5 = enabled;
 		}
 
 		private void MapEnableF6(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF6 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF6 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF6 = enabled;
+			//}
+			settings.Keyboard.AllowF6 = enabled;
 		}
 
 		private void MapEnableF7(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF7 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF7 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF7 = enabled;
+			//}
+			settings.Keyboard.AllowF7 = enabled;
 		}
 
 		private void MapEnableF8(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF8 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF8 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF8 = enabled;
+			//}
+			settings.Keyboard.AllowF8 = enabled;
 		}
 
 		private void MapEnableF9(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF9 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF9 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF9 = enabled;
+			//}
+			settings.Keyboard.AllowF9 = enabled;
 		}
 
 		private void MapEnableF10(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF10 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF10 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF10 = enabled;
+			//}
+			settings.Keyboard.AllowF10 = enabled;
 		}
 
 		private void MapEnableF11(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF11 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF11 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF11 = enabled;
+			//}
+			settings.Keyboard.AllowF11 = enabled;
 		}
 
 		private void MapEnableF12(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowF12 = enabled;
-			}
-			*/
-			settings.Keyboard.AllowF12 = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowF12 = enabled;
+			//}
+			settings.Keyboard.AllowF12 = enabled;
 		}
 
 		private void MapEnablePrintScreen(AppSettings settings, object value)
 		{
-			settings.Keyboard.AllowPrintScreen = true;
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowPrintScreen = enabled;
-			}
-			*/
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowPrintScreen = enabled;
+			//}
+			settings.Keyboard.AllowPrintScreen = enabled;
 		}
 
 		private void MapEnableSystemKey(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowSystemKey = enabled;
-			}
-			*/
-			settings.Keyboard.AllowSystemKey = true;
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowSystemKey = enabled;
+			//}
+			settings.Keyboard.AllowSystemKey = enabled;
 		}
 
 		private void MapEnableMiddleMouseButton(AppSettings settings, object value)
 		{
-			settings.Mouse.AllowMiddleButton = true;
-			/*
-			if (value is bool enabled)
-			{
-				settings.Mouse.AllowMiddleButton = enabled;
-			}
-			*/
+			//if (value is bool enabled)
+			//{
+			//	settings.Mouse.AllowMiddleButton = enabled;
+			//}
+			settings.Mouse.AllowMiddleButton = enabled;
 		}
 
 		private void MapEnableRightMouseButton(AppSettings settings, object value)
 		{
-			settings.Mouse.AllowRightButton = true;
-			/*
-			if (value is bool enabled)
-			{
-				settings.Mouse.AllowRightButton = enabled;
-			}
-			*/
+			//if (value is bool enabled)
+			//{
+			//	settings.Mouse.AllowRightButton = enabled;
+			//}
+			settings.Mouse.AllowRightButton = enabled;
 		}
 	}
 }

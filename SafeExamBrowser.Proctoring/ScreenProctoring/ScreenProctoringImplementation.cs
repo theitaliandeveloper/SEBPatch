@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,7 +47,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			this.logger = logger;
 			this.service = service;
 			this.settings = settings.ScreenProctoring;
-			this.spooler = new TransmissionSpooler(appConfig, logger.CloneFor(nameof(TransmissionSpooler)), service);
+			this.spooler = new TransmissionSpooler(appConfig, logger.CloneFor(nameof(TransmissionSpooler)), service, settings.ScreenProctoring);
 			this.text = text;
 		}
 
@@ -112,6 +112,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				{
 					settings.ClientId = instruction.ClientId;
 					settings.ClientSecret = instruction.ClientSecret;
+					settings.EncryptionSecret = instruction.EncryptionSecret;
 					settings.GroupId = instruction.GroupId;
 					settings.ServiceUrl = instruction.ServiceUrl;
 

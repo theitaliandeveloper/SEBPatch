@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				threadId = Thread.CurrentThread.ManagedThreadId;
 			};
 
-			var status = sut.OnFileDialog(default, default, mode, title, initialPath, default, callback.Object);
+			var status = sut.OnFileDialog(default, default, mode, title, initialPath, default, default, default, callback.Object);
 
 			sync.WaitOne();
 

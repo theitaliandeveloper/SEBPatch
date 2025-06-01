@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -122,8 +122,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 			try
 			{
-				//isValid = VerifyCodeSignature();
-				isValid = true;
+				isValid = VerifyCodeSignature();
 				success = true;
 			}
 			catch (DllNotFoundException)
@@ -140,7 +139,6 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		public bool TryVerifySessionIntegrity(string configurationKey, string startUrl, out bool isValid)
 		{
-			/*
 			var success = false;
 
 			isValid = false;
@@ -155,9 +153,6 @@ namespace SafeExamBrowser.Configuration.Integrity
 			{
 				logger.Error("Failed to verify session integrity!");
 			}
-			*/
-			bool success = true;
-			isValid = true;
 
 			return success;
 		}

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,27 +13,32 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class ApiRequest : BaseRequest
+	internal class ApiRequest : Request
 	{
+		private readonly Sanitizer sanitizer;
+
 		internal ApiRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,
+			Sanitizer sanitizer,
 			ServerSettings settings) : base(api, httpClient, logger, parser, settings)
 		{
+			this.sanitizer = sanitizer;
 		}
 
-		internal bool TryExecute(out ApiVersion1 api, out string message)
+		internal bool TryExecute(out Api api, out string message)
 		{
 			var success = TryExecute(HttpMethod.Get, settings.ApiUrl, out var response);
 
-			api = new ApiVersion1();
+			api = new Api();
 			message = response.ToLogString();
 
 			if (success)
 			{
 				parser.TryParseApi(response.Content, out api);
+				sanitizer.Sanitize(api);
 			}
 
 			return success;

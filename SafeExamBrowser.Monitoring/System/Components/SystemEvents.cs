@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -55,42 +55,43 @@ namespace SafeExamBrowser.Monitoring.System.Components
 
 		private void SystemEvents_EventsThreadShutdown(object sender, EventArgs e)
 		{
-			
+			logger.Warn("System event thread is about to be terminated!");
 		}
 
 		private void SystemEvents_InstalledFontsChanged(object sender, EventArgs e)
 		{
-			
+			logger.Info("Installed fonts changed.");
 		}
 
 		private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
 		{
-			
+			logger.Info($"Power mode changed: {e.Mode}.");
 		}
 
 		private void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
 		{
-			
+			logger.Warn($"User session ended! Reason: {e.Reason}.");
 		}
 
 		private void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
 		{
-			
+			logger.Warn($"User session is ending! Reason: {e.Reason}.");
 		}
 
 		private void SystemEvents_SessionChanged(object sender, SessionSwitchEventArgs e)
 		{
-			
+			logger.Info($"User session change detected: {e.Reason}.");
+			Task.Run(() => SessionChanged?.Invoke());
 		}
 
 		private void SystemEvents_TimeChanged(object sender, EventArgs e)
 		{
-			
+			logger.Info("Time changed.");
 		}
 
 		private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
 		{
-			
+			logger.Info($"User preference changed. Category: {e.Category}.");
 		}
 	}
 }

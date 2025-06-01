@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 		private readonly Api api;
 		private readonly ILogger logger;
 		private readonly Parser parser;
+		private readonly Sanitizer sanitizer;
 
 		private HttpClient httpClient;
 
@@ -31,15 +32,18 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 			this.api = new Api();
 			this.logger = logger;
 			this.parser = new Parser(logger);
+			this.sanitizer = new Sanitizer();
 		}
 
 		internal ServiceResponse Connect(string clientId, string clientSecret, string serviceUrl)
 		{
 			httpClient = new HttpClient
 			{
-				BaseAddress = new Uri(serviceUrl),
+				BaseAddress = sanitizer.Sanitize(serviceUrl),
 				Timeout = TimeSpan.FromSeconds(10)
 			};
+
+			sanitizer.Sanitize(api);
 
 			var request = new OAuth2TokenRequest(api, httpClient, logger, parser);
 			var success = request.TryExecute(clientId, clientSecret, out var message);

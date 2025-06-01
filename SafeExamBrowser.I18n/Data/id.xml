@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Apakah Anda ingin meninggalkan halaman saat ini?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Pergi?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Apakah Anda ingin memuat ulang halaman saat ini?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Muat Ulang?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Apakah Anda ingin keluar dari SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Kesalahan Konfigurasi Ulang
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Apakah Anda ingin memuat ulang halaman saat ini?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Muat Ulang?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Sistem tampaknya sedang berjalan dalam sesi jarak jauh. Konfigurasi yang dipilih tidak mengizinkan SEB untuk dijalankan dalam sesi jarak jauh.
@@ -684,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Kata Sandi Diperlukan
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Batalkan
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Konfirmasi
     </Entry>
@@ -700,7 +709,10 @@
         Menunggu untuk mengeksekusi operasi transmisi %%_COUNT_%% dari %%_TOTAL_%% pada %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        Menunggu untuk melanjutkan operasi transmisi %%_COUNT_%% pada %%_TIME_%%...
+        Menunggu untuk melanjutkan %%_COUNT_%% operasi transmisi...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        Menunggu untuk melanjutkan %%_COUNT_%% operasi transmisi pada %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Finalisasi Pemeriksaan Layar

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,7 +46,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AllowCustomDownUploadLocation = "allowCustomDownUploadLocation";
 			internal const string AllowDeveloperConsole = "allowDeveloperConsole";
 			internal const string AllowDownloads = "allowDownloads";
-			internal const string AllowDownloadsAndUploads = "allowDownUploads";
 			internal const string AllowFind = "allowFind";
 			internal const string AllowPageZoom = "enableZoomPage";
 			internal const string AllowPdfReaderToolbar = "allowPDFReaderToolbar";
@@ -237,6 +236,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			internal static class ScreenProctoring
 			{
+				internal const string CacheSize = "screenProctoringCacheSize";
 				internal const string ClientId = "screenProctoringClientId";
 				internal const string ClientSecret = "screenProctoringClientSecret";
 				internal const string Enabled = "enableScreenProctoring";
@@ -244,8 +244,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string ImageDownscaling = "screenProctoringImageDownscale";
 				internal const string ImageFormat = "screenProctoringImageFormat";
 				internal const string ImageQuantization = "screenProctoringImageQuantization";
-				internal const string MaxInterval = "screenProctoringScreenshotMaxInterval";
-				internal const string MinInterval = "screenProctoringScreenshotMinInterval";
+				internal const string IntervalMaximum = "screenProctoringScreenshotMaxInterval";
+				internal const string IntervalMinimum = "screenProctoringScreenshotMinInterval";
 				internal const string ServiceUrl = "screenProctoringServiceURL";
 
 				internal static class MetaData

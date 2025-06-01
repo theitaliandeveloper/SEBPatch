@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,13 +33,54 @@ namespace SafeExamBrowser.Monitoring.System.Components
 
 		internal bool Disable()
 		{
+			var success = nativeMethods.TryGetStickyKeys(out var state);
 
-			return true;
+			if (success)
+			{
+				success = nativeMethods.DisableStickyKeys();
+
+				if (success)
+				{
+					original = state;
+					logger.Info($"Disabled sticky keys (original state: {ToString(state)}).");
+				}
+				else
+				{
+					logger.Error($"Failed to disable sticky keys (original state: {ToString(state)})!");
+				}
+			}
+			else
+			{
+				logger.Error("Failed to retrieve sticky keys state!");
+			}
+
+			return success;
 		}
 
 		internal bool Enable()
 		{
-			return true;
+			var success = nativeMethods.TryGetStickyKeys(out var state);
+
+			if (success)
+			{
+				success = nativeMethods.EnableStickyKeys();
+
+				if (success)
+				{
+					original = state;
+					logger.Info($"Enabled sticky keys (original state: {ToString(state)}).");
+				}
+				else
+				{
+					logger.Error($"Failed to enable sticky keys (original state: {ToString(state)})!");
+				}
+			}
+			else
+			{
+				logger.Error("Failed to retrieve sticky keys state!");
+			}
+
+			return success;
 		}
 
 		internal bool Revert()
@@ -85,7 +126,17 @@ namespace SafeExamBrowser.Monitoring.System.Components
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			
+			if (nativeMethods.TryGetStickyKeys(out var state))
+			{
+				if (state.IsEnabled || state.IsHotkeyActive)
+				{
+					HandleStickyKeysChange(state);
+				}
+			}
+			else
+			{
+				logger.Error("Failed to monitor sticky keys state!");
+			}
 		}
 
 		private void HandleStickyKeysChange(IStickyKeysState state)

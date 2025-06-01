@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,11 +18,11 @@ namespace SafeExamBrowser.Core.OperationModel
 	/// <summary>
 	/// Default implementation of the <see cref="IOperationSequence"/>.
 	/// </summary>
-	public class OperationSequence : IOperationSequence
+	public class OperationSequence<T> : IOperationSequence where T : IOperation
 	{
 		protected ILogger logger;
-		protected Queue<IOperation> operations = new Queue<IOperation>();
-		protected Stack<IOperation> stack = new Stack<IOperation>();
+		protected Queue<T> operations = new Queue<T>();
+		protected Stack<T> stack = new Stack<T>();
 
 		public event ActionRequiredEventHandler ActionRequired
 		{
@@ -38,10 +38,10 @@ namespace SafeExamBrowser.Core.OperationModel
 			remove { operations.ForEach(o => o.StatusChanged -= value); }
 		}
 
-		public OperationSequence(ILogger logger, Queue<IOperation> operations)
+		public OperationSequence(ILogger logger, IEnumerable<T> operations)
 		{
 			this.logger = logger;
-			this.operations = new Queue<IOperation>(operations);
+			this.operations = new Queue<T>(operations);
 		}
 
 		public virtual OperationResult TryPerform()

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,6 +47,40 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 		private bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state)
 		{
 			var block = false;
+			var key = KeyInterop.KeyFromVirtualKey(keyCode);
+
+			block |= key == Key.Apps;
+			block |= key == Key.Escape && modifier == KeyModifier.None && !settings.AllowEsc;
+			block |= key == Key.F1 && !settings.AllowF1;
+			block |= key == Key.F2 && !settings.AllowF2;
+			block |= key == Key.F3 && !settings.AllowF3;
+			block |= key == Key.F4 && !settings.AllowF4;
+			block |= key == Key.F5 && !settings.AllowF5;
+			block |= key == Key.F6 && !settings.AllowF6;
+			block |= key == Key.F7 && !settings.AllowF7;
+			block |= key == Key.F8 && !settings.AllowF8;
+			block |= key == Key.F9 && !settings.AllowF9;
+			block |= key == Key.F10 && !settings.AllowF10;
+			block |= key == Key.F11 && !settings.AllowF11;
+			block |= key == Key.F12 && !settings.AllowF12;
+			block |= key == Key.LWin && !settings.AllowSystemKey;
+			block |= key == Key.PrintScreen && !settings.AllowPrintScreen;
+			block |= key == Key.RWin && !settings.AllowSystemKey;
+
+			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Escape && !settings.AllowAltEsc;
+			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.F4 && !settings.AllowAltF4;
+			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Space;
+			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Tab;
+
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.C && !settings.AllowCtrlC;
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Escape && !settings.AllowCtrlEsc;
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.V && !settings.AllowCtrlV;
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.X && !settings.AllowCtrlX;
+
+			if (block)
+			{
+				Log(key, keyCode, modifier, state);
+			}
 
 			return block;
 		}

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,12 +42,14 @@ namespace SafeExamBrowser.Monitoring.Display
 
 		public void InitializePrimaryDisplay(int taskbarHeight)
 		{
-			
+			InitializeWorkingArea(taskbarHeight);
+			InitializeWallpaper();
 		}
 
 		public void ResetPrimaryDisplay()
 		{
-			
+			ResetWorkingArea();
+			ResetWallpaper();
 		}
 
 		public void StartMonitoringDisplayChanges()
@@ -73,15 +75,21 @@ namespace SafeExamBrowser.Monitoring.Display
 
 				result.ExternalDisplays = active.Count(d => !d.IsInternal);
 				result.InternalDisplays = active.Count(d => d.IsInternal);
-				result.IsAllowed = true;
+				result.IsAllowed = count <= settings.AllowedDisplays;
 
 				if (result.IsAllowed)
 				{
-					logger.Info($"Detected 1 active displays, 1 are allowed.");
+					logger.Info($"Detected {count} active displays, {settings.AllowedDisplays} are allowed.");
 				}
 				else
 				{
-					logger.Info($"Detected 1 active displays, 1 are allowed!");
+					logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
+				}
+
+				if (settings.InternalDisplayOnly && active.Any(d => !d.IsInternal))
+				{
+					result.IsAllowed = false;
+					logger.Warn("Detected external display but only internal displays are allowed!");
 				}
 			}
 			else
@@ -95,7 +103,8 @@ namespace SafeExamBrowser.Monitoring.Display
 
 		private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
 		{
-			
+			logger.Info("Display change detected!");
+			Task.Run(() => DisplayChanged?.Invoke());
 		}
 
 		private void InitializeWorkingArea(int taskbarHeight)
@@ -198,8 +207,7 @@ namespace SafeExamBrowser.Monitoring.Display
 				logger.Info($"Detected {(display.IsActive ? "active" : "inactive")}, {(display.IsInternal ? "internal" : "external")} display '{display.Identifier}' connected via '{display.Technology}'.");
 			}
 
-			//return success;
-			return true;
+			return success;
 		}
 
 		private void ResetWorkingArea()

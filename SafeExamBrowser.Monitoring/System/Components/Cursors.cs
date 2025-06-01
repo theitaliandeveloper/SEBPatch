@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -34,27 +34,77 @@ namespace SafeExamBrowser.Monitoring.System.Components
 		internal void StartMonitoring()
 		{
 			registry.ValueChanged += Registry_ValueChanged;
-			logger.Info("Started monitoring cursors.");
+
+			if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var names))
+			{
+				foreach (var name in names)
+				{
+					registry.StartMonitoring(RegistryValue.UserHive.Cursors_Key, name);
+				}
+
+				logger.Info("Started monitoring cursors.");
+			}
+			else
+			{
+				logger.Warn("Failed to start monitoring cursor registry values!");
+			}
 		}
 
 		internal void StopMonitoring()
 		{
 			registry.ValueChanged -= Registry_ValueChanged;
-			logger.Info("Stopped monitoring cursors.");
+
+			if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var names))
+			{
+				foreach (var name in names)
+				{
+					registry.StopMonitoring(RegistryValue.UserHive.Cursors_Key, name);
+				}
+
+				logger.Info("Stopped monitoring cursors.");
+			}
+			else
+			{
+				logger.Warn("Failed to stop monitoring cursor registry values!");
+			}
 		}
 
 		internal bool Verify()
 		{
 			logger.Info($"Starting cursor verification...");
-			logger.Info("Cursor configuration successfully verified.");
 
-			var success = true;
+			var success = registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var cursors);
+
+			if (success)
+			{
+				foreach (var cursor in cursors.Where(c => !string.IsNullOrWhiteSpace(c)))
+				{
+					success &= VerifyCursor(cursor);
+				}
+
+				if (success)
+				{
+					logger.Info("Cursor configuration successfully verified.");
+				}
+				else
+				{
+					logger.Warn("Cursor configuration is compromised!");
+				}
+			}
+			else
+			{
+				logger.Error("Failed to verify cursor configuration!");
+			}
+
 			return success;
 		}
 
 		private void Registry_ValueChanged(string key, string name, object oldValue, object newValue)
 		{
-			
+			if (key == RegistryValue.UserHive.Cursors_Key)
+			{
+				HandleCursorChange(key, name, oldValue, newValue);
+			}
 		}
 
 		private void HandleCursorChange(string key, string name, object oldValue, object newValue)

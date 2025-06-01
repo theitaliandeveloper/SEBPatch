@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			return true;
 		}
 
-		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public bool OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			var fileExtension = Path.GetExtension(downloadItem.SuggestedFileName);
 			var isConfigurationFile = false;
@@ -86,6 +86,8 @@ namespace SafeExamBrowser.Browser.Handlers
 				logger.Info($"Aborted download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")}, as downloading is not allowed.");
 				Task.Run(() => DownloadAborted?.Invoke());
 			}
+
+			return true;
 		}
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
@@ -100,6 +102,8 @@ namespace SafeExamBrowser.Browser.Handlers
 					FullPath = downloadItem.FullPath,
 					IsCancelled = downloadItem.IsCancelled,
 					IsComplete = downloadItem.IsComplete,
+					IsIndeterminate = downloadItem.PercentComplete < 0,
+					Size = downloadItem.ReceivedBytes,
 					Url = downloadItem.Url
 				};
 

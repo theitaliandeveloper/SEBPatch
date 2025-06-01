@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Kas soovite lahkuda praeguselt leheküljelt?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Lahkuda?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Kas soovid praeguse lehe uuesti laadida?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Kas laadida uuesti?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Kas soovid SEB'ist väljuda?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Ümberseadistamise viga
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Kas soovid praeguse lehe uuesti laadida?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Kas laadida uuesti?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Süsteem näib töötavat kaugseansil. Valitud seadistus ei luba SEB'i kaugseansis käivitada.
@@ -684,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Parool nõutav
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Katkesta
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Kinnitage
     </Entry>
@@ -700,6 +709,9 @@
         Ootab ülekandeoperatsiooni %%_COUNT_%% of %%_TOTAL_%% kell %%_TIME_%% täitmist...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Ootab, et jätkata %%_COUNT_%% edastamist...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         Ootab, et jätkata %%_COUNT_%% edastamistoiminguid kell %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">

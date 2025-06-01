@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Service
 			var systemConfigurationUpdate = new SystemConfigurationUpdate(new ModuleLogger(logger, nameof(SystemConfigurationUpdate)));
 
 			var bootstrapOperations = new Queue<IOperation>();
-			var sessionOperations = new Queue<IOperation>();
+			var sessionOperations = new Queue<SessionOperation>();
 
 			sessionContext.AutoRestoreMechanism = new AutoRestoreMechanism(featureBackup, new ModuleLogger(logger, nameof(AutoRestoreMechanism)), systemConfigurationUpdate, FIVE_SECONDS);
 
@@ -64,8 +64,8 @@ namespace SafeExamBrowser.Service
 			sessionOperations.Enqueue(new LockdownOperation(featureBackup, featureFactory, featureMonitor, logger, sessionContext));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
-			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
-			var sessionSequence = new OperationSequence(logger, sessionOperations);
+			var bootstrapSequence = new OperationSequence<IOperation>(logger, bootstrapOperations);
+			var sessionSequence = new OperationSequence<SessionOperation>(logger, sessionOperations);
 
 			ServiceController = new ServiceController(logger, LogWriterFactory, bootstrapSequence, sessionSequence, serviceHost, sessionContext, systemConfigurationUpdate);
 		}

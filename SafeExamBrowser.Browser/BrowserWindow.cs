@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -157,6 +157,9 @@ namespace SafeExamBrowser.Browser
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, downloadLogger, settings, WindowSettings);
+			var dragHandler = new DragHandler();
+			var focusHandler = new FocusHandler();
+			var javaScriptDialogHandler = new JavaScriptDialogHandler();
 			var keyboardHandler = new KeyboardHandler();
 			var renderHandler = new RenderProcessMessageHandler(appConfig, clipboard, keyGenerator, settings, text);
 			var requestFilter = new RequestFilter();
@@ -181,6 +184,7 @@ namespace SafeExamBrowser.Browser
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
 			downloadHandler.DownloadAborted += DownloadHandler_DownloadAborted;
 			downloadHandler.DownloadUpdated += DownloadHandler_DownloadUpdated;
+			javaScriptDialogHandler.DialogRequested += JavaScriptDialogHandler_DialogRequested;
 			keyboardHandler.FindRequested += KeyboardHandler_FindRequested;
 			keyboardHandler.FocusAddressBarRequested += KeyboardHandler_FocusAddressBarRequested;
 			keyboardHandler.HomeNavigationRequested += HomeNavigationRequested;
@@ -195,7 +199,19 @@ namespace SafeExamBrowser.Browser
 
 			InitializeRequestFilter(requestFilter);
 
-			Control = new BrowserControl(clipboard, cefSharpControl, dialogHandler, displayHandler, downloadHandler, keyboardHandler, controlLogger, renderHandler, requestHandler);
+			Control = new BrowserControl(
+				clipboard,
+				cefSharpControl,
+				dialogHandler,
+				displayHandler,
+				downloadHandler,
+				dragHandler,
+				focusHandler,
+				javaScriptDialogHandler,
+				keyboardHandler,
+				controlLogger,
+				renderHandler,
+				requestHandler);
 			Control.AddressChanged += Control_AddressChanged;
 			Control.LoadFailed += Control_LoadFailed;
 			Control.LoadingStateChanged += Control_LoadingStateChanged;
@@ -488,6 +504,20 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		private void JavaScriptDialogHandler_DialogRequested(JavaScriptDialogRequestedEventArgs args)
+		{
+			logger.Debug($"A JavaScript dialog of type '{args.Type}' has been requested...");
+
+			if (args.Type == JavaScriptDialogType.LeavePage)
+			{
+				args.Success = RequestPageLeave();
+			}
+			else
+			{
+				args.Success = RequestPageReload();
+			}
+		}
+
 		private void KeyboardHandler_FindRequested()
 		{
 			if (settings.AllowFind)
@@ -642,29 +672,61 @@ namespace SafeExamBrowser.Browser
 
 		private void ReloadRequested()
 		{
+			logger.Debug("A reload of the current page has been requested...");
+
+			if (RequestPageReload())
+			{
+				Control.Reload();
+			}
+		}
+
+		private bool RequestPageLeave()
+		{
+			var allow = false;
+			var result = messageBox.Show(TextKey.MessageBox_PageLeaveConfirmation, TextKey.MessageBox_PageLeaveConfirmationTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
+
+			if (result == MessageBoxResult.Yes)
+			{
+				allow = true;
+				logger.Debug("The page leave has been granted by the user.");
+			}
+			else
+			{
+				logger.Debug("The page leave has been aborted by the user.");
+			}
+
+			return allow;
+		}
+
+		private bool RequestPageReload()
+		{
+			var allow = false;
+
 			if (WindowSettings.AllowReloading && WindowSettings.ShowReloadWarning)
 			{
-				var result = messageBox.Show(TextKey.MessageBox_ReloadConfirmation, TextKey.MessageBox_ReloadConfirmationTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
+				var result = messageBox.Show(TextKey.MessageBox_PageReloadConfirmation, TextKey.MessageBox_PageReloadConfirmationTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
 
 				if (result == MessageBoxResult.Yes)
 				{
-					logger.Debug("The user confirmed reloading the current page...");
-					Control.Reload();
+					allow = true;
+					logger.Debug("The page reload has been granted by the user.");
 				}
 				else
 				{
-					logger.Debug("The user aborted reloading the current page.");
+					logger.Debug("The page reload has been aborted by the user.");
 				}
 			}
 			else if (WindowSettings.AllowReloading)
 			{
-				logger.Debug("Reloading current page...");
-				Control.Reload();
+				allow = true;
+				logger.Debug("The page reload has been automatically granted.");
 			}
 			else
 			{
-				logger.Debug("Blocked reload attempt, as the user is not allowed to reload web pages.");
+				logger.Debug("The page reload has been blocked, as the user is not allowed to reload web pages.");
 			}
+
+			return allow;
 		}
 
 		private void ShowDownUploadNotAllowedMessage(bool isDownload = true)

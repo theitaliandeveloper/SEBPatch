@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,10 +21,9 @@ namespace SafeExamBrowser.Client.Operations
 	/// </summary>
 	internal class ClientHostDisconnectionOperation : ClientOperation
 	{
-		private ILogger logger;
-		private int timeout_ms;
+		private readonly ILogger logger;
+		private readonly int timeout_ms;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ClientHostDisconnectionOperation(ClientContext context, ILogger logger, int timeout_ms) : base(context)

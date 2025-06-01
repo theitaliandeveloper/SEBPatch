@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,7 +29,6 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 		protected override bool Process(Key key, KeyModifier modifier, KeyState state)
 		{
-			/*
 			var changed = false;
 			var pressed = state == KeyState.Pressed;
 
@@ -44,7 +43,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 				logger.Debug("Detected activation sequence for taskbar.");
 				Activated?.Invoke();
 			}
-			*/
+
 			return false;
 		}
 	}

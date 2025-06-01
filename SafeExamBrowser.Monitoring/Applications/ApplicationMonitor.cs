@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -52,40 +52,44 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			var result = new InitializationResult();
 
+			InitializeProcesses();
+			//InitializeBlacklist(settings, result);
+			//InitializeWhitelist(settings, result);
+
 			return result;
 		}
 
 		public void Start()
 		{
-			timer.AutoReset = false;
-			timer.Elapsed += Timer_Elapsed;
-			timer.Start();
+			//timer.AutoReset = false;
+			//timer.Elapsed += Timer_Elapsed;
+			//timer.Start();
 			logger.Info("Started monitoring applications.");
 
-			captureHookId = nativeMethods.RegisterSystemCaptureStartEvent(SystemEvent_WindowChanged);
-			logger.Info($"Registered system capture start event with ID = {captureHookId}.");
+			//captureHookId = nativeMethods.RegisterSystemCaptureStartEvent(SystemEvent_WindowChanged);
+			//logger.Info($"Registered system capture start event with ID = {captureHookId}.");
 
-			foregroundHookId = nativeMethods.RegisterSystemForegroundEvent(SystemEvent_WindowChanged);
-			logger.Info($"Registered system foreground event with ID = {foregroundHookId}.");
+			//foregroundHookId = nativeMethods.RegisterSystemForegroundEvent(SystemEvent_WindowChanged);
+			//logger.Info($"Registered system foreground event with ID = {foregroundHookId}.");
 		}
 
 		public void Stop()
 		{
-			timer.Stop();
-			timer.Elapsed -= Timer_Elapsed;
+			//timer.Stop();
+			//timer.Elapsed -= Timer_Elapsed;
 			logger.Info("Stopped monitoring applications.");
 
-			if (captureHookId.HasValue)
-			{
-				nativeMethods.DeregisterSystemEventHook(captureHookId.Value);
-				logger.Info($"Unregistered system capture start event with ID = {captureHookId}.");
-			}
+			//if (captureHookId.HasValue)
+			//{
+			//	nativeMethods.DeregisterSystemEventHook(captureHookId.Value);
+			//	logger.Info($"Unregistered system capture start event with ID = {captureHookId}.");
+			//}
 
-			if (foregroundHookId.HasValue)
-			{
-				nativeMethods.DeregisterSystemEventHook(foregroundHookId.Value);
-				logger.Info($"Unregistered system foreground event with ID = {foregroundHookId}.");
-			}
+			//if (foregroundHookId.HasValue)
+			//{
+			//	nativeMethods.DeregisterSystemEventHook(foregroundHookId.Value);
+			//	logger.Info($"Unregistered system foreground event with ID = {foregroundHookId}.");
+			//}
 		}
 
 		public bool TryGetActiveApplication(out ActiveApplication application)
@@ -110,19 +114,73 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			var success = true;
 
-			
+			foreach (var process in application.Processes)
+			{
+				success &= TryTerminate(process);
+			}
 
 			return success;
 		}
 
 		private void SystemEvent_WindowChanged(IntPtr handle)
 		{
-			
+			if (handle != IntPtr.Zero && activeWindow?.Handle != handle)
+			{
+				var title = nativeMethods.GetWindowTitle(handle);
+				var window = new Window { Handle = handle, Title = title };
+
+				logger.Debug($"Window has changed from {activeWindow} to {window}.");
+				activeWindow = window;
+
+				Task.Run(() =>
+				{
+					if (!IsAllowed(window) && !TryHide(window))
+					{
+						Close(window);
+					}
+				});
+			}
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			
+			var failed = new List<RunningApplication>();
+			var running = processFactory.GetAllRunning();
+			var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
+			var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
+
+			foreach (var process in started)
+			{
+				logger.Debug($"Process {process} has been started [{process.GetAdditionalInfo()}].");
+				processes.Add(process);
+
+				if (process.Name == "explorer.exe")
+				{
+					HandleExplorerStart(process);
+				}
+				else if (!IsAllowed(process) && !TryTerminate(process))
+				{
+					AddFailed(process, failed);
+				}
+				else if (IsWhitelisted(process, out var applicationId))
+				{
+					HandleInstanceStart(applicationId.Value, process);
+				}
+			}
+
+			foreach (var process in terminated)
+			{
+				logger.Debug($"Process {process} has been terminated.");
+				processes.Remove(process);
+			}
+
+			if (failed.Any())
+			{
+				logger.Warn($"Failed to terminate these blacklisted applications: {string.Join(", ", failed.Select(a => a.Name))}.");
+				TerminationFailed?.Invoke(failed);
+			}
+
+			timer.Start();
 		}
 
 		private void AddFailed(IProcess process, List<RunningApplication> failed)
@@ -197,10 +255,10 @@ namespace SafeExamBrowser.Monitoring.Applications
 			isRuntime &= process.Name == "SafeExamBrowser.exe";
 			isRuntime &= process.OriginalName == "SafeExamBrowser.exe";
 
-#if !DEBUG
-			isClient &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
-			isRuntime &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
-#endif
+//#if !DEBUG
+//			isClient &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
+//			isRuntime &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
+//#endif
 
 			return isClient || isRuntime;
 		}

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,7 +49,6 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 		protected override bool Process(Key key, KeyModifier modifier, KeyState state)
 		{
-			/*
 			if (IsDeactivation(modifier))
 			{
 				return false;
@@ -59,7 +58,6 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 			{
 				return true;
 			}
-			*/
 
 			return false;
 		}

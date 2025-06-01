@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyDescription("Safe Exam Browser")]
 [assembly: AssemblyCompany("ETH Zürich")]
 [assembly: AssemblyProduct("Safe Exam Browser")]
-[assembly: AssemblyCopyright("Copyright © 2024 ETH Zürich, IT Services")]
+[assembly: AssemblyCopyright("Copyright © 2025 ETH Zürich, IT Services")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -48,6 +48,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.8.0.742")]
-[assembly: AssemblyFileVersion("3.8.0.742")]
-[assembly: AssemblyInformationalVersion("3.8.0.742")]
+[assembly: AssemblyVersion("3.9.0.787")]
+[assembly: AssemblyFileVersion("3.9.0.787")]
+[assembly: AssemblyInformationalVersion("3.9.0.787")]

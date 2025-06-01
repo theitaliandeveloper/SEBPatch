@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,7 +48,6 @@ namespace SafeExamBrowser.Runtime.Operations
 		public override OperationResult Perform()
 		{
 			logger.Info($"Initializing kiosk mode '{Context.Next.Settings.Security.KioskMode}'...");
-			/*
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeKioskMode);
 
 			activeMode = Context.Next.Settings.Security.KioskMode;
@@ -62,7 +61,7 @@ namespace SafeExamBrowser.Runtime.Operations
 					TerminateExplorerShell();
 					break;
 			}
-			*/
+
 			return OperationResult.Success;
 		}
 

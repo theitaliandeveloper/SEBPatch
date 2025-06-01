@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -55,10 +55,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapEnableActionCenter(AppSettings settings, object value)
 		{
-			if (value is bool enable)
-			{
-				settings.UserInterface.ActionCenter.EnableActionCenter = enable;
-			}
+			//if (value is bool enable)
+			//{
+			//	settings.UserInterface.ActionCenter.EnableActionCenter = enable;
+			//}
+			settings.UserInterface.ActionCenter.EnableActionCenter = false;
 		}
 
 		private void MapLockScreenBackgroundColor(AppSettings settings, object value)
@@ -71,38 +72,46 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapShowAudio(AppSettings settings, object value)
 		{
-			if (value is bool show)
-			{
-				settings.UserInterface.ActionCenter.ShowAudio = show;
-				settings.UserInterface.Taskbar.ShowAudio = show;
-			}
+			//if (value is bool show)
+			//{
+			//	settings.UserInterface.ActionCenter.ShowAudio = show;
+			//	settings.UserInterface.Taskbar.ShowAudio = show;
+			//}
+			settings.UserInterface.ActionCenter.ShowAudio = false;
+			settings.UserInterface.Taskbar.ShowAudio = false;
 		}
 
 		private void MapShowClock(AppSettings settings, object value)
 		{
-			if (value is bool show)
-			{
-				settings.UserInterface.ActionCenter.ShowClock = show;
-				settings.UserInterface.Taskbar.ShowClock = show;
-			}
+			//if (value is bool show)
+			//{
+			//	settings.UserInterface.ActionCenter.ShowClock = show;
+			//	settings.UserInterface.Taskbar.ShowClock = show;
+			//}
+			settings.UserInterface.ActionCenter.ShowClock = false;
+			settings.UserInterface.Taskbar.ShowClock = false;
 		}
 
 		private void MapShowKeyboardLayout(AppSettings settings, object value)
 		{
-			if (value is bool show)
-			{
-				settings.UserInterface.ActionCenter.ShowKeyboardLayout = show;
-				settings.UserInterface.Taskbar.ShowKeyboardLayout = show;
-			}
+			//if (value is bool show)
+			//{
+			//	settings.UserInterface.ActionCenter.ShowKeyboardLayout = show;
+			//	settings.UserInterface.Taskbar.ShowKeyboardLayout = show;
+			//}
+			settings.UserInterface.ActionCenter.ShowKeyboardLayout = false;
+			settings.UserInterface.Taskbar.ShowKeyboardLayout = false;
 		}
 
 		private void MapShowNetwork(AppSettings settings, object value)
 		{
-			if (value is bool show)
-			{
-				settings.UserInterface.ActionCenter.ShowNetwork = show;
-				settings.UserInterface.Taskbar.ShowNetwork = show;
-			}
+			//if (value is bool show)
+			//{
+			//	settings.UserInterface.ActionCenter.ShowNetwork = show;
+			//	settings.UserInterface.Taskbar.ShowNetwork = show;
+			//}
+			settings.UserInterface.ActionCenter.ShowNetwork = false;
+			settings.UserInterface.Taskbar.ShowNetwork = false;
 		}
 
 		private void MapChargeThresholdCritical(AppSettings settings, object value)
@@ -123,18 +132,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapEnableTaskbar(AppSettings settings, object value)
 		{
-			if (value is bool enable)
-			{
-				settings.UserInterface.Taskbar.EnableTaskbar = enable;
-			}
+			//if (value is bool enable)
+			//{
+			//	settings.UserInterface.Taskbar.EnableTaskbar = enable;
+			//}
+			settings.UserInterface.Taskbar.EnableTaskbar = false;
 		}
 
 		private void MapShowApplicationLog(AppSettings settings, object value)
 		{
-			if (value is bool show)
-			{
-				settings.UserInterface.Taskbar.ShowApplicationLog = show;
-			}
+			//if (value is bool show)
+			//{
+			//	settings.UserInterface.Taskbar.ShowApplicationLog = show;
+			//}
+			settings.UserInterface.Taskbar.ShowApplicationLog = false;
 		}
 
 		private void MapUserInterfaceMode(AppSettings settings, object value)

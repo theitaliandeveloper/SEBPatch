@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,6 +16,7 @@ using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
+using SafeExamBrowser.Settings.Proctoring;
 using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.Proctoring.ScreenProctoring
@@ -40,10 +41,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		private Thread thread;
 		private CancellationTokenSource token;
 
-		internal TransmissionSpooler(AppConfig appConfig, IModuleLogger logger, ServiceProxy service)
+		internal TransmissionSpooler(AppConfig appConfig, IModuleLogger logger, ServiceProxy service, ScreenProctoringSettings settings)
 		{
 			this.buffer = new Buffer(logger.CloneFor(nameof(Buffer)));
-			this.cache = new Cache(appConfig, logger.CloneFor(nameof(Cache)));
+			this.cache = new Cache(appConfig, logger.CloneFor(nameof(Cache)), settings);
 			this.logger = logger;
 			this.queue = new ConcurrentQueue<(MetaData, ScreenShot)>();
 			this.random = new Random();
@@ -56,13 +57,14 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			queue.Enqueue((metaData, screenShot));
 		}
 
-		internal void ExecuteRemainingWork(Action<RemainingWorkUpdatedEventArgs> updateStatus)
+		internal void ExecuteRemainingWork(Action<RemainingWorkUpdatedEventArgs> handler)
 		{
 			var previous = buffer.Count + cache.Count;
 			var progress = 0;
+			var start = DateTime.Now;
 			var total = previous;
 
-			while (HasRemainingWork() && service.IsConnected && (!networkIssue || recovering || DateTime.Now < resume))
+			while (HasRemainingWork() && service.IsConnected)
 			{
 				var remaining = buffer.Count + cache.Count;
 
@@ -78,26 +80,19 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				previous = remaining;
 				progress = total - remaining;
 
-				updateStatus(new RemainingWorkUpdatedEventArgs
+				var args = UpdateStatus(handler, progress, start, total);
+
+				if (args.CancellationRequested)
 				{
-					IsWaiting = recovering || networkIssue,
-					Next = buffer.TryPeek(out _, out var schedule, out _) ? schedule : default(DateTime?),
-					Progress = progress,
-					Resume = resume,
-					Total = total
-				});
+					logger.Warn($"The execution of the remaining work has been cancelled and {remaining} item(s) will not be transmitted!");
+
+					break;
+				}
 
 				Thread.Sleep(100);
 			}
 
-			if (networkIssue)
-			{
-				updateStatus(new RemainingWorkUpdatedEventArgs { HasFailed = true, CachePath = cache.Directory });
-			}
-			else
-			{
-				updateStatus(new RemainingWorkUpdatedEventArgs { IsFinished = true });
-			}
+			UpdateStatus(handler);
 		}
 
 		internal bool HasRemainingWork()
@@ -163,6 +158,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				thread = default;
 				token = default;
 			}
+
+			buffer.Clear();
+			cache.Clear();
 		}
 
 		private void Execute()
@@ -416,6 +414,35 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 
 			return current;
+		}
+
+		private RemainingWorkUpdatedEventArgs UpdateStatus(Action<RemainingWorkUpdatedEventArgs> handler, int progress, DateTime start, int total)
+		{
+			var args = new RemainingWorkUpdatedEventArgs
+			{
+				AllowCancellation = start.Add(new TimeSpan(0, 1, 15)) < DateTime.Now,
+				IsWaiting = health == BAD || networkIssue || recovering || DateTime.Now < resume,
+				Next = buffer.TryPeek(out _, out var schedule, out _) ? schedule : default(DateTime?),
+				Progress = progress,
+				Resume = DateTime.Now < resume ? resume : default(DateTime?),
+				Total = total
+			};
+
+			handler.Invoke(args);
+
+			return args;
+		}
+
+		private void UpdateStatus(Action<RemainingWorkUpdatedEventArgs> handler)
+		{
+			if (HasRemainingWork())
+			{
+				handler.Invoke(new RemainingWorkUpdatedEventArgs { HasFailed = true, CachePath = cache.Directory });
+			}
+			else
+			{
+				handler.Invoke(new RemainingWorkUpdatedEventArgs { IsFinished = true });
+			}
 		}
 	}
 }

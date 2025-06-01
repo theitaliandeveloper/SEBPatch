@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,8 +8,10 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -42,8 +44,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
-		private bool browserControlGetsFocusFromTaskbar = false;
-		private IInputElement tabKeyDownFocusElement = null;
+		private bool browserControlGetsFocusFromTaskbar;
+		private IInputElement tabKeyDownFocusElement;
 
 		private WindowSettings WindowSettings
 		{
@@ -197,27 +199,15 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			Dispatcher.InvokeAsync(() =>
 			{
-				var isNewItem = true;
+				var control = Downloads.Children.OfType<DownloadItemControl>().FirstOrDefault(c => c.Id == state.Id);
 
-				foreach (var child in Downloads.Children)
+				if (control == default)
 				{
-					if (child is DownloadItemControl control && control.Id == state.Id)
-					{
-						control.Update(state);
-						isNewItem = false;
-
-						break;
-					}
-				}
-
-				if (isNewItem)
-				{
-					var control = new DownloadItemControl(state.Id, text);
-
-					control.Update(state);
+					control = new DownloadItemControl(state.Id, text);
 					Downloads.Children.Add(control);
 				}
 
+				control.Update(state);
 				DownloadsButton.Visibility = Visibility.Visible;
 				DownloadsPopup.IsOpen = IsActive;
 			});
@@ -252,7 +242,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			if (isMainWindow)
 			{
-				e.Cancel = true;
+				//e.Cancel = true;
+				Dispatcher.Invoke(() =>
+				{
+					Closing -= BrowserWindow_Closing;
+					closing?.Invoke();
+					base.Close();
+				});
 			}
 			else
 			{
@@ -265,12 +261,15 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			if (e.Key == Key.Tab)
 			{
 				var hasShift = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+
 				if (Toolbar.IsKeyboardFocusWithin && hasShift)
 				{
 					var firstActiveElementInToolbar = Toolbar.PredictFocus(FocusNavigationDirection.Right);
-					if (firstActiveElementInToolbar is System.Windows.UIElement)
+
+					if (firstActiveElementInToolbar is UIElement)
 					{
-						var control = firstActiveElementInToolbar as System.Windows.UIElement;
+						var control = firstActiveElementInToolbar as UIElement;
+
 						if (control.IsKeyboardFocusWithin)
 						{
 							LoseFocusRequested?.Invoke(false);
@@ -322,10 +321,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 				else if (MenuPopup.IsKeyboardFocusWithin)
 				{
 					var focusedElement = FocusManager.GetFocusedElement(this);
-					var focusedControl = focusedElement as System.Windows.Controls.Control;
-					var prevFocusedControl = tabKeyDownFocusElement as System.Windows.Controls.Control;
 
-					if (focusedControl != null && prevFocusedControl != null)
+					if (focusedElement is Control focusedControl && tabKeyDownFocusElement is Control prevFocusedControl)
 					{
 						if (!hasShift && focusedControl.TabIndex < prevFocusedControl.TabIndex)
 						{
@@ -354,7 +351,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 			if (isMainWindow)
 			{
-				this.DisableCloseButton();
+				//this.DisableCloseButton();
 			}
 		}
 

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -26,6 +26,9 @@ namespace SafeExamBrowser.Browser
 		private readonly IDialogHandler dialogHandler;
 		private readonly IDisplayHandler displayHandler;
 		private readonly IDownloadHandler downloadHandler;
+		private readonly IDragHandler dragHandler;
+		private readonly IFocusHandler focusHandler;
+		private readonly IJsDialogHandler javaScriptDialogHandler;
 		private readonly IKeyboardHandler keyboardHandler;
 		private readonly ILogger logger;
 		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
@@ -47,6 +50,9 @@ namespace SafeExamBrowser.Browser
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
+			IDragHandler dragHandler,
+			IFocusHandler focusHandler,
+			IJsDialogHandler javaScriptDialogHandler,
 			IKeyboardHandler keyboardHandler,
 			ILogger logger,
 			IRenderProcessMessageHandler renderProcessMessageHandler,
@@ -57,6 +63,9 @@ namespace SafeExamBrowser.Browser
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
+			this.dragHandler = dragHandler;
+			this.focusHandler = focusHandler;
+			this.javaScriptDialogHandler = javaScriptDialogHandler;
 			this.keyboardHandler = keyboardHandler;
 			this.logger = logger;
 			this.renderProcessMessageHandler = renderProcessMessageHandler;
@@ -67,6 +76,7 @@ namespace SafeExamBrowser.Browser
 		{
 			if (!control.IsDisposed)
 			{
+				control.CloseDevTools();
 				control.Dispose(true);
 			}
 		}
@@ -119,22 +129,31 @@ namespace SafeExamBrowser.Browser
 			control.AddressChanged += (o, e) => AddressChanged?.Invoke(e.Address);
 			control.AuthCredentialsRequired += (w, b, o, i, h, p, r, s, c, a) => a.Value = requestHandler.GetAuthCredentials(w, b, o, i, h, p, r, s, c);
 			control.BeforeBrowse += (w, b, f, r, u, i, a) => a.Value = requestHandler.OnBeforeBrowse(w, b, f, r, u, i);
-			control.BeforeDownload += (w, b, d, c) => downloadHandler.OnBeforeDownload(w, b, d, c);
+			control.BeforeDownload += (w, b, d, c, a) => a.Value = a.Value = downloadHandler.OnBeforeDownload(w, b, d, c);
+			control.BeforeUnloadDialog += (w, b, m, r, c, a) => a.Value = javaScriptDialogHandler.OnBeforeUnloadDialog(w, b, m, r, c);
 			control.CanDownload += (w, b, u, r, a) => a.Value = downloadHandler.CanDownload(w, b, u, r);
 			control.ContextCreated += (w, b, f) => renderProcessMessageHandler.OnContextCreated(w, b, f);
 			control.ContextReleased += (w, b, f) => renderProcessMessageHandler.OnContextReleased(w, b, f);
+			control.DialogClosed += (w, b) => javaScriptDialogHandler.OnDialogClosed(w, b);
 			control.DownloadUpdated += (w, b, d, c) => downloadHandler.OnDownloadUpdated(w, b, d, c);
+			control.DragEnterCefSharp += (w, b, d, m, a) => a.Value = dragHandler.OnDragEnter(w, b, d, m);
+			control.DraggableRegionsChanged += (w, b, f, r) => dragHandler.OnDraggableRegionsChanged(w, b, f, r);
 			control.FaviconUrlChanged += (w, b, u) => displayHandler.OnFaviconUrlChange(w, b, u);
-			control.FileDialogRequested += (w, b, m, t, d, f, c) => dialogHandler.OnFileDialog(w, b, m, t, d, f, c);
+			control.FileDialogRequested += (w, b, m, t, p, f, e, d, c) => dialogHandler.OnFileDialog(w, b, m, t, p, f, e, d, c);
 			control.FocusedNodeChanged += (w, b, f, n) => renderProcessMessageHandler.OnFocusedNodeChanged(w, b, f, n);
+			control.GotFocusCefSharp += (w, b) => focusHandler.OnGotFocus(w, b);
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
+			control.JavaScriptDialog += (IWebBrowser w, IBrowser b, string u, CefJsDialogType t, string m, string p, IJsDialogCallback c, ref bool s, GenericEventArgs a) => a.Value = javaScriptDialogHandler.OnJSDialog(w, b, u, t, m, p, c, ref s);
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
 			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
 			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
 			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
 			control.PreKeyEvent += (IWebBrowser w, IBrowser b, KeyType t, int k, int n, CefEventFlags m, bool i, ref bool s, GenericEventArgs a) => a.Value = keyboardHandler.OnPreKeyEvent(w, b, t, k, n, m, i, ref s);
+			control.ResetDialogState += (w, b) => javaScriptDialogHandler.OnResetDialogState(w, b);
 			control.ResourceRequestHandlerRequired += (IWebBrowser w, IBrowser b, IFrame f, IRequest r, bool n, bool d, string i, ref bool h, ResourceRequestEventArgs a) => a.Handler = requestHandler.GetResourceRequestHandler(w, b, f, r, n, d, i, ref h);
+			control.SetFocus += (w, b, s, a) => a.Value = focusHandler.OnSetFocus(w, b, s);
+			control.TakeFocus += (w, b, n) => focusHandler.OnTakeFocus(w, b, n);
 			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
 			control.UncaughtExceptionEvent += (w, b, f, e) => renderProcessMessageHandler.OnUncaughtException(w, b, f, e);
 

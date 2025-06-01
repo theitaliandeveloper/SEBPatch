@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,11 +43,12 @@ namespace SafeExamBrowser.Server
 		private readonly Parser parser;
 		private readonly Timer pingTimer;
 		private readonly IPowerSupply powerSupply;
+		private readonly Sanitizer sanitizer;
 		private readonly ISystemInfo systemInfo;
 		private readonly IUserInfo userInfo;
 		private readonly INetworkAdapter networkAdapter;
 
-		private ApiVersion1 api;
+		private Api api;
 		private int currentHandId;
 		private int currentLockScreenId;
 		private string examId;
@@ -75,7 +76,7 @@ namespace SafeExamBrowser.Server
 			IPowerSupply powerSupply = default,
 			INetworkAdapter networkAdapter = default)
 		{
-			this.api = new ApiVersion1();
+			this.api = new Api();
 			this.appConfig = appConfig;
 			this.keyGenerator = keyGenerator;
 			this.fileSystem = new FileSystem(appConfig, logger);
@@ -87,6 +88,7 @@ namespace SafeExamBrowser.Server
 			this.parser = new Parser(logger);
 			this.pingTimer = new Timer();
 			this.powerSupply = powerSupply;
+			this.sanitizer = new Sanitizer();
 			this.systemInfo = systemInfo;
 			this.userInfo = userInfo;
 		}
@@ -110,7 +112,7 @@ namespace SafeExamBrowser.Server
 
 		public ServerResponse Connect()
 		{
-			var request = new ApiRequest(api, httpClient, logger, parser, settings);
+			var request = new ApiRequest(api, httpClient, logger, parser, sanitizer, settings);
 			var success = request.TryExecute(out api, out var message);
 
 			if (success)
@@ -194,8 +196,8 @@ namespace SafeExamBrowser.Server
 			return new ConnectionInfo
 			{
 				Api = JsonConvert.SerializeObject(api),
-				ConnectionToken = BaseRequest.ConnectionToken,
-				Oauth2Token = BaseRequest.Oauth2Token
+				ConnectionToken = Request.ConnectionToken,
+				Oauth2Token = Request.Oauth2Token
 			};
 		}
 
@@ -204,7 +206,7 @@ namespace SafeExamBrowser.Server
 			this.settings = settings;
 
 			httpClient = new HttpClient();
-			httpClient.BaseAddress = new Uri(settings.ServerUrl);
+			httpClient.BaseAddress = sanitizer.Sanitize(settings.ServerUrl);
 
 			if (settings.RequestTimeout > 0)
 			{
@@ -214,11 +216,11 @@ namespace SafeExamBrowser.Server
 
 		public void Initialize(string api, string connectionToken, string examId, string oauth2Token, ServerSettings settings)
 		{
-			this.api = JsonConvert.DeserializeObject<ApiVersion1>(api);
+			this.api = JsonConvert.DeserializeObject<Api>(api);
 			this.examId = examId;
 
-			BaseRequest.ConnectionToken = connectionToken;
-			BaseRequest.Oauth2Token = oauth2Token;
+			Request.ConnectionToken = connectionToken;
+			Request.Oauth2Token = oauth2Token;
 
 			Initialize(settings);
 		}
@@ -284,28 +286,20 @@ namespace SafeExamBrowser.Server
 			var request = new SelectExamRequest(api, httpClient, logger, parser, settings);
 			var success = request.TryExecute(exam, out var message, out var appSignatureKeySalt, out var browserExamKey);
 
+			if (browserExamKey != default)
+			{
+				logger.Info("Custom browser exam key detected.");
+			}
+
 			if (success)
 			{
 				logger.Info("Successfully sent selected exam.");
+
+				success = TryFinishHandshake(out message, appSignatureKeySalt);
 			}
 			else
 			{
 				logger.Error("Failed to send selected exam!");
-			}
-
-			if (success && appSignatureKeySalt != default)
-			{
-				logger.Info("App signature key salt detected, performing key exchange...");
-				success = TrySendAppSignatureKey(appSignatureKeySalt, out message);
-			}
-			else
-			{
-				logger.Info("No app signature key salt detected, skipping key exchange.");
-			}
-
-			if (browserExamKey != default)
-			{
-				logger.Info("Custom browser exam key detected.");
 			}
 
 			return new ServerResponse<string>(success, browserExamKey, message);
@@ -515,19 +509,30 @@ namespace SafeExamBrowser.Server
 			}
 		}
 
-		private bool TrySendAppSignatureKey(string salt, out string message)
+		private bool TryFinishHandshake(out string message, string appSignatureKeySalt = default)
 		{
-			var appSignatureKey = keyGenerator.CalculateAppSignatureKey(BaseRequest.ConnectionToken, salt);
-			var request = new AppSignatureKeyRequest(api, httpClient, logger, parser, settings);
-			var success = request.TryExecute(appSignatureKey, out message);
+			var appSignatureKey = default(string);
 
-			if (success)
+			if (appSignatureKeySalt != default)
 			{
-				logger.Info("Successfully sent app signature key.");
+				logger.Info("App signature key salt available, performing key exchange...");
+				appSignatureKey = keyGenerator.CalculateAppSignatureKey(Request.ConnectionToken, appSignatureKeySalt);
 			}
 			else
 			{
-				logger.Error("Failed to send app signature key!");
+				logger.Info("App signature key salt not available, not performing key exchange.");
+			}
+
+			var request = new FinishHandshakeRequest(api, httpClient, logger, parser, settings);
+			var success = request.TryExecute(out message, appSignatureKey);
+
+			if (success)
+			{
+				logger.Info("Successfully finished handshake.");
+			}
+			else
+			{
+				logger.Error("Failed to finish handshake!");
 			}
 
 			return success;

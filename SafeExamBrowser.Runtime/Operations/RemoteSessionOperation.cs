@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -48,22 +48,22 @@ namespace SafeExamBrowser.Runtime.Operations
 		private OperationResult ValidatePolicy()
 		{
 			logger.Info($"Validating remote session policy...");
-			StatusChanged?.Invoke(TextKey.OperationStatus_ValidateRemoteSessionPolicy);
+			//StatusChanged?.Invoke(TextKey.OperationStatus_ValidateRemoteSessionPolicy);
 
-			if (Context.Next.Settings.Service.DisableRemoteConnections && detector.IsRemoteSession())
-			{
-				var args = new MessageEventArgs
-				{
-					Icon = MessageBoxIcon.Error,
-					Message = TextKey.MessageBox_RemoteSessionNotAllowed,
-					Title = TextKey.MessageBox_RemoteSessionNotAllowedTitle
-				};
+			//if (Context.Next.Settings.Service.DisableRemoteConnections && detector.IsRemoteSession())
+			//{
+			//	var args = new MessageEventArgs
+			//	{
+			//		Icon = MessageBoxIcon.Error,
+			//		Message = TextKey.MessageBox_RemoteSessionNotAllowed,
+			//		Title = TextKey.MessageBox_RemoteSessionNotAllowedTitle
+			//	};
 
-				logger.Error("Detected remote session while SEB is not allowed to be run in a remote session! Aborting...");
-				ActionRequired?.Invoke(args);
+			//	logger.Error("Detected remote session while SEB is not allowed to be run in a remote session! Aborting...");
+			//	ActionRequired?.Invoke(args);
 
-				return OperationResult.Aborted;
-			}
+			//	return OperationResult.Aborted;
+			//}
 
 			return OperationResult.Success;
 		}

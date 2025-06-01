@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,13 +17,10 @@ namespace SafeExamBrowser.Core.OperationModel
 	/// <summary>
 	/// Default implementation of the <see cref="IRepeatableOperationSequence"/>.
 	/// </summary>
-	public class RepeatableOperationSequence : OperationSequence, IRepeatableOperationSequence
+	public class RepeatableOperationSequence<T> : OperationSequence<T>, IRepeatableOperationSequence where T : IRepeatableOperation
 	{
-		private new Queue<IRepeatableOperation> operations;
-
-		public RepeatableOperationSequence(ILogger logger, Queue<IRepeatableOperation> operations) : base(logger, new Queue<IOperation>(operations))
+		public RepeatableOperationSequence(ILogger logger, IEnumerable<T> operations) : base(logger, operations)
 		{
-			this.operations = new Queue<IRepeatableOperation>(operations);
 		}
 
 		public OperationResult TryRepeat()

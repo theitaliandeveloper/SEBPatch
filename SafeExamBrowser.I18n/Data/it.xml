@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Vuoi lasciare la pagina attuale?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Lasciare?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Vuoi ricaricare la pagina corrente?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Ricaricare?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Vuoi uscire da SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Errore di riconfigurazione
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Vuoi ricaricare la pagina corrente?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Ricaricare?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Il sistema sembra essere in esecuzione in una sessione remota. La configurazione selezionata non consente l'esecuzione di SEB in una sessione remota.
@@ -684,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Password richiesta
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Interrompere
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Conferma
     </Entry>
@@ -700,7 +709,10 @@
         In attesa di eseguire l'operazione di trasmissione %%_COUNT_%% di %%_TOTAL_%% a %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        In attesa di riprendere le operazioni di trasmissione di %%_COUNT_% a %%_TIME_%%...
+        In attesa di riprendere le %%_COUNT_%% operazioni di trasmissione...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        In attesa di riprendere le %%_COUNT_%% operazioni di trasmissione a %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Finalizzazione della correzione dello schermo

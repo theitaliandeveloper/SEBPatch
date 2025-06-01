@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,12 +25,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapLogLevel(AppSettings settings, object value)
 		{
-			const int ERROR = 0, WARNING = 1, INFO = 2;
+			//const int ERROR = 0, WARNING = 1, INFO = 2;
 
-			if (value is int level)
-			{
-				settings.LogLevel = level == ERROR ? LogLevel.Error : (level == WARNING ? LogLevel.Warning : (level == INFO ? LogLevel.Info : LogLevel.Debug));
-			}
+			//if (value is int level)
+			//{
+			//	settings.LogLevel = level == ERROR ? LogLevel.Error : (level == WARNING ? LogLevel.Warning : (level == INFO ? LogLevel.Info : LogLevel.Debug));
+			//}
+			const int ERROR = 0;
+			settings.LogLevel = ERROR;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -50,11 +50,11 @@ namespace SafeExamBrowser.Server
 			return isExpired;
 		}
 
-		internal bool TryParseApi(HttpContent content, out ApiVersion1 api)
+		internal bool TryParseApi(HttpContent content, out Api api)
 		{
 			var success = false;
 
-			api = new ApiVersion1();
+			api = new Api();
 
 			try
 			{
@@ -343,7 +343,7 @@ namespace SafeExamBrowser.Server
 
 		private ScreenProctoringInstruction ParseScreenProctoringInstruction(JObject attributesJson)
 		{
-			return new ScreenProctoringInstruction
+			var instruction = new ScreenProctoringInstruction
 			{
 				ClientId = attributesJson["screenProctoringClientId"].Value<string>(),
 				ClientSecret = attributesJson["screenProctoringClientSecret"].Value<string>(),
@@ -351,6 +351,13 @@ namespace SafeExamBrowser.Server
 				ServiceUrl = attributesJson["screenProctoringServiceURL"].Value<string>(),
 				SessionId = attributesJson["screenProctoringClientSessionId"].Value<string>()
 			};
+
+			if (attributesJson.ContainsKey("screenProctoringEncryptSecret"))
+			{
+				instruction.EncryptionSecret = attributesJson["screenProctoringEncryptSecret"].Value<string>();
+			}
+
+			return instruction;
 		}
 
 		private ZoomInstruction ParseZoomInstruction(JObject attributesJson)

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,22 @@ namespace SafeExamBrowser.Browser
 
 		internal void Process(JavascriptMessageReceivedEventArgs message)
 		{
-			
+			if (settings.UseIsolatedClipboard)
+			{
+				try
+				{
+					var data = message.ConvertMessageTo<Data>();
+
+					if (data != default && data.Type == "Clipboard" && TrySetContent(data.Content))
+					{
+						Task.Run(() => Changed?.Invoke(data.Id));
+					}
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to process browser message '{message}'!", e);
+				}
+			}
 		}
 
 		private bool TrySetContent(object value)

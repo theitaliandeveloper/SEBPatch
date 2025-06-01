@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,8 +8,10 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -42,8 +44,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
-		private bool browserControlGetsFocusFromTaskbar = false;
-		private IInputElement tabKeyDownFocusElement = null;
+		private bool browserControlGetsFocusFromTaskbar;
+		private IInputElement tabKeyDownFocusElement;
 
 		private WindowSettings WindowSettings
 		{
@@ -65,7 +67,6 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		public event ActionRequestedEventHandler ZoomOutRequested;
 		public event ActionRequestedEventHandler ZoomResetRequested;
 		public event LoseFocusRequestedEventHandler LoseFocusRequested;
-		internal event TerminationRequestedEventHandler TerminationRequested;
 
 		event WindowClosedEventHandler IWindow.Closed
 		{
@@ -198,27 +199,15 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		{
 			Dispatcher.InvokeAsync(() =>
 			{
-				var isNewItem = true;
+				var control = Downloads.Children.OfType<DownloadItemControl>().FirstOrDefault(c => c.Id == state.Id);
 
-				foreach (var child in Downloads.Children)
+				if (control == default)
 				{
-					if (child is DownloadItemControl control && control.Id == state.Id)
-					{
-						control.Update(state);
-						isNewItem = false;
-
-						break;
-					}
-				}
-
-				if (isNewItem)
-				{
-					var control = new DownloadItemControl(state.Id, text);
-
-					control.Update(state);
+					control = new DownloadItemControl(state.Id, text);
 					Downloads.Children.Add(control);
 				}
 
+				control.Update(state);
 				DownloadsButton.Visibility = Visibility.Visible;
 				DownloadsPopup.IsOpen = IsActive;
 			});
@@ -253,8 +242,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		{
 			if (isMainWindow)
 			{
+				//e.Cancel = true;
 				Dispatcher.Invoke(() =>
 				{
+					Closing -= BrowserWindow_Closing;
 					closing?.Invoke();
 					base.Close();
 				});
@@ -263,16 +254,6 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			{
 				closing?.Invoke();
 			}
-			/*
-			if (isMainWindow)
-			{
-				e.Cancel = true;
-			}
-			else
-			{
-				closing?.Invoke();
-			}
-			*/
 		}
 
 		private void BrowserWindow_KeyDown(object sender, KeyEventArgs e)
@@ -341,10 +322,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 				else if (MenuPopup.IsKeyboardFocusWithin)
 				{
 					var focusedElement = FocusManager.GetFocusedElement(this);
-					var focusedControl = focusedElement as System.Windows.Controls.Control;
-					var prevFocusedControl = tabKeyDownFocusElement as System.Windows.Controls.Control;
 
-					if (focusedControl != null && prevFocusedControl != null)
+					if (focusedElement is Control focusedControl && tabKeyDownFocusElement is Control prevFocusedControl)
 					{
 						if (!hasShift && focusedControl.TabIndex < prevFocusedControl.TabIndex)
 						{
@@ -540,34 +519,31 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 		private void ApplySettings()
 		{
-			BackwardButton.IsEnabled = true;
-			BackwardButton.Visibility = Visibility.Visible;
-			DeveloperConsoleMenuItem.Visibility = Visibility.Visible;
-			FindMenuItem.Visibility =Visibility.Visible;
-			ForwardButton.IsEnabled = true;
-			ForwardButton.Visibility = Visibility.Visible;
-			HomeButton.IsEnabled = true;
-			HomeButton.Visibility = Visibility.Visible;
-			ReloadButton.IsEnabled = true;
-			ReloadButton.Visibility = Visibility.Visible;
-			Toolbar.Visibility = Visibility.Visible;
-			UrlTextBox.Visibility = Visibility.Visible;
-			ZoomMenuItem.Visibility = Visibility.Visible;
+			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
+			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+			DeveloperConsoleMenuItem.Visibility = WindowSettings.AllowDeveloperConsole ? Visibility.Visible : Visibility.Collapsed;
+			FindMenuItem.Visibility = settings.AllowFind ? Visibility.Visible : Visibility.Collapsed;
+			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
+			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+			HomeButton.IsEnabled = WindowSettings.ShowHomeButton;
+			HomeButton.Visibility = WindowSettings.ShowHomeButton ? Visibility.Visible : Visibility.Collapsed;
+			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
+			ReloadButton.Visibility = WindowSettings.ShowReloadButton ? Visibility.Visible : Visibility.Collapsed;
+			Toolbar.Visibility = WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;
+			UrlTextBox.Visibility = WindowSettings.AllowAddressBar ? Visibility.Visible : Visibility.Hidden;
+			ZoomMenuItem.Visibility = settings.AllowPageZoom ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void InitializeBounds()
 		{
 			if (isMainWindow && WindowSettings.FullScreenMode)
 			{
-				/*
 				Top = 0;
 				Left = 0;
 				Height = SystemParameters.WorkArea.Height;
 				Width = SystemParameters.WorkArea.Width;
 				ResizeMode = ResizeMode.NoResize;
 				WindowStyle = WindowStyle.None;
-				*/
-				WindowState = WindowState.Maximized;
 			}
 			else if (WindowSettings.RelativeHeight == 100 && WindowSettings.RelativeWidth == 100)
 			{

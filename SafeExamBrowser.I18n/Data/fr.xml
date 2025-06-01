@@ -372,11 +372,23 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Souhaitez-vous quitter la page actuelle?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Quitter?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Souhaitez-vous recharger la page actuelle?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Recharger?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Voulez-vous quitter SEB?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
-        Quitter ?
+        Quitter?
     </Entry>
     <Entry key="MessageBox_QuitError">
         Le client n'a pas réussi à communiquer la demande d'arrêt au serveur d'exécution!
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Erreur de reconfiguration
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Souhaitez-vous recharger la page actuelle?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Recharger ?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Le système semble s'exécuter dans une session à distance. La configuration sélectionnée ne permet pas l'exécution de SEB dans une session à distance.
@@ -684,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Mot de passe requis
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Abandonner
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirmer
     </Entry>
@@ -700,7 +709,10 @@
         En attente d'exécution de l'opération de transmission %%_COUNT_%% de %%_TOTAL_%% à %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        En attente de reprise des opérations de transmission %%_COUNT_%% à %%_TIME_%%...
+        En attente de reprise des %%_COUNT_%% opérations de transmission...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        En attente de reprise des %%_COUNT_%% opérations de transmission à %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Finalisation de l'inspection de l'écran

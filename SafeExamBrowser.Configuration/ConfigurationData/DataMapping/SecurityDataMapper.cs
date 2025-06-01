@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -67,12 +67,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapAdminPasswordHash(AppSettings settings, object value)
 		{
-			/*
-			if (value is string hash)
-			{
-				settings.Security.AdminPasswordHash = hash;
-			}
-			*/
+			//if (value is string hash)
+			//{
+			//	settings.Security.AdminPasswordHash = hash;
+			//}
 			settings.Security.AdminPasswordHash = "";
 		}
 
@@ -87,29 +85,24 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapAllowStickyKeys(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool allow)
-			{
-				settings.Security.AllowStickyKeys = allow;
-			}
-			*/
+			//if (value is bool allow)
+			//{
+			//	settings.Security.AllowStickyKeys = allow;
+			//}
 			settings.Security.AllowStickyKeys = true;
 		}
 
 		private void MapAllowTermination(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool allow)
-			{
-				settings.Security.AllowTermination = allow;
-			}
-			*/
+			//if (value is bool allow)
+			//{
+			//	settings.Security.AllowTermination = allow;
+			//}
 			settings.Security.AllowTermination = true;
 		}
 
 		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			/*
 			var hasValue = rawData.TryGetValue(Keys.Security.AllowApplicationLog, out var value);
 
 			if (hasValue && value is bool allow)
@@ -126,138 +119,123 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				settings.UserInterface.ActionCenter.ShowApplicationLog = false;
 				settings.UserInterface.Taskbar.ShowApplicationLog = false;
 			}
-			*/
-			settings.UserInterface.ActionCenter.ShowApplicationLog = false;
-			settings.UserInterface.Taskbar.ShowApplicationLog = false;
 		}
 
 		private void MapKioskMode(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			/*
-			var hasCreateNewDesktop = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var createNewDesktop);
-			var hasDisableExplorerShell = rawData.TryGetValue(Keys.Security.KioskModeDisableExplorerShell, out var disableExplorerShell);
+			//var hasCreateNewDesktop = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var createNewDesktop);
+			//var hasDisableExplorerShell = rawData.TryGetValue(Keys.Security.KioskModeDisableExplorerShell, out var disableExplorerShell);
 
-			if (hasDisableExplorerShell && disableExplorerShell as bool? == true)
-			{
-				settings.Security.KioskMode = KioskMode.DisableExplorerShell;
-			}
+			//if (hasDisableExplorerShell && disableExplorerShell as bool? == true)
+			//{
+			//	settings.Security.KioskMode = KioskMode.DisableExplorerShell;
+			//}
 
-			if (hasCreateNewDesktop && createNewDesktop as bool? == true)
-			{
-				settings.Security.KioskMode = KioskMode.CreateNewDesktop;
-			}
+			//if (hasCreateNewDesktop && createNewDesktop as bool? == true)
+			//{
+			//	settings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			//}
 
-			if (hasCreateNewDesktop && hasDisableExplorerShell && createNewDesktop as bool? == false && disableExplorerShell as bool? == false)
-			{
-				settings.Security.KioskMode = KioskMode.None;
-			}
-			*/
+			//if (hasCreateNewDesktop && hasDisableExplorerShell && createNewDesktop as bool? == false && disableExplorerShell as bool? == false)
+			//{
+			//	settings.Security.KioskMode = KioskMode.None;
+			//}
 			settings.Security.KioskMode = KioskMode.None;
 		}
 
 		private void MapQuitPasswordHash(AppSettings settings, object value)
 		{
-			/*
-			if (value is string hash)
-			{
-				settings.Security.QuitPasswordHash = hash;
-			}
-			*/
+			//if (value is string hash)
+			//{
+			//	settings.Security.QuitPasswordHash = hash;
+			//}
 			settings.Security.QuitPasswordHash = "";
 		}
 
 		private void MapClipboardPolicy(AppSettings settings, object value)
 		{
-			/*
-			const int ALLOW = 0;
-			const int BLOCK = 1;
+			//const int ALLOW = 0;
+			//const int BLOCK = 1;
 
-			if (value is int policy)
-			{
-				settings.Security.ClipboardPolicy = policy == ALLOW ? ClipboardPolicy.Allow : (policy == BLOCK ? ClipboardPolicy.Block : ClipboardPolicy.Isolated);
-			}
-			*/
+			//if (value is int policy)
+			//{
+			//	settings.Security.ClipboardPolicy = policy == ALLOW ? ClipboardPolicy.Allow : (policy == BLOCK ? ClipboardPolicy.Block : ClipboardPolicy.Isolated);
+			//}
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
 		}
 
 		private void MapDisableSessionChangeLockScreen(AppSettings settings, object value)
 		{
-			if (value is bool disable)
-			{
-				settings.Security.DisableSessionChangeLockScreen = disable;
-			}
+			//if (value is bool disable)
+			//{
+			//	settings.Security.DisableSessionChangeLockScreen = disable;
+			//}
+			settings.Security.DisableSessionChangeLockScreen = false;
 		}
 
 		private void MapVirtualMachinePolicy(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool allow)
-			{
-				settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny;
-			}
-			*/
+			//if (value is bool allow)
+			//{
+			//	settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny;
+			//}
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
 		}
 
 		private void MapReconfigurationUrl(AppSettings settings, object value)
 		{
-			//if (value is string url)
-			//{
-			//	settings.Security.ReconfigurationUrl = url;
-			//}
-			settings.Security.ReconfigurationUrl = "*";
+			if (value is string url)
+			{
+				settings.Security.ReconfigurationUrl = url;
+			}
 		}
 
 		private void MapVerifyCursorConfiguration(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool verify)
-			{
-				settings.Security.VerifyCursorConfiguration = verify;
-			}
-			*/
+			//if (value is bool verify)
+			//{
+			//	settings.Security.VerifyCursorConfiguration = verify;
+			//}
 			settings.Security.VerifyCursorConfiguration = false;
 		}
 
 		private void MapVerifySessionIntegrity(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool verify)
-			{
-				settings.Security.VerifySessionIntegrity = verify;
-			}
-			*/
+			//if (value is bool verify)
+			//{
+			//	settings.Security.VerifySessionIntegrity = verify;
+			//}
 			settings.Security.VerifySessionIntegrity = false;
 		}
 
 		private void MapVersionRestrictions(AppSettings settings, object value)
 		{
-			if (value is IList<object> restrictions)
-			{
-				foreach (var restriction in restrictions.Cast<string>())
-				{
-					var parts = restriction.Split('.');
-					var os = parts.Length > 0 ? parts[0] : default;
+			//if (value is IList<object> restrictions)
+			//{
+			//	foreach (var restriction in restrictions.Cast<string>())
+			//	{
+			//		var parts = restriction.Split('.');
+			//		var os = parts.Length > 0 ? parts[0] : default;
 
-					if (os?.Equals("win", StringComparison.OrdinalIgnoreCase) == true)
-					{
-						var major = parts.Length > 1 ? int.Parse(parts[1]) : default;
-						var minor = parts.Length > 2 ? int.Parse(parts[2]) : default;
-						var patch = parts.Length > 3 && int.TryParse(parts[3], out _) ? int.Parse(parts[3]) : default(int?);
-						var build = parts.Length > 4 && int.TryParse(parts[4], out _) ? int.Parse(parts[4]) : default(int?);
+			//		if (os?.Equals("win", StringComparison.OrdinalIgnoreCase) == true)
+			//		{
+			//			var major = parts.Length > 1 ? int.Parse(parts[1]) : default;
+			//			var minor = parts.Length > 2 ? int.Parse(parts[2]) : default;
+			//			var patch = parts.Length > 3 && int.TryParse(parts[3], out _) ? int.Parse(parts[3]) : default(int?);
+			//			var build = parts.Length > 4 && int.TryParse(parts[4], out _) ? int.Parse(parts[4]) : default(int?);
 
-						//settings.Security.VersionRestrictions.Add(new VersionRestriction
-						//{
-						//	Major = major,
-						//	Minor = minor,
-						//	Patch = patch,
-						//	Build = build,
-						//	IsMinimumRestriction = restriction.Contains("min"),
-						//	RequiresAllianceEdition = restriction.Contains("AE")
-						//});
-					}
-				}
-			}
+			//			settings.Security.VersionRestrictions.Add(new VersionRestriction
+			//			{
+			//				Major = major,
+			//				Minor = minor,
+			//				Patch = patch,
+			//				Build = build,
+			//				IsMinimumRestriction = restriction.Contains("min"),
+			//				RequiresAllianceEdition = restriction.Contains("AE")
+			//			});
+			//		}
+			//	}
+			//}
 		}
 	}
 }

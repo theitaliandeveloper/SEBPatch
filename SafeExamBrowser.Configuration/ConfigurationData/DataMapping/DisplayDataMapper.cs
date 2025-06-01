@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -33,12 +33,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapAllowedDisplays(AppSettings settings, object value)
 		{
-			/*
-			if (value is int count)
-			{
-				settings.Display.AllowedDisplays = count;
-			}
-			*/
+			//if (value is int count)
+			//{
+			//	settings.Display.AllowedDisplays = count;
+			//}
 			settings.Display.AllowedDisplays = 500;
 		}
 
@@ -52,23 +50,19 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapIgnoreError(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool ignore)
-			{
-				settings.Display.IgnoreError = ignore;
-			}
-			*/
+			//if (value is bool ignore)
+			//{
+			//	settings.Display.IgnoreError = ignore;
+			//}
 			settings.Display.IgnoreError = true;
 		}
 
 		private void MapInternalDisplayOnly(AppSettings settings, object value)
 		{
-			/*
-			if (value is bool internalOnly)
-			{
-				settings.Display.InternalDisplayOnly = internalOnly;
-			}
-			*/
+			//if (value is bool internalOnly)
+			//{
+			//	settings.Display.InternalDisplayOnly = internalOnly;
+			//}
 			settings.Display.InternalDisplayOnly = false;
 		}
 	}

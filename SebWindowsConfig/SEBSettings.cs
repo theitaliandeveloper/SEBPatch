@@ -179,7 +179,6 @@ namespace SebWindowsConfig
 		public const String KeyAllowPrint = "allowPrint";
 
 		// Group "DownUploads"
-		public const String KeyAllowDownUploads = "allowDownUploads";
 		public const String KeyAllowCustomDownUploadLocation = "allowCustomDownUploadLocation";
 		public const String KeyDownloadDirectoryOSX = "downloadDirectoryOSX";
 		public const String KeyDownloadDirectoryWin = "downloadDirectoryWin";
@@ -722,7 +721,6 @@ namespace SebWindowsConfig
 			SEBSettings.strArrayDefault[SEBSettings.ValNewBrowserWindowByLinkHeight] = "100%";
 
 			// Default settings for group "DownUploads"
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownUploads, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowCustomDownUploadLocation, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryOSX, "~/Downloads");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryWin, "");
@@ -735,7 +733,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyUseTemporaryDownUploadDirectory, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowFileSystemElementPath, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownloads, true);
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowUploads, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowUploads, false);
 
 			// Default settings for group "Exam"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamKeySalt, new Byte[] { });
@@ -847,6 +845,8 @@ namespace SebWindowsConfig
 				"RPCService.exe",
 				"RPCSuite.exe",
 				"Discord.exe",
+				"DiscordPTB.exe",
+				"DiscordCanary.exe",
 				"Camtasia.exe",
 				"CamtasiaStudio.exe",
 				"Camtasia_Studio.exe",
@@ -879,7 +879,8 @@ namespace SebWindowsConfig
 				"spotify.exe",
 				"Microsoft.Media.Player.exe",
 				"vlc.exe",
-				"sethc.exe"
+				"sethc.exe",
+				"Guilded.exe",
 			};
 
 			// Default settings for group "Network - Filter"

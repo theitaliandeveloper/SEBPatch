@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2025 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -42,6 +42,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		internal Taskbar(ILogger logger)
 		{
 			this.logger = logger;
+
 			InitializeComponent();
 			InitializeTaskbar();
 		}
@@ -140,11 +141,9 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private void InitializeTaskbar()
 		{
-			/*
 			Closing += Taskbar_Closing;
 			Loaded += (o, args) => InitializeBounds();
 			QuitButton.Clicked += QuitButton_Clicked;
-			*/
 		}
 
 		public void InitializeText(IText text)
