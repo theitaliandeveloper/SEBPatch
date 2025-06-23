@@ -28,7 +28,7 @@ namespace patch_seb
 				// Check if the user wants the offline patcher
 				if (args.Length == 1)
 				{
-					if (args[1] == "/offline" || args[1] == "/Offline")
+					if (args[0] == "/offline" || args[0] == "/Offline")
 					{
 						Application.Run(new OfflinePatcher());
 					}

@@ -22,6 +22,7 @@ namespace patch_seb
 		public static bool alreadyPatched = false;
 		public static bool is64bits = false;
 		public static string SEBPath = "";
+		public static int something = 0;
 		public OfflinePatcher()
 		{
 			InitializeComponent();
@@ -118,7 +119,7 @@ namespace patch_seb
 
         private void button2_Click(object sender, EventArgs e)
         {
-			SEBPath = installation + @"Program Files\SafeExamBrowser\Application";
+			SEBPath = installation + @"Program Files\SafeExamBrowser\Application\";
 			if (alreadyPatched)
 			{
 				var dialog = MessageBox.Show("An already patched Safe Exam Browser has been found. Are you sure to continue?", "Safe Exam Browser Offline Patch", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
@@ -185,7 +186,28 @@ namespace patch_seb
 				File.Delete(SEBPath + @"SafeExamBrowser.Monitoring.dll");
 				File.Delete(SEBPath + @"SafeExamBrowser.UserInterface.Desktop.dll");
 				File.Delete(SEBPath + @"SafeExamBrowser.UserInterface.Mobile.dll");
-				if (is64bits) // 64 bits patch
+				if (autodetect.Checked) // Autodetect
+				{
+					if (is64bits) // 64 bits patch
+					{
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.exe", Resources.SafeExamBrowser);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Desktop.dll", Resources.SafeExamBrowser_UserInterface_Desktop);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Mobile.dll", Resources.SafeExamBrowser_UserInterface_Mobile);
+					}
+					else // 32 bits patch
+					{
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.exe", Resources.SafeExamBrowser1);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client1);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration1);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring1);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Desktop.dll", Resources.SafeExamBrowser_UserInterface_Desktop1);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Mobile.dll", Resources.SafeExamBrowser_UserInterface_Mobile1);
+					}
+				}
+				else if (x64.Checked) // 64 bits patch
 				{
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.exe", Resources.SafeExamBrowser);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client);
@@ -208,27 +230,27 @@ namespace patch_seb
 					// Load offline registry
 					ProcessStartInfo load = new ProcessStartInfo
 					{
-						FileName = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"System32\reg.exe",
+						FileName = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\System32\reg.exe",
 						Arguments = $@"load HKLM\OFFSOFTWARE {installation}Windows\System32\config\software",
 						CreateNoWindow = true,
 						WindowStyle = ProcessWindowStyle.Hidden
 					};
 					Process.Start(load).WaitForExit();
 					// Add certificate to offline registry
-					File.WriteAllText(Path.GetTempPath() + @"\SEB.reg", Resources.cert_offline);
+					File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg", Resources.cert_offline);
 					ProcessStartInfo info = new ProcessStartInfo
 					{
 						FileName = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\regedit.exe",
-						Arguments = $@"/s \""{Path.GetTempPath() + @"\SEB.reg"}\""",
+						Arguments = $@"/s {Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg"}",
 						CreateNoWindow = true,
 						WindowStyle = ProcessWindowStyle.Hidden
 					};
 					Process.Start(info).WaitForExit();
-					File.Delete(Path.GetTempPath() + @"\SEB.reg");
+					File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg");
 					// Unload offline registry
 					ProcessStartInfo unload = new ProcessStartInfo
 					{
-						FileName = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"System32\reg.exe",
+						FileName = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\System32\reg.exe",
 						Arguments = $@"unload HKLM\OFFSOFTWARE",
 						CreateNoWindow = true,
 						WindowStyle = ProcessWindowStyle.Hidden
@@ -243,5 +265,22 @@ namespace patch_seb
 				AddLog("[ERROR] " + ex.Message);
 			}
 		}
-	}
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+			if (something == 4)
+			{
+				something = 0;
+				#if DEBUG
+					MessageBox.Show("Safe Exam Browser Offline Patch (Debug/Beta) v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				#else
+					MessageBox.Show("Safe Exam Browser Offline Patch v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				#endif
+			}
+			else
+			{
+				something++;
+			}
+		}
+    }
 }

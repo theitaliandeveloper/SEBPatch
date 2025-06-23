@@ -174,16 +174,16 @@ namespace patch_seb
 				}
 				if (checkBox2.Checked)
 				{
-					File.WriteAllText(Path.GetTempPath() + @"\SEB.reg", Resources.cert);
+					File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg", Resources.cert);
 					ProcessStartInfo info = new ProcessStartInfo
 					{
 						FileName = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\regedit.exe",
-						Arguments = $@"/s \""{Path.GetTempPath() + @"\SEB.reg"}\""",
+						Arguments = $@"/s {Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg"}",
 						CreateNoWindow = true,
 						WindowStyle = ProcessWindowStyle.Hidden
 					};
 					Process.Start(info).WaitForExit();
-					File.Delete(Path.GetTempPath() + @"\SEB.reg");
+					File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg");
 				}
 				AddLog("PATCHING DONE");
 				button1.Text = "PATCH DONE";
@@ -199,7 +199,11 @@ namespace patch_seb
 			if (something == 4)
 			{
 				something = 0;
-				MessageBox.Show("Safe Exam Browser Patch v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				#if DEBUG
+					MessageBox.Show("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				#else
+					MessageBox.Show("Safe Exam Browser Patch v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				#endif
 			}
 			else
 			{

@@ -31,17 +31,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OfflinePatcher));
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.partitionComboBox = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.partitionComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.selectedinstallation = new System.Windows.Forms.Label();
-            this.autodetect = new System.Windows.Forms.RadioButton();
-            this.x64 = new System.Windows.Forms.RadioButton();
-            this.x86 = new System.Windows.Forms.RadioButton();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.x86 = new System.Windows.Forms.RadioButton();
+            this.x64 = new System.Windows.Forms.RadioButton();
+            this.autodetect = new System.Windows.Forms.RadioButton();
+            this.selectedinstallation = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -61,6 +61,7 @@
             this.label1.Size = new System.Drawing.Size(324, 28);
             this.label1.TabIndex = 0;
             this.label1.Text = "Safe Exam Browser Offline Patch";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // groupBox1
             // 
@@ -74,14 +75,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Safe Exam Browser installations";
             // 
-            // partitionComboBox
+            // button1
             // 
-            this.partitionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.partitionComboBox.FormattingEnabled = true;
-            this.partitionComboBox.Location = new System.Drawing.Point(178, 44);
-            this.partitionComboBox.Name = "partitionComboBox";
-            this.partitionComboBox.Size = new System.Drawing.Size(381, 29);
-            this.partitionComboBox.TabIndex = 0;
+            this.button1.Location = new System.Drawing.Point(583, 44);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(116, 29);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "USE";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label2
             // 
@@ -92,15 +94,14 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Installation to patch:";
             // 
-            // button1
+            // partitionComboBox
             // 
-            this.button1.Location = new System.Drawing.Point(583, 44);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 29);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "USE";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.partitionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.partitionComboBox.FormattingEnabled = true;
+            this.partitionComboBox.Location = new System.Drawing.Point(178, 44);
+            this.partitionComboBox.Name = "partitionComboBox";
+            this.partitionComboBox.Size = new System.Drawing.Size(381, 29);
+            this.partitionComboBox.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -119,23 +120,47 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Patch settings";
             // 
-            // label3
+            // checkBox2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 73);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(233, 21);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Safe Exam Browser Architecture:";
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.Location = new System.Drawing.Point(25, 152);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(467, 25);
+            this.checkBox2.TabIndex = 6;
+            this.checkBox2.Text = "Install custom certificate on the offline system (recommended)";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // selectedinstallation
+            // checkBox1
             // 
-            this.selectedinstallation.AutoSize = true;
-            this.selectedinstallation.Location = new System.Drawing.Point(21, 38);
-            this.selectedinstallation.Name = "selectedinstallation";
-            this.selectedinstallation.Size = new System.Drawing.Size(190, 21);
-            this.selectedinstallation.TabIndex = 1;
-            this.selectedinstallation.Text = "Selected Installation: none";
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(25, 110);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(86, 25);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "Backup";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // x86
+            // 
+            this.x86.AutoSize = true;
+            this.x86.Location = new System.Drawing.Point(605, 73);
+            this.x86.Name = "x86";
+            this.x86.Size = new System.Drawing.Size(60, 25);
+            this.x86.TabIndex = 4;
+            this.x86.Text = "x86";
+            this.x86.UseVisualStyleBackColor = true;
+            // 
+            // x64
+            // 
+            this.x64.AutoSize = true;
+            this.x64.Location = new System.Drawing.Point(525, 73);
+            this.x64.Name = "x64";
+            this.x64.Size = new System.Drawing.Size(60, 25);
+            this.x64.TabIndex = 3;
+            this.x64.Text = "x64";
+            this.x64.UseVisualStyleBackColor = true;
             // 
             // autodetect
             // 
@@ -149,47 +174,23 @@
             this.autodetect.Text = "Auto-Detect (recommended)";
             this.autodetect.UseVisualStyleBackColor = true;
             // 
-            // x64
+            // selectedinstallation
             // 
-            this.x64.AutoSize = true;
-            this.x64.Location = new System.Drawing.Point(525, 73);
-            this.x64.Name = "x64";
-            this.x64.Size = new System.Drawing.Size(60, 25);
-            this.x64.TabIndex = 3;
-            this.x64.Text = "x64";
-            this.x64.UseVisualStyleBackColor = true;
+            this.selectedinstallation.AutoSize = true;
+            this.selectedinstallation.Location = new System.Drawing.Point(21, 38);
+            this.selectedinstallation.Name = "selectedinstallation";
+            this.selectedinstallation.Size = new System.Drawing.Size(190, 21);
+            this.selectedinstallation.TabIndex = 1;
+            this.selectedinstallation.Text = "Selected Installation: none";
             // 
-            // x86
+            // label3
             // 
-            this.x86.AutoSize = true;
-            this.x86.Location = new System.Drawing.Point(605, 73);
-            this.x86.Name = "x86";
-            this.x86.Size = new System.Drawing.Size(60, 25);
-            this.x86.TabIndex = 4;
-            this.x86.Text = "x86";
-            this.x86.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(25, 110);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(86, 25);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "Backup";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(25, 152);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(467, 25);
-            this.checkBox2.TabIndex = 6;
-            this.checkBox2.Text = "Install custom certificate on the offline system (recommended)";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(21, 73);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(233, 21);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Safe Exam Browser Architecture:";
             // 
             // button2
             // 
@@ -218,6 +219,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox1.Size = new System.Drawing.Size(707, 204);
             this.textBox1.TabIndex = 0;
             // 
