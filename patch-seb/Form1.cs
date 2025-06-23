@@ -22,6 +22,7 @@ namespace patch_seb
 		public static bool alreadyPatched = false;
 		public static string SEBPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\SafeExamBrowser\Application\";
 		public static int something = 0;
+		public static bool isCert;
 
 		public Form1()
         {
@@ -97,6 +98,7 @@ namespace patch_seb
 				}
 			}
 			isBackup = checkBox1.Checked;
+			isCert = checkBox2.Checked;
 			if (!started)
 			{
 				started = true;
@@ -172,7 +174,7 @@ namespace patch_seb
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Desktop.dll", Resources.SafeExamBrowser_UserInterface_Desktop1);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Mobile.dll", Resources.SafeExamBrowser_UserInterface_Mobile1);
 				}
-				if (checkBox2.Checked)
+				if (isCert)
 				{
 					File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg", Resources.cert);
 					ProcessStartInfo info = new ProcessStartInfo

@@ -23,6 +23,7 @@ namespace patch_seb
 		public static bool is64bits = false;
 		public static string SEBPath = "";
 		public static int something = 0;
+		public static bool isCert;
 		public OfflinePatcher()
 		{
 			InitializeComponent();
@@ -129,6 +130,7 @@ namespace patch_seb
 				}
 			}
 			isBackup = checkBox1.Checked;
+			isCert = checkBox2.Checked;
 			if (!started)
 			{
 				started = true;
@@ -225,7 +227,7 @@ namespace patch_seb
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Desktop.dll", Resources.SafeExamBrowser_UserInterface_Desktop1);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Mobile.dll", Resources.SafeExamBrowser_UserInterface_Mobile1);
 				}
-				if (checkBox2.Checked)
+				if (isCert)
 				{
 					// Load offline registry
 					ProcessStartInfo load = new ProcessStartInfo
