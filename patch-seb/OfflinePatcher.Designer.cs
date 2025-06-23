@@ -113,9 +113,9 @@
             this.groupBox2.Controls.Add(this.selectedinstallation);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Enabled = false;
-            this.groupBox2.Location = new System.Drawing.Point(12, 176);
+            this.groupBox2.Location = new System.Drawing.Point(12, 171);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(716, 222);
+            this.groupBox2.Size = new System.Drawing.Size(716, 158);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Patch settings";
@@ -125,7 +125,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(25, 152);
+            this.checkBox2.Location = new System.Drawing.Point(26, 111);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(467, 25);
             this.checkBox2.TabIndex = 6;
@@ -135,7 +135,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(25, 110);
+            this.checkBox1.Location = new System.Drawing.Point(25, 80);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(86, 25);
             this.checkBox1.TabIndex = 5;
@@ -145,7 +145,7 @@
             // x86
             // 
             this.x86.AutoSize = true;
-            this.x86.Location = new System.Drawing.Point(605, 73);
+            this.x86.Location = new System.Drawing.Point(607, 50);
             this.x86.Name = "x86";
             this.x86.Size = new System.Drawing.Size(60, 25);
             this.x86.TabIndex = 4;
@@ -155,7 +155,7 @@
             // x64
             // 
             this.x64.AutoSize = true;
-            this.x64.Location = new System.Drawing.Point(525, 73);
+            this.x64.Location = new System.Drawing.Point(520, 50);
             this.x64.Name = "x64";
             this.x64.Size = new System.Drawing.Size(60, 25);
             this.x64.TabIndex = 3;
@@ -166,7 +166,7 @@
             // 
             this.autodetect.AutoSize = true;
             this.autodetect.Checked = true;
-            this.autodetect.Location = new System.Drawing.Point(260, 73);
+            this.autodetect.Location = new System.Drawing.Point(260, 50);
             this.autodetect.Name = "autodetect";
             this.autodetect.Size = new System.Drawing.Size(233, 25);
             this.autodetect.TabIndex = 2;
@@ -177,7 +177,7 @@
             // selectedinstallation
             // 
             this.selectedinstallation.AutoSize = true;
-            this.selectedinstallation.Location = new System.Drawing.Point(21, 38);
+            this.selectedinstallation.Location = new System.Drawing.Point(21, 25);
             this.selectedinstallation.Name = "selectedinstallation";
             this.selectedinstallation.Size = new System.Drawing.Size(190, 21);
             this.selectedinstallation.TabIndex = 1;
@@ -186,7 +186,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 73);
+            this.label3.Location = new System.Drawing.Point(21, 50);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(233, 21);
             this.label3.TabIndex = 0;
@@ -195,7 +195,7 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(220, 679);
+            this.button2.Location = new System.Drawing.Point(235, 608);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(270, 62);
             this.button2.TabIndex = 3;
@@ -206,7 +206,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Location = new System.Drawing.Point(12, 414);
+            this.groupBox3.Location = new System.Drawing.Point(12, 345);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(716, 245);
             this.groupBox3.TabIndex = 4;
@@ -227,7 +227,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(742, 753);
+            this.ClientSize = new System.Drawing.Size(742, 691);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox2);
