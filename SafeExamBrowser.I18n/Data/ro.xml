@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        Această aplicație este supusă termenilor Mozilla Public License, versiunea 2.0. Safe Exam Browser utilizează următoarele cadre și biblioteci terțe:
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Informații despre versiune și licență
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        Conținut blocat
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Înapoi la pagina anterioară
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Accesul la această pagină nu este permis conform configurației curente.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Pagină blocată
+    </Entry>
+    <Entry key="Browser_LoadErrorMessage">
+        A apărut o eroare la încărcarea paginii „%%URL%%”:
+    </Entry>
+    <Entry key="Browser_LoadErrorTitle">
+        Eroare la încărcarea paginii
+    </Entry>
+    <Entry key="Browser_Name">
+        Browser
+    </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        Tipărirea nu este permisă conform configurației curente.
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Deschide pagini web
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Consola pentru dezvoltatori
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Descărcare în curs...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Anulat.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Descărcat.
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Căutare sensibilă la majuscule
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Caută în pagină...
+    </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Reîncarcă
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Înapoi
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Înainte
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Descărcări
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Acasă
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Meniu
+    </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Închide
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        Introdu URL
+    </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Zoom la %%ZOOM%%. Apasă pentru resetare.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Zoom pagină
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Mărește zoom
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Micșorează zoom
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Introdu text pentru căutare
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Următorul rezultat
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Rezultatul anterior
+    </Entry>
+    <Entry key="Build">
+        Build
+    </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Parolă:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Nume de utilizator:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Nume de utilizator (dacă este necesar):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Introdu datele necesare pentru a te conecta la rețeaua wireless „%%_NAME_%%”.
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Autentificare necesară
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        Anulează
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Selectează unul dintre examenele disponibile de pe serverul SEB:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Selectează
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        Examene Server SEB
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Anulează
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Eroare la încărcarea datelor!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Încărcare în curs...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Selectează un fișier de deschis.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Selectează un folder.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        Fișierul selectat deja există! Sigur doriți să îl suprascrieți?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Suprascriere?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Salvează ca:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Selectează o locație pentru a salva fișierul.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Selectează o locație pentru a salva folderul.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Selectează
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Acces la sistemul de fișiere
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Aplicația „%%NAME%%” nu a fost găsită pe sistem! Căutați folderul care conține fișierul executabil „%%EXECUTABLE%%”.
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Utilizați o versiune neoficială a SEB! Asigurați-vă că utilizați o versiune oficială a Safe Exam Browser. Pentru a debloca SEB, introduceți parola corectă.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Permite temporar aplicațiile aflate pe lista neagră. Aceasta se aplică doar instanțelor și sesiunii curente!
+    </Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        Aplicațiile de pe lista neagră de mai jos au fost lansate și nu au putut fi închise automat! Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+    </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Permite temporar configurarea cursorului. Aceasta se aplică doar sesiunii curente!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        A fost detectată o configurare interzisă a cursorului. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Permite temporar configurarea afișajului. Aceasta se aplică doar sesiunii curente!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        A fost detectată o configurare interzisă a afișajului. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Permite temporar configurarea de accesibilitate. Aceasta se aplică doar sesiunii curente!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        A fost detectată o configurare de accesibilitate nepermisă pentru ecranul de securitate Windows. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        Sesiunea anterioară cu configurația activă curentă sau URL-ul de pornire nu a fost încheiată corect! Introdu parola corectă pentru a debloca SEB.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Permite temporar starea tastele lipicioase. Aceasta se aplică doar sesiunii curente!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        A fost detectată o stare nepermisă pentru tastele lipicioase. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB BLOCAT
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Deblochează
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Deblochează Safe Exam Browser.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        Utilizatorul activ a fost schimbat sau computerul a fost blocat! Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Întotdeauna în prim-plan
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Auto-derulare conținut
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Jurnal aplicație
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        Aplicațiile de mai jos trebuie să fie închise înainte de a începe o nouă sesiune. Doriți să le închideți automat acum?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Aplicații în desfășurare detectate
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        AVERTISMENT: Orice date nesalvate pot fi pierdute!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        A apărut o eroare ireversibilă! Verificați jurnalele pentru mai multe informații. SEB se va închide acum...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Eroare aplicație
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Aplicația %%NAME%% nu a putut fi inițializată și, prin urmare, nu va fi disponibilă pentru sesiunea nouă! Verificați jurnalele pentru mai multe informații.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Eșec inițializare aplicație
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Aplicația %%NAME%% nu a fost găsită pe sistem și, prin urmare, nu va fi disponibilă pentru sesiunea nouă! Verificați jurnalele pentru mai multe informații.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Aplicație negăsită
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        Aplicațiile de mai jos nu au putut fi închise! Închideți-le manual și încercați din nou...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Închidere automată eșuată
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Ești sigur? (Această funcție nu te deconectează dacă ești autentificat pe un site)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Înapoi la pagina de start
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Accesul la „%%URL%%” nu este permis conform configurației curente.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Pagină blocată
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        Aplicația browserului a detectat un URL închis! Dorești să închizi acum SEB?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        URL de ieșire detectat
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Anulează
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        Configurația clientului local a eșuat! Verificați jurnalele pentru mai multe informații. SEB se va închide acum...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Eroare configurație
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        Configurația clientului a fost salvată și va fi folosită la următoarea pornire a SEB. Dorești să oprești acum?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Configurație reușită
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        Configurația clientului a fost salvată și va fi folosită la următoarea pornire a SEB. Dorești să oprești acum?
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Eroare la descărcare
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        Configurația activă a afișajului nu este permisă. %%_ALLOWED_COUNT_%% %%_TYPE_%% afișaj(e) sunt permise, dar %%_INTERNAL_COUNT_%% afișaje interne și %%_EXTERNAL_COUNT_%% afișaje externe au fost detectate. Verificați jurnalele pentru mai multe informații. SEB se va închide acum...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Configurație afișaj interzisă
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        intern
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        intern sau extern
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Descărcarea fișierelor nu este permisă în setările curente ale SEB. Raportați acest lucru furnizorului dvs. de examen.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Descărcarea nu este permisă!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        Sursa de configurare „%%URI%%” conține date nevalide!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Eroare configurație
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Parola introdusă este incorectă.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Parolă nevalidă
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        Nu s-a reușit introducerea parolei corecte în 5 încercări. SEB se va închide acum...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Parolă incorectă
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB poate fi închis doar prin introducerea parolei corecte pentru închidere.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Parolă incorectă pentru ieșire
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB poate fi deblocat doar prin introducerea parolei corecte.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Parolă incorectă pentru deblocare
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        Nu
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        Sursa de configurare „%%URI%%” nu este acceptată!
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Eroare configurație
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Doriți să părăsiți pagina curentă?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Plecați?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Dorești să reîncarci pagina curentă?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Reîncarcă?
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        Dorești să părăsești SEB?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Ieșire?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        Clientul nu a reușit să transmită cererea de închidere către runtime!
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Eroare la ieșire
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        Nu aveți permisiunea să reconfigurați SEB.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Reconfigurare refuzată
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        Clientul nu a reușit să transmită cererea de reconfigurare către runtime!
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Eroare la reconfigurare
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Sistemul pare să ruleze într-o sesiune la distanță. Configurația selectată nu permite rularea SEB într-o sesiune la distanță.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Sesiune la distanță detectată
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Ecranul tău este înregistrat în timpul acestui examen, conform specificațiilor și regulilor de confidențialitate ale furnizorului de examen. Dacă ai întrebări, contactează furnizorul de examen.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Sesiune cu supraveghere ecran
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        O sesiune SEB Server este deja activă. Nu este permisă reconfigurarea pentru o altă sesiune SEB Server.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Reconfigurare nepermisă
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        Eșec la inițializarea serviciului SEB! SEB va fi închis acum deoarece serviciul este configurat ca fiind obligatoriu.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Serviciu indisponibil
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        Eșec la inițializarea serviciului SEB. SEB va continua să se inițializeze deoarece serviciul este configurat ca fiind opțional.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Serviciu indisponibil
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB nu a reușit să pornească o nouă sesiune! Verificați jurnalele pentru mai multe informații.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Eroare la pornirea sesiunii
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        A apărut o eroare neașteptată în timpul procedurii de închidere! Verificați jurnalele pentru mai multe informații.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Eroare la închidere
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        A apărut o eroare neașteptată în timpul procedurii de pornire! Verificați jurnalele pentru mai multe informații.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Eroare la pornire
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        A apărut o eroare neașteptată în timpul încărcării sursei de configurare „%%URI%%”! Verificați jurnalele pentru mai multe informații.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Eroare neașteptată de configurare
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Încărcarea fișierelor nu este permisă în setările curente ale SEB. Raportați acest lucru furnizorului dvs. de examen.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Încărcarea nu este permisă!
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        Versiunea instalată a SEB %%_VERSION_%% nu poate fi utilizată deoarece configurația selectată necesită o versiune specifică: %%_REQUIRED_VERSIONS_%%. Descărcați și instalați versiunea necesară de pe site-ul oficial (safeexambrowser.org/download) sau din repository-ul SEB pentru Windows pe GitHub (github.com/safeexambrowser).
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Versiune SEB nevalidă
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% sau mai nou
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        Sesiunea curentă este monitorizată de la distanță cu ajutorul unui flux live video și audio, transmis către un server configurat individual. Întreabă furnizorul tău de examen despre politica lor de confidențialitate. SEB nu se conectează la un server de supraveghere centralizat, furnizorul tău de examen decide ce serviciu/server de supraveghere folosește.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Sesiune cu supraveghere video la distanță
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        Acest computer pare a fi o mașină virtuală. Configurația selectată nu permite rularea SEB într-o mașină virtuală.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Mașină virtuală detectată
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Da
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        Configurația selectată necesită proctoring la distanță cu Zoom, ceea ce această versiune de SEB nu suportă. Descărcați și instalați versiunea SEB specificată de organizatorul examenului. Din cauza problemelor de licență, proctoring-ul la distanță cu Zoom este disponibil doar pentru membrii SEB Alliance. Vizitați https://safeexambrowser.org/alliance pentru mai multe informații.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Proctoring Zoom necesar
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        Informații despre SEB
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Jurnal aplicație
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Proctoring la distanță activ
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        Mâna a fost coborâtă
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        Mâna a fost ridicată
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Proctoring la distanță inactiv
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Coboară mâna
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Ridică mâna
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Închide conexiunea runtime
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Finalizează aplicațiile
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Finalizează clipboard-ul
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        Finalizează serverul SEB
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Finalizează sesiunea de servicii
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Finalizează evenimentele sistemului
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Inițializează aplicațiile
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Inițializează browser-ul
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Inițializează clipboard-ul
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Inițializează configurația
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Inițializează modul kiosk
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Inițializează supravegherea la distanță
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Inițializează conexiunea runtime
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        Inițializează serverul SEB
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Inițializează sesiunea de servicii
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Inițializează o sesiune nouă
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Inițializează interfața utilizatorului
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Inițializează evenimentele sistemului
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Inițializează zona de lucru
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Repornește gazda de comunicație
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Restaurează zona de lucru
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Revine la modul kiosk
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Pornire client
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Pornire gazda de comunicație
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Pornire interceptare tastatură
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Pornire interceptare mouse
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Oprire client
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Oprire gazda de comunicație
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Oprire interceptare tastatură
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Oprire interceptare mouse
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Închidere browser
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Închidere supraveghere la distanță
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Finalizează interfața utilizatorului
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Validează politica de configurare a afișajului
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Validează politica pentru sesiuni la distanță
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Validează restricțiile de versiune
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Validează politica pentru mașini virtuale
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Verifică integritatea aplicației
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Verifică integritatea sesiunii
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Așteaptă confirmarea exonerării de răspundere
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Așteaptă confirmarea mesajului de eroare
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Așteaptă pornirea Explorer-ului Windows
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Așteaptă închiderea Explorer-ului Windows
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Așteaptă deconectarea runtime-ului
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Introdu parola pentru ieșire/restart: (Această funcție nu te deconectează dacă ești autentificat pe un site)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Înapoi la pagina de start
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Anulează
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Confirmă
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Introdu parola administratorului local pentru configurarea clientului:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Parolă necesară
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Introdu parola pentru configurarea locală a clientului:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Parolă necesară
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Introdu parola pentru ieșire pentru a închide SEB:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Parolă necesară
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Introdu parola examenului:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Parolă necesară
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Oprește
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Confirmă
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        Operațiunile rămase nu au putut fi finalizate deoarece a apărut o problemă cu rețeaua și/sau cu serviciul de supraveghere ecran. Datele din cache pot fi găsite în următorul director:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Vă rugăm să așteptați în timp ce supravegherea ecranului finalizează operațiunile rămase. Acest lucru poate dura ceva timp, în funcție de rețea și de starea serviciului de supraveghere ecran.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Executarea operațiunii de transfer %%_COUNT_%% din %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Așteaptă executarea operațiunii de transfer %%_COUNT_%% din %%_TOTAL_%% la %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Așteaptă reluarea celor %%_COUNT_%% operațiuni de transfer...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        Așteaptă reluarea celor %%_COUNT_%% operațiuni de transfer la %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Finalizarea Supravegherii Ecranului
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB este în curs de rulare.
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Oprește
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Fallback
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        A apărut o eroare la comunicarea cu serverul SEB.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Încearcă din nou
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        Eroare Server SEB
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Încheie sesiunea
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Oprit sunet
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Apasă pentru a opri sunetul
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        Niciun dispozitiv audio activ găsit
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Apasă pentru a activa sunetul
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Conectat, încarcă... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Baterie complet încărcată (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        Bateria este aproape descărcată. Conectează-ți computerul la o sursă de alimentare!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        Bateria se descarcă. Ia în considerare conectarea la o sursă de alimentare...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%h %%MINUTES%%min rămas (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        Layout-ul curent este „%%LAYOUT%%”
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Conexiune întreruptă
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Nicio placă de rețea wireless disponibilă sau activată
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Conectat
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Conectat la „%%NAME%%”
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Conectare în curs...
+    </Entry>
+    <Entry key="Version">
+        Versiune
+    </Entry>
+</Text>

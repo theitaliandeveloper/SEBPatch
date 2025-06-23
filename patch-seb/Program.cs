@@ -12,11 +12,25 @@ namespace patch_seb
         /// Punto di ingresso principale dell'applicazione.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            if (args.Length == 1)
+			{
+				if (args[1] == "/offline" || args[1] == "/Offline")
+				{
+					Application.Run(new OfflinePatcher());
+				}
+				else
+				{
+					Application.Run(new Form1());
+				}
+			}
+			else
+			{
+				Application.Run(new Form1());
+			}
         }
     }
 }
