@@ -21,7 +21,6 @@ namespace patch_seb
 		public static bool started = false;
 		public static bool alreadyPatched = false;
 		public static string SEBPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\SafeExamBrowser\Application\";
-		public static string SupportedSEB = "3.9.0.787";
 		public static int something = 0;
 
 		public Form1()
@@ -35,8 +34,11 @@ namespace patch_seb
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			AddLog("Safe Exam Browser Patch v" + Application.ProductVersion + " (Safe Exam Browser v" + SupportedSEB + ")");
-			//AddLog("For Safe Exam Browser version " + SupportedSEB);
+			#if DEBUG
+				AddLog("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + " (Safe Exam Browser v" + Variables.SupportedSEB + ")");
+			#else
+				AddLog("Safe Exam Browser Patch v" + Application.ProductVersion + " (Safe Exam Browser v" + Variables.SupportedSEB + ")");
+			#endif
 			AddLog("");
 			if (Environment.Is64BitOperatingSystem)
 			{
@@ -61,12 +63,12 @@ namespace patch_seb
 			{
 				FileVersionInfo SEBVersion = FileVersionInfo.GetVersionInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\SafeExamBrowser\Application\SafeExamBrowser.exe");
 				FileVersionInfo SEBDLLVersion = FileVersionInfo.GetVersionInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\SafeExamBrowser\Application\SafeExamBrowser.Configuration.dll");
-				if (SEBVersion.FileVersion != SupportedSEB)
+				if (SEBVersion.FileVersion != Variables.SupportedSEB)
 				{
 					AddLog("[ERROR] Found unsupported Safe Exam Browser version.");
 					button1.Enabled = false;
 				}
-				else if (SEBVersion.ProductVersion == SupportedSEB || SEBDLLVersion.ProductVersion == "1.0.0.0") // Somehow the patched version string differs from the official version string.
+				else if (SEBVersion.ProductVersion == Variables.SupportedSEB || SEBDLLVersion.ProductVersion == "1.0.0.0") // Somehow the patched version string differs from the official version string.
 				{
 					checkBox1.Checked = false;
 					checkBox1.Enabled = false;
@@ -170,6 +172,19 @@ namespace patch_seb
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Desktop.dll", Resources.SafeExamBrowser_UserInterface_Desktop1);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.UserInterface.Mobile.dll", Resources.SafeExamBrowser_UserInterface_Mobile1);
 				}
+				if (checkBox2.Checked)
+				{
+					File.WriteAllText(Path.GetTempPath() + @"\SEB.reg", Resources.cert);
+					ProcessStartInfo info = new ProcessStartInfo
+					{
+						FileName = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\regedit.exe",
+						Arguments = $@"/s \""{Path.GetTempPath() + @"\SEB.reg"}\""",
+						CreateNoWindow = true,
+						WindowStyle = ProcessWindowStyle.Hidden
+					};
+					Process.Start(info).WaitForExit();
+					File.Delete(Path.GetTempPath() + @"\SEB.reg");
+				}
 				AddLog("PATCHING DONE");
 				button1.Text = "PATCH DONE";
 			}
@@ -184,7 +199,7 @@ namespace patch_seb
 			if (something == 4)
 			{
 				something = 0;
-				MessageBox.Show("Safe Exam Browser Patch v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Safe Exam Browser Patch v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			else
 			{

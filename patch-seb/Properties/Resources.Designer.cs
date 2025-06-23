@@ -61,6 +61,38 @@ namespace patch_seb.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\05737772423FD69437E6CB3414588365A01BC1CF]
+        ///&quot;Blob&quot;=hex:5c,00,00,00,01,00,00,00,04,00,00,00,00,08,00,00,19,00,00,00,01,00,\
+        ///  00,00,10,00,00,00,89,b3,20,3f,64,c9,40,55,fa,01,d8,bc,c2,46,23,f5,0f,00,00,\
+        ///  00,01,00,00,00,14,00,00,00,9b,59,e4,8f,91,2b,32,28,53,7d,fa,59,57,11,4d,24,\
+        ///  9e,c3,79,4f,03,00,00,00,01,00,00,00,14,00,00,00,05,73,77,72,42,3f,d6,94,37,\
+        ///  e6,cb,34,14,58,83,65,a0,1b,c1,c [stringa troncata]&quot;;.
+        /// </summary>
+        internal static string cert {
+            get {
+                return ResourceManager.GetString("cert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Windows Registry Editor Version 5.00
+        ///
+        ///[HKEY_LOCAL_MACHINE\OFFSOFTWARE\Microsoft\SystemCertificates\ROOT\Certificates\05737772423FD69437E6CB3414588365A01BC1CF]
+        ///&quot;Blob&quot;=hex:5c,00,00,00,01,00,00,00,04,00,00,00,00,08,00,00,19,00,00,00,01,00,\
+        ///  00,00,10,00,00,00,89,b3,20,3f,64,c9,40,55,fa,01,d8,bc,c2,46,23,f5,0f,00,00,\
+        ///  00,01,00,00,00,14,00,00,00,9b,59,e4,8f,91,2b,32,28,53,7d,fa,59,57,11,4d,24,\
+        ///  9e,c3,79,4f,03,00,00,00,01,00,00,00,14,00,00,00,05,73,77,72,42,3f,d6,94,37,\
+        ///  e6,cb,34,14,58,83,65,a0,1b,c [stringa troncata]&quot;;.
+        /// </summary>
+        internal static string cert_offline {
+            get {
+                return ResourceManager.GetString("cert_offline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Byte[].
         /// </summary>
         internal static byte[] SafeExamBrowser {

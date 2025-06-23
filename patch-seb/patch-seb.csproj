@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Variables.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,6 +100,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\cert.reg" />
+    <None Include="Resources\cert_offline.reg" />
     <None Include="Resources\x64\SafeExamBrowser.Client.exe" />
     <None Include="Resources\x64\SafeExamBrowser.Configuration.dll" />
     <None Include="Resources\x64\SafeExamBrowser.exe" />

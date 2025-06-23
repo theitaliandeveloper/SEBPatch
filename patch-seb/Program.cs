@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,20 +17,30 @@ namespace patch_seb
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (args.Length == 1)
+			// Checks
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\System32\wpeinit.exe"))
 			{
-				if (args[1] == "/offline" || args[1] == "/Offline")
+				// Running in Windows PE environment, launch the offline patcher
+				Application.Run(new OfflinePatcher());
+			}
+			else
+			{
+				// Check if the user wants the offline patcher
+				if (args.Length == 1)
 				{
-					Application.Run(new OfflinePatcher());
+					if (args[1] == "/offline" || args[1] == "/Offline")
+					{
+						Application.Run(new OfflinePatcher());
+					}
+					else
+					{
+						Application.Run(new Form1());
+					}
 				}
 				else
 				{
 					Application.Run(new Form1());
 				}
-			}
-			else
-			{
-				Application.Run(new Form1());
 			}
         }
     }

@@ -41,12 +41,12 @@ namespace SafeExamBrowser.Runtime.Operations
 				}
 				else
 				{
-					logger.Info("Application integrity successfully verified.");
+					logger.Warn("Application integrity is compromised!");
 				}
 			}
 			else
 			{
-				logger.Info("Application integrity successfully verified.");
+				logger.Warn("Failed to verify application integrity!");
 			}
 
 			return OperationResult.Success;
