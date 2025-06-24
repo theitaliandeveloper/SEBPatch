@@ -3,12 +3,12 @@ name: Bug Report
 about: Create a bug report to help us improve the Safe Exam Browser Patch
 title: ''
 labels: bug
-assignees: usefulstuffs
+assignees: theitaliandeveloper
 
 ---
 
 > [!IMPORTANT]
-> - Please _always_ consult the FAQs before creating an issue: https://github.com/school-cheating/SEBPatch/wiki/FAQs.
+> - Please _always_ consult the FAQs before creating an issue: https://git.vichingo455.freeddns.org/school-cheating/SEBPatch/wiki/FAQs.
 > - Please _always_ attach the log file(s) of the affected session(s)! They can be found under `%LocalAppData%\SafeExamBrowser\Logs`.
 > - Please follow this issue template. Saves me some work while reading all issues.
 
