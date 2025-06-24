@@ -87,6 +87,10 @@ namespace patch_seb
 					{
 						AddLog($"[WARNING] Partition {drive.Name} contains unsupported Safe Exam Browser version, not adding to the list.");
 					}
+					else if (drive.Name + @"Windows" == Environment.GetFolderPath(Environment.SpecialFolder.Windows) || drive.Name + @"windows" == Environment.GetFolderPath(Environment.SpecialFolder.Windows))
+					{
+						AddLog($"[WARNING] Partition {drive.Name} is an online image, not adding to the list.");
+					}
 					else if (SEBVersion.ProductVersion == Variables.SupportedSEB || SEBDLLVersion.ProductVersion == "1.0.0.0") // Somehow the patched version string differs from the official version string.
 					{
 						AddLog($"[WARNING] Partition {drive.Name} contains an already patched Safe Exam Browser, adding to the list anyway.");

@@ -58,7 +58,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(215, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(324, 28);
+            this.label1.Size = new System.Drawing.Size(273, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Safe Exam Browser Offline Patch";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -90,7 +90,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 47);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(149, 21);
+            this.label2.Size = new System.Drawing.Size(134, 19);
             this.label2.TabIndex = 1;
             this.label2.Text = "Installation to patch:";
             // 
@@ -100,7 +100,7 @@
             this.partitionComboBox.FormattingEnabled = true;
             this.partitionComboBox.Location = new System.Drawing.Point(178, 44);
             this.partitionComboBox.Name = "partitionComboBox";
-            this.partitionComboBox.Size = new System.Drawing.Size(381, 29);
+            this.partitionComboBox.Size = new System.Drawing.Size(381, 25);
             this.partitionComboBox.TabIndex = 0;
             // 
             // groupBox2
@@ -127,7 +127,7 @@
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Location = new System.Drawing.Point(26, 111);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(467, 25);
+            this.checkBox2.Size = new System.Drawing.Size(410, 23);
             this.checkBox2.TabIndex = 6;
             this.checkBox2.Text = "Install custom certificate on the offline system (recommended)";
             this.checkBox2.UseVisualStyleBackColor = true;
@@ -135,9 +135,9 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(25, 80);
+            this.checkBox1.Location = new System.Drawing.Point(26, 82);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(86, 25);
+            this.checkBox1.Size = new System.Drawing.Size(75, 23);
             this.checkBox1.TabIndex = 5;
             this.checkBox1.Text = "Backup";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -147,7 +147,7 @@
             this.x86.AutoSize = true;
             this.x86.Location = new System.Drawing.Point(607, 50);
             this.x86.Name = "x86";
-            this.x86.Size = new System.Drawing.Size(60, 25);
+            this.x86.Size = new System.Drawing.Size(52, 23);
             this.x86.TabIndex = 4;
             this.x86.Text = "x86";
             this.x86.UseVisualStyleBackColor = true;
@@ -157,7 +157,7 @@
             this.x64.AutoSize = true;
             this.x64.Location = new System.Drawing.Point(520, 50);
             this.x64.Name = "x64";
-            this.x64.Size = new System.Drawing.Size(60, 25);
+            this.x64.Size = new System.Drawing.Size(52, 23);
             this.x64.TabIndex = 3;
             this.x64.Text = "x64";
             this.x64.UseVisualStyleBackColor = true;
@@ -168,7 +168,7 @@
             this.autodetect.Checked = true;
             this.autodetect.Location = new System.Drawing.Point(260, 50);
             this.autodetect.Name = "autodetect";
-            this.autodetect.Size = new System.Drawing.Size(233, 25);
+            this.autodetect.Size = new System.Drawing.Size(206, 23);
             this.autodetect.TabIndex = 2;
             this.autodetect.TabStop = true;
             this.autodetect.Text = "Auto-Detect (recommended)";
@@ -179,7 +179,7 @@
             this.selectedinstallation.AutoSize = true;
             this.selectedinstallation.Location = new System.Drawing.Point(21, 25);
             this.selectedinstallation.Name = "selectedinstallation";
-            this.selectedinstallation.Size = new System.Drawing.Size(190, 21);
+            this.selectedinstallation.Size = new System.Drawing.Size(168, 19);
             this.selectedinstallation.TabIndex = 1;
             this.selectedinstallation.Text = "Selected Installation: none";
             // 
@@ -188,7 +188,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(21, 50);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(233, 21);
+            this.label3.Size = new System.Drawing.Size(204, 19);
             this.label3.TabIndex = 0;
             this.label3.Text = "Safe Exam Browser Architecture:";
             // 
@@ -225,7 +225,7 @@
             // 
             // OfflinePatcher
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(742, 691);
             this.Controls.Add(this.groupBox3);

@@ -42,9 +42,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(149, 5);
+            this.label1.Location = new System.Drawing.Point(180, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(259, 30);
+            this.label1.Size = new System.Drawing.Size(212, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Safe Exam Browser Patch";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -79,9 +79,9 @@
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 274);
+            this.checkBox1.Location = new System.Drawing.Point(12, 276);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(86, 25);
+            this.checkBox1.Size = new System.Drawing.Size(71, 21);
             this.checkBox1.TabIndex = 3;
             this.checkBox1.Text = "Backup";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -93,16 +93,16 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(128, 274);
+            this.checkBox2.Location = new System.Drawing.Point(127, 276);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(151, 25);
+            this.checkBox2.Size = new System.Drawing.Size(125, 21);
             this.checkBox2.TabIndex = 4;
             this.checkBox2.Text = "Install Certificate";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 330);
             this.Controls.Add(this.checkBox2);
