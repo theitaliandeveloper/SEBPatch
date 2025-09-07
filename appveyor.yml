@@ -5,6 +5,8 @@ branches:
 build_cloud: Hyper-V
 configuration: Debug
 platform: Any CPU
+init:
+- cmd: '"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools" --add Microsoft.Net.Component.4.5.TargetingPack --quiet --norestart'
 build:
   project: patch-seb/patch-seb.csproj
   parallel: true
