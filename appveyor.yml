@@ -1,0 +1,15 @@
+version: 1.0.{build}
+branches:
+  only:
+  - 3.9.0.787
+build_cloud: Hyper-V
+configuration: Debug
+platform: Any CPU
+build:
+  project: patch-seb/patch-seb.csproj
+  parallel: true
+  verbosity: detailed
+artifacts:
+- path: patch-seb/bin/Debug/patch-seb.exe
+  name: Safe Exam Browser Patcher
+  type: file
