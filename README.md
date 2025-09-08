@@ -1,4 +1,6 @@
 # Safe Exam Browser Patch
+[![Build status](https://ci.vichingo455.freeddns.org/api/projects/status/qcwguer3ng9ox4a0?svg=true)](https://ci.vichingo455.freeddns.org/project/Vichingo455/sebpatch)
+
 A patch to bypass Safe Exam Browser restrictions.
 
 - Currently supported SEB version: 3.9.0.787
