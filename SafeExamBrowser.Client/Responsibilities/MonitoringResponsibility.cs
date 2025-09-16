@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Win32;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -251,23 +252,29 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 		}
 
-		private void Sentinel_SessionChanged()
+		private void Sentinel_SessionChanged(SessionSwitchReason reason)
 		{
-			var allow = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
-			var disable = Settings.Security.DisableSessionChangeLockScreen;
 
-			if (allow || disable)
+			var allowed = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
+			var disabled = Settings.Security.DisableSessionChangeLockScreen;
+			var ignore = Settings.Service.IgnoreService && (reason == SessionSwitchReason.SessionLock || reason == SessionSwitchReason.SessionUnlock);
+
+			if (allowed || disabled)
 			{
-				Logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
+				Logger.Info($"Detected user session change ({reason}), but {(allowed ? "session locking and/or switching is allowed" : "lock screen is disabled")}.");
+			}
+			else if (ignore)
+			{
+				Logger.Info($"Ignoring user session change ({reason}).");
 			}
 			else
 			{
-				var message = text.Get(TextKey.LockScreen_UserSessionMessage);
+				var message = text.Get(Settings.Service.IgnoreService ? TextKey.LockScreen_UserSwitchMessage : TextKey.LockScreen_UserSessionMessage);
 				var title = text.Get(TextKey.LockScreen_Title);
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
 
-				Logger.Warn("User session changed! Attempting to show lock screen...");
+				Logger.Warn($"User session changed ({reason})! Attempting to show lock screen...");
 
 				if (coordinator.RequestSessionLock())
 				{

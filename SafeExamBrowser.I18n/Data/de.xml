@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Der aktive Benutzer hat sich geändert! Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Immer zuoberst
     </Entry>
@@ -420,12 +423,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sitzung mit Bildschirmüberwachung
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Es läuft bereits eine SEB-Server-Sitzung. Es ist nicht erlaubt, sich für eine andere SEB-Server-Sitzung neu zu konfigurieren.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Rekonfiguration nicht erlaubt
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Fehler beim Initialisieren des SEB-Service! SEB wird sich nun beenden da der Service als obligatorisch konfiguriert ist.
     </Entry>
@@ -555,6 +552,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Initialisiere Kiosk-Modus
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Initialisiere Berechtigungen
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Initialisiere Fernüberwachung
     </Entry>
@@ -575,6 +575,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeSystemEvents">
         Initialisiere System-Ereignisse
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Initialisiere Fensterschutz
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Initialisiere Arbeitsbereich
@@ -655,7 +658,7 @@
         Warte bis Runtime Verbindung trennt
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequired">
-        Beenden-/Neustart-Passwort eingeben: (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)
+        Quit-/Neustart-Passwort eingeben: (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
         Zurück zum Start
@@ -691,7 +694,7 @@
         Passwort erforderlich
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Abort">
-        Abbrechen
+        Beenden
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Bestätigen
@@ -701,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Bitte warten Sie, während die Bildschirmüberwachung ihre restlichen Operationen ausführt. Dies kann eine Weile dauern, je nach Status des Netzwerkes und Bildschirmüberwachungs-Dienstes.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Bitte geben Sie das Quit-Passwort ein um die Ausführung der restlichen Operationen abzubrechen:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Ausführen der Übertragungsoperation %%_COUNT_%% von %%_TOTAL_%%.

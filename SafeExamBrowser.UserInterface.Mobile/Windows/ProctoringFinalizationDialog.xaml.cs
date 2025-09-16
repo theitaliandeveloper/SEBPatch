@@ -12,22 +12,49 @@ using System.Windows.Input;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring.Events;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	public partial class ProctoringFinalizationDialog : Window, IProctoringFinalizationDialog
 	{
+		private readonly bool requiresPassword;
 		private readonly IText text;
 
-		private bool cancellationRequested;
+		private WindowClosedEventHandler closed;
+		private WindowClosingEventHandler closing;
 		private bool initialized;
 
-		public ProctoringFinalizationDialog(IText text)
+		public string QuitPassword => Password.Password;
+
+		public event CancellationRequestedEventHandler CancellationRequested;
+
+		event WindowClosedEventHandler IWindow.Closed
 		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
+
+		event WindowClosingEventHandler IWindow.Closing
+		{
+			add { closing += value; }
+			remove { closing -= value; }
+		}
+
+		public ProctoringFinalizationDialog(bool requiresPassword, IText text)
+		{
+			this.requiresPassword = requiresPassword;
 			this.text = text;
 
 			InitializeComponent();
 			InitializeDialog();
+		}
+
+		public void BringToForeground()
+		{
+			Dispatcher.Invoke(Activate);
 		}
 
 		public new void Show()
@@ -66,8 +93,28 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Width = SystemParameters.PrimaryScreenWidth;
 		}
 
+		private void InitializeCancellation()
+		{
+			Button.Click += Button_Click;
+			Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Abort);
+
+			if (requiresPassword)
+			{
+				PasswordPanel.Visibility = Visibility.Visible;
+				PasswordLabel.Text = text.Get(TextKey.ProctoringFinalizationDialog_PasswordMessage);
+				Password.KeyDown += Password_KeyDown;
+				Password.Focus();
+
+				Height += PasswordPanel.ActualHeight + PasswordPanel.Margin.Top + PasswordPanel.Margin.Bottom;
+			}
+
+			initialized = true;
+		}
+
 		private void InitializeDialog()
 		{
+			Closed += (o, args) => closed?.Invoke();
+			Closing += (o, args) => closing?.Invoke();
 			Title = text.Get(TextKey.ProctoringFinalizationDialog_Title);
 
 			InitializeBounds();
@@ -77,9 +124,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void ShowFailure(RemainingWorkUpdatedEventArgs status)
 		{
+			ButtonPanel.Visibility = Visibility.Visible;
+			Button.Click -= Button_Click;
 			Button.Click += (o, args) => Close();
 			Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Confirm);
-			ButtonPanel.Visibility = Visibility.Visible;
+			Button.Focus();
 
 			// TODO: Revert once cache handling has been specified and changed!
 			CachePath.Text = status.CachePath ?? "-";
@@ -87,7 +136,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 			Cursor = Cursors.Arrow;
 			FailurePanel.Visibility = Visibility.Visible;
+			Height -= PasswordPanel.IsVisible ? PasswordPanel.ActualHeight + PasswordPanel.Margin.Top + PasswordPanel.Margin.Bottom : 0;
 			Message.Text = text.Get(TextKey.ProctoringFinalizationDialog_FailureMessage);
+			PasswordPanel.Visibility = Visibility.Collapsed;
 			ProgressPanel.Visibility = Visibility.Collapsed;
 		}
 
@@ -101,9 +152,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 			if (status.AllowCancellation && !initialized)
 			{
-				Button.Click += (o, args) => cancellationRequested = true;
-				Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Abort);
-				initialized = true;
+				InitializeCancellation();
+			}
+			else if (!status.AllowCancellation)
+			{
+				PasswordPanel.Visibility = Visibility.Collapsed;
 			}
 
 			if (status.IsWaiting)
@@ -114,8 +167,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				UpdateProgress(status);
 			}
-
-			status.CancellationRequested = cancellationRequested;
 		}
 
 		private void UpdateProgress(RemainingWorkUpdatedEventArgs status)
@@ -163,6 +214,19 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			if (e.PropertyName == nameof(SystemParameters.WorkArea))
 			{
 				Dispatcher.InvokeAsync(InitializeBounds);
+			}
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			CancellationRequested?.Invoke();
+		}
+
+		private void Password_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				CancellationRequested?.Invoke();
 			}
 		}
 	}

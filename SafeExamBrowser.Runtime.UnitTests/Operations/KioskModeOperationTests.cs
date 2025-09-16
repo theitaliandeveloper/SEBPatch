@@ -8,12 +8,17 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
@@ -23,37 +28,45 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	{
 		private SessionConfiguration currentSession;
 		private AppSettings currentSettings;
+		private Dependencies dependencies;
+		private SessionConfiguration nextSession;
+		private AppSettings nextSettings;
+		private RuntimeContext context;
+
 		private Mock<IDesktopFactory> desktopFactory;
 		private Mock<IDesktopMonitor> desktopMonitor;
 		private Mock<IExplorerShell> explorerShell;
-		private Mock<ILogger> logger;
-		private SessionConfiguration nextSession;
-		private AppSettings nextSettings;
 		private Mock<IProcessFactory> processFactory;
-		private SessionContext sessionContext;
 
 		private KioskModeOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			context = new RuntimeContext();
 			currentSession = new SessionConfiguration();
 			currentSettings = new AppSettings();
 			desktopFactory = new Mock<IDesktopFactory>();
 			desktopMonitor = new Mock<IDesktopMonitor>();
 			explorerShell = new Mock<IExplorerShell>();
-			logger = new Mock<ILogger>();
 			nextSession = new SessionConfiguration();
 			nextSettings = new AppSettings();
 			processFactory = new Mock<IProcessFactory>();
-			sessionContext = new SessionContext();
 
 			currentSession.Settings = currentSettings;
 			nextSession.Settings = nextSettings;
-			sessionContext.Current = currentSession;
-			sessionContext.Next = nextSession;
+			context.Current = currentSession;
+			context.Next = nextSession;
 
-			sut = new KioskModeOperation(desktopFactory.Object, desktopMonitor.Object, explorerShell.Object, logger.Object, processFactory.Object, sessionContext);
+			dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
+
+			sut = new KioskModeOperation(dependencies, desktopFactory.Object, desktopMonitor.Object, explorerShell.Object, processFactory.Object);
 		}
 
 		[TestMethod]

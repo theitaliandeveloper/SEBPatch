@@ -58,6 +58,7 @@ using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Shared;
 using SafeExamBrowser.UserInterface.Shared.Activators;
 using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -92,6 +93,7 @@ namespace SafeExamBrowser.Client
 		private ITaskview taskview;
 		private IUserInfo userInfo;
 		private IText text;
+		private WindowGuard windowGuard;
 		private IUserInterfaceFactory uiFactory;
 
 		internal ClientController ClientController { get; private set; }
@@ -105,6 +107,7 @@ namespace SafeExamBrowser.Client
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 
+			windowGuard = new WindowGuard(ModuleLogger(nameof(WindowGuard)));
 			uiFactory = BuildUserInterfaceFactory();
 			actionCenter = uiFactory.CreateActionCenter();
 			context = new ClientContext();
@@ -162,6 +165,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new I18nOperation(logger, text));
 			operations.Enqueue(new RuntimeConnectionOperation(context, logger, runtimeProxy, authenticationToken));
 			operations.Enqueue(new ConfigurationOperation(context, logger, runtimeProxy));
+			operations.Enqueue(new WindowGuardOperation(context, logger, windowGuard));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new DelegateOperation(BuildIntegrityModule));
 			operations.Enqueue(new DelegateOperation(BuildPowerSupply));
@@ -169,6 +173,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new ClientHostDisconnectionOperation(context, logger, FIVE_SECONDS));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
+			operations.Enqueue(new PermissionOperation(context, logger, networkAdapter));
 			operations.Enqueue(new ApplicationOperation(context, applicationFactory, fileSystemDialog, logger, messageBox, applicationMonitor, splashScreen, text));
 			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
@@ -196,7 +201,7 @@ namespace SafeExamBrowser.Client
 			responsibilities.Enqueue(new IntegrityResponsibility(context, ModuleLogger(nameof(IntegrityResponsibility)), text));
 			responsibilities.Enqueue(new MonitoringResponsibility(actionCenter, applicationMonitor, context, coordinator, displayMonitor, explorerShell, ModuleLogger(nameof(MonitoringResponsibility)), sentinel, taskbar, text));
 			responsibilities.Enqueue(new NetworkResponsibility(context, ModuleLogger(nameof(NetworkResponsibility)), networkAdapter, text, uiFactory));
-			responsibilities.Enqueue(new ProctoringResponsibility(context, ModuleLogger(nameof(ProctoringResponsibility)), uiFactory));
+			responsibilities.Enqueue(new ProctoringResponsibility(context, ModuleLogger(nameof(ProctoringResponsibility)), messageBox, uiFactory));
 			responsibilities.Enqueue(new ServerResponsibility(context, coordinator, ModuleLogger(nameof(ServerResponsibility)), text));
 			responsibilities.Enqueue(new ShellResponsibility(actionCenter, context, new HashAlgorithm(), ModuleLogger(nameof(ShellResponsibility)), messageBox, taskbar, uiFactory));
 
@@ -337,7 +342,8 @@ namespace SafeExamBrowser.Client
 		{
 			var keyGenerator = new KeyGenerator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(KeyGenerator)));
 			var server = new ServerProxy(context.AppConfig, keyGenerator, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo, powerSupply, networkAdapter);
-			var operation = new ServerOperation(context, logger, server);
+			var invigilator = new Invigilator(ModuleLogger(nameof(Invigilator)), server);
+			var operation = new ServerOperation(actionCenter, context, invigilator, logger, server, taskbar, uiFactory);
 
 			context.Server = server;
 
@@ -381,9 +387,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.FileSystemDialogFactory(systemInfo, text);
+					return new Mobile.FileSystemDialogFactory(systemInfo, text, windowGuard);
 				default:
-					return new Desktop.FileSystemDialogFactory(systemInfo, text);
+					return new Desktop.FileSystemDialogFactory(systemInfo, text, windowGuard);
 			}
 		}
 
@@ -403,9 +409,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.UserInterfaceFactory(text);
+					return new Mobile.UserInterfaceFactory(text, windowGuard);
 				default:
-					return new Desktop.UserInterfaceFactory(text);
+					return new Desktop.UserInterfaceFactory(text, windowGuard);
 			}
 		}
 

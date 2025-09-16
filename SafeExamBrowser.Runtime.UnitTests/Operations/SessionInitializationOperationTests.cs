@@ -12,9 +12,13 @@ using Moq;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -22,12 +26,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	public class SessionInitializationOperationTests
 	{
 		private AppConfig appConfig;
-		private Mock<IConfigurationRepository> configuration;
+		private RuntimeContext context;
 		private Mock<IFileSystem> fileSystem;
 		private Mock<ILogger> logger;
-		private Mock<IRuntimeHost> runtimeHost;
+		private Mock<IConfigurationRepository> repository;
 		private SessionConfiguration session;
-		private SessionContext sessionContext;
 
 		private SessionInitializationOperation sut;
 
@@ -35,18 +38,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Initialize()
 		{
 			appConfig = new AppConfig();
-			configuration = new Mock<IConfigurationRepository>();
+			context = new RuntimeContext();
+			repository = new Mock<IConfigurationRepository>();
 			fileSystem = new Mock<IFileSystem>();
 			logger = new Mock<ILogger>();
-			runtimeHost = new Mock<IRuntimeHost>();
 			session = new SessionConfiguration();
-			sessionContext = new SessionContext();
 
-			configuration.Setup(c => c.InitializeSessionConfiguration()).Returns(session);
+			context.Next = session;
+			repository.Setup(c => c.InitializeSessionConfiguration()).Returns(session);
 			session.AppConfig = appConfig;
-			sessionContext.Next = session;
 
-			sut = new SessionInitializationOperation(configuration.Object, fileSystem.Object, logger.Object, runtimeHost.Object, sessionContext);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				logger.Object,
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
+
+			sut = new SessionInitializationOperation(dependencies, fileSystem.Object, repository.Object);
 		}
 
 		[TestMethod]
@@ -59,11 +69,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			var result = sut.Perform();
 
-			configuration.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
+			repository.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
 			fileSystem.Verify(f => f.CreateDirectory(It.Is<string>(s => s == appConfig.TemporaryDirectory)), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsNull(sessionContext.Current);
+			Assert.IsNull(context.Current);
 		}
 
 		[TestMethod]
@@ -74,15 +84,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			appConfig.TemporaryDirectory = @"C:\Some\Random\Path";
 			session.ClientAuthenticationToken = token;
-			sessionContext.Current = currentSession;
+			context.Current = currentSession;
 
 			var result = sut.Repeat();
 
-			configuration.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
+			repository.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
 			fileSystem.Verify(f => f.CreateDirectory(It.Is<string>(s => s == appConfig.TemporaryDirectory)), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreSame(currentSession,sessionContext.Current);
+			Assert.AreSame(currentSession, context.Current);
 		}
 
 		[TestMethod]
@@ -90,10 +100,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var result = sut.Revert();
 
-			configuration.VerifyNoOtherCalls();
+			repository.VerifyNoOtherCalls();
 			fileSystem.VerifyNoOtherCalls();
 			logger.VerifyNoOtherCalls();
-			runtimeHost.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}

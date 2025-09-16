@@ -23,6 +23,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Server.FallbackPasswordHash:
 					MapFallbackPasswordHash(settings, value);
 					break;
+				case Keys.Server.ForceRaiseHandMessage:
+					MapForceRaiseHandMessage(settings, value);
+					break;
 				case Keys.Server.PerformFallback:
 					MapPerformFallback(settings, value);
 					break;
@@ -37,6 +40,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Server.ServerUrl:
 					MapServerUrl(settings, value);
+					break;
+				case Keys.Server.ShowRaiseHand:
+					MapShowRaiseHand(settings, value);
 					break;
 			}
 		}
@@ -94,6 +100,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//}
 			settings.Server.PerformFallback = true;
 		}
+		private void MapForceRaiseHandMessage(AppSettings settings, object value)
+		{
+			if (value is bool force)
+			{
+				settings.Server.Invigilation.ForceRaiseHandMessage = force;
+			}
+		}
 
 		private void MapRequestAttempts(AppSettings settings, object value)
 		{
@@ -124,6 +137,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string url)
 			{
 				settings.Server.ServerUrl = url;
+			}
+		}
+		private void MapShowRaiseHand(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Server.Invigilation.ShowRaiseHandNotification = show;
 			}
 		}
 	}

@@ -47,6 +47,11 @@ namespace SafeExamBrowser.Settings.Server
 		public string Institution { get; set; }
 
 		/// <summary>
+		/// The invigilation-related settings.
+		/// </summary>
+		public InvigilationSettings Invigilation { get; set; }
+
+		/// <summary>
 		/// Indicates whether SEB will fallback to the start URL in case no connection could be established with the server.
 		/// </summary>
 		public bool PerformFallback { get; set; }
@@ -75,5 +80,10 @@ namespace SafeExamBrowser.Settings.Server
 		/// The URL of the server.
 		/// </summary>
 		public string ServerUrl { get; set; }
+
+		public ServerSettings()
+		{
+			Invigilation = new InvigilationSettings();
+		}
 	}
 }

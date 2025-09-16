@@ -8,35 +8,49 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
-using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
 	[TestClass]
 	public class VirtualMachineOperationTests
 	{
+		private RuntimeContext context;
 		private Mock<IVirtualMachineDetector> detector;
 		private Mock<ILogger> logger;
-		private SessionContext context;
+
 		private VirtualMachineOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			context = new RuntimeContext();
 			detector = new Mock<IVirtualMachineDetector>();
 			logger = new Mock<ILogger>();
-			context = new SessionContext();
 
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = new AppSettings();
 
-			sut = new VirtualMachineOperation(detector.Object, logger.Object, context);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				logger.Object,
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
+
+			sut = new VirtualMachineOperation(dependencies, detector.Object);
 		}
 
 		[TestMethod]

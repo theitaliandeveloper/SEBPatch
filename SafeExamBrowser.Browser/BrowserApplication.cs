@@ -18,6 +18,7 @@ using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
+using SafeExamBrowser.Browser.Integrations;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
@@ -119,6 +120,7 @@ namespace SafeExamBrowser.Browser
 				InitializeCookies();
 				InitializeDownAndUploadDirectory();
 				InitializeIntegrityKeys();
+				InitializePreferences();
 
 				logger.Info("Initialized browser.");
 			}
@@ -167,6 +169,12 @@ namespace SafeExamBrowser.Browser
 		private void CreateNewWindow(PopupRequestedEventArgs args = default)
 		{
 			var id = ++windowIdCounter;
+			var integrations = new Integration[]
+			{
+				new GenericIntegration(logger.CloneFor($"{nameof(GenericIntegration)} #{id}")),
+				new EdxIntegration(logger.CloneFor($"{nameof(EdxIntegration)} #{id}")),
+				new MoodleIntegration(logger.CloneFor($"{nameof(MoodleIntegration)} #{id}"))
+			};
 			var isMainWindow = windows.Count == 0;
 			var startUrl = GenerateStartUrl();
 			var windowLogger = logger.CloneFor($"Browser Window #{id}");
@@ -176,6 +184,7 @@ namespace SafeExamBrowser.Browser
 				fileSystemDialog,
 				hashAlgorithm,
 				id,
+				integrations,
 				isMainWindow,
 				keyGenerator,
 				windowLogger,
@@ -197,7 +206,7 @@ namespace SafeExamBrowser.Browser
 			window.InitializeControl();
 			windows.Add(window);
 
-			if (args != default(PopupRequestedEventArgs))
+			if (args != default)
 			{
 				args.Window = window;
 			}
@@ -213,6 +222,7 @@ namespace SafeExamBrowser.Browser
 		private void DeleteCookies()
 		{
 			var callback = new TaskDeleteCookiesCallback();
+			var cookieManager = Cef.GetGlobalCookieManager();
 
 			callback.Task.ContinueWith(task =>
 			{
@@ -226,7 +236,7 @@ namespace SafeExamBrowser.Browser
 				}
 			});
 
-			if (Cef.GetGlobalCookieManager().DeleteCookies(callback: callback))
+			if (cookieManager != default && cookieManager.DeleteCookies(callback: callback))
 			{
 				logger.Debug("Successfully initiated cookie deletion.");
 			}
@@ -316,7 +326,6 @@ namespace SafeExamBrowser.Browser
 
 			cefSettings.AcceptLanguageList = CultureInfo.CurrentUICulture.Name;
 			cefSettings.CachePath = appConfig.BrowserCachePath;
-			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 			cefSettings.LogFile = appConfig.BrowserLogFilePath;
 			cefSettings.LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info);
 			cefSettings.PersistSessionCookies = !settings.DeleteCookiesOnStartup || !settings.DeleteCookiesOnShutdown;
@@ -339,6 +348,7 @@ namespace SafeExamBrowser.Browser
 
 			cefSettings.CefCommandLineArgs.Add("enable-media-stream");
 			cefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
+			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 			cefSettings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
 
 			InitializeProxySettings(cefSettings);
@@ -415,6 +425,18 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Debug($"The browser application will be using the default browser exam key.");
 			}
+		}
+
+		private void InitializePreferences()
+		{
+			Cef.UIThreadTaskFactory.StartNew(() =>
+			{
+				using (var requestContext = Cef.GetGlobalRequestContext())
+				{
+					requestContext.SetPreference("autofill.credit_card_enabled", false, out _);
+					requestContext.SetPreference("autofill.profile_enabled", false, out _);
+				}
+			});
 		}
 
 		private void InitializeProxySettings(CefSettings cefSettings)
@@ -506,6 +528,7 @@ namespace SafeExamBrowser.Browser
 		private void Window_ResetRequested()
 		{
 			logger.Info("Attempting to reset browser...");
+
 			AwaitReady();
 
 			foreach (var window in windows)

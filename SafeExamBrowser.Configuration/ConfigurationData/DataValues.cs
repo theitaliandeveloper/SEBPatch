@@ -242,7 +242,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.PowerSupply.ChargeThresholdLow = 0.2;
 
 			settings.Proctoring.Enabled = false;
-			settings.Proctoring.ForceRaiseHandMessage = false;
 			settings.Proctoring.ScreenProctoring.CacheSize = 500;
 			settings.Proctoring.ScreenProctoring.Enabled = false;
 			settings.Proctoring.ScreenProctoring.ImageDownscaling = 1.0;
@@ -253,7 +252,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = true;
-			settings.Proctoring.ShowRaiseHandNotification = true;
 			settings.Proctoring.ShowTaskbarNotification = true;
 
 			settings.Security.AllowApplicationLogAccess = false;
@@ -266,12 +264,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.VerifyCursorConfiguration = false;
 			settings.Security.VerifySessionIntegrity = false;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
+			settings.Security.AllowWindowCapture = false;
 
+			settings.Server.Invigilation.ForceRaiseHandMessage = false;
+			settings.Server.Invigilation.ShowRaiseHandNotification = true;
+			settings.Server.PerformFallback = false;
 			settings.Server.PingInterval = 1000;
 			settings.Server.RequestAttemptInterval = 2000;
 			settings.Server.RequestAttempts = 5;
 			settings.Server.RequestTimeout = 30000;
-			settings.Server.PerformFallback = false;
 
 			settings.Service.DisableChromeNotifications = false;
 			settings.Service.DisableEaseOfAccessOptions = false;
@@ -310,6 +311,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.UserInterface.Taskbar.ShowNetwork = false;
 
 			settings.Browser.HomeUrl = "https://google.com";
+
 			return settings;
 		}
 	}

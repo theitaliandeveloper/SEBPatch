@@ -19,6 +19,7 @@ using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Browser.Integrations;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
@@ -52,6 +53,7 @@ namespace SafeExamBrowser.Browser
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly HttpClient httpClient;
+		private readonly IEnumerable<Integration> integrations;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly IModuleLogger logger;
 		private readonly IMessageBox messageBox;
@@ -97,6 +99,7 @@ namespace SafeExamBrowser.Browser
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
 			int id,
+			IEnumerable<Integration> integrations,
 			bool isMainWindow,
 			IKeyGenerator keyGenerator,
 			IModuleLogger logger,
@@ -113,6 +116,7 @@ namespace SafeExamBrowser.Browser
 			this.hashAlgorithm = hashAlgorithm;
 			this.httpClient = new HttpClient();
 			this.Id = id;
+			this.integrations = integrations;
 			this.IsMainWindow = isMainWindow;
 			this.keyGenerator = keyGenerator;
 			this.logger = logger;
@@ -153,6 +157,7 @@ namespace SafeExamBrowser.Browser
 		{
 			var cefSharpControl = default(ICefSharpControl);
 			var controlLogger = logger.CloneFor($"{nameof(BrowserControl)} #{Id}");
+			var contextMenuHandler = new ContextMenuHandler();
 			var dialogHandler = new DialogHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
@@ -164,7 +169,7 @@ namespace SafeExamBrowser.Browser
 			var renderHandler = new RenderProcessMessageHandler(appConfig, clipboard, keyGenerator, settings, text);
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
-			var resourceHandler = new ResourceHandler(appConfig, requestFilter, keyGenerator, logger, sessionMode, settings, WindowSettings, text);
+			var resourceHandler = new ResourceHandler(appConfig, requestFilter, integrations, keyGenerator, logger, sessionMode, settings, WindowSettings, text);
 			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, resourceHandler, settings, WindowSettings);
 
 			Icon = new BrowserIconResource();
@@ -202,6 +207,7 @@ namespace SafeExamBrowser.Browser
 			Control = new BrowserControl(
 				clipboard,
 				cefSharpControl,
+				contextMenuHandler,
 				dialogHandler,
 				displayHandler,
 				downloadHandler,
@@ -218,12 +224,13 @@ namespace SafeExamBrowser.Browser
 			Control.TitleChanged += Control_TitleChanged;
 
 			Control.Initialize();
+
 			logger.Debug("Initialized browser control.");
 		}
 
 		internal void InitializeWindow()
 		{
-			window = uiFactory.CreateBrowserWindow(Control, settings, IsMainWindow, this.logger);
+			window = uiFactory.CreateBrowserWindow(Control, settings, IsMainWindow, logger);
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.Closed += Window_Closed;
@@ -242,6 +249,7 @@ namespace SafeExamBrowser.Browser
 			window.BringToForeground();
 
 			Handle = window.Handle;
+			InitiateCookieTraversal();
 
 			logger.Debug("Initialized browser window.");
 		}
@@ -254,6 +262,22 @@ namespace SafeExamBrowser.Browser
 					.OnPopupCreated((c, u) => LifeSpanHandler_PopupCreated(c))
 					.OnPopupDestroyed((c, b) => LifeSpanHandler_PopupDestroyed(c))
 					.Build();
+		}
+
+		private void InitiateCookieTraversal()
+		{
+			var visitor = new CookieVisitor(integrations);
+
+			visitor.UserIdentifierDetected += (id) => UserIdentifierDetected?.Invoke(id);
+
+			if (Cef.GetGlobalCookieManager().VisitAllCookies(visitor))
+			{
+				logger.Debug("Successfully initiated cookie traversal.");
+			}
+			else
+			{
+				logger.Warn("Failed to initiate cookie traversal!");
+			}
 		}
 
 		private void InitializeRequestFilter(IRequestFilter requestFilter)
@@ -297,8 +321,6 @@ namespace SafeExamBrowser.Browser
 				window.UpdateTitle(address);
 				TitleChanged?.Invoke(address);
 			}
-
-			AutoFind();
 		}
 
 		private void Control_LoadFailed(int errorCode, string errorText, bool isMainRequest, string url)
@@ -831,14 +853,6 @@ namespace SafeExamBrowser.Browser
 				Control.Zoom(0);
 				window.UpdateZoomLevel(CalculateZoomPercentage());
 				logger.Debug($"Reset page zoom to {CalculateZoomPercentage()}%.");
-			}
-		}
-
-		private void AutoFind()
-		{
-			if (settings.AllowFind && !string.IsNullOrEmpty(findParameters.term) && !CLEAR_FIND_TERM.Equals(findParameters.term, StringComparison.OrdinalIgnoreCase))
-			{
-				Control.Find(findParameters.term, findParameters.isInitial, findParameters.caseSensitive, findParameters.forward);
 			}
 		}
 

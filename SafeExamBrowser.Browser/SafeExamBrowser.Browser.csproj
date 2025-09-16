@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.props')" />
-  <Import Project="..\packages\chromiumembeddedframework.runtime.win-x86.131.3.5\build\chromiumembeddedframework.runtime.win-x86.props" Condition="Exists('..\packages\chromiumembeddedframework.runtime.win-x86.131.3.5\build\chromiumembeddedframework.runtime.win-x86.props')" />
-  <Import Project="..\packages\chromiumembeddedframework.runtime.win-x64.131.3.5\build\chromiumembeddedframework.runtime.win-x64.props" Condition="Exists('..\packages\chromiumembeddedframework.runtime.win-x64.131.3.5\build\chromiumembeddedframework.runtime.win-x64.props')" />
+  <Import Project="..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.props')" />
+  <Import Project="..\packages\chromiumembeddedframework.runtime.win-x86.139.0.28\build\chromiumembeddedframework.runtime.win-x86.props" Condition="Exists('..\packages\chromiumembeddedframework.runtime.win-x86.139.0.28\build\chromiumembeddedframework.runtime.win-x86.props')" />
+  <Import Project="..\packages\chromiumembeddedframework.runtime.win-x64.139.0.28\build\chromiumembeddedframework.runtime.win-x64.props" Condition="Exists('..\packages\chromiumembeddedframework.runtime.win-x64.139.0.28\build\chromiumembeddedframework.runtime.win-x64.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,14 +53,14 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CefSharp, Version=131.3.50.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
-      <HintPath>..\packages\CefSharp.Common.131.3.50\lib\net462\CefSharp.dll</HintPath>
+    <Reference Include="CefSharp, Version=139.0.280.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Common.139.0.280\lib\net462\CefSharp.dll</HintPath>
     </Reference>
-    <Reference Include="CefSharp.Core, Version=131.3.50.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
-      <HintPath>..\packages\CefSharp.Common.131.3.50\lib\net462\CefSharp.Core.dll</HintPath>
+    <Reference Include="CefSharp.Core, Version=139.0.280.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Common.139.0.280\lib\net462\CefSharp.Core.dll</HintPath>
     </Reference>
-    <Reference Include="CefSharp.WinForms, Version=131.3.50.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
-      <HintPath>..\packages\CefSharp.WinForms.131.3.50\lib\net462\CefSharp.WinForms.dll</HintPath>
+    <Reference Include="CefSharp.WinForms, Version=139.0.280.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.WinForms.139.0.280\lib\net462\CefSharp.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -103,6 +103,7 @@
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="BrowserControl.cs" />
     <Compile Include="BrowserIconResource.cs" />
+    <Compile Include="Handlers\CookieVisitor.cs" />
     <Compile Include="Handlers\DialogHandler.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DownloadHandler.cs" />
@@ -113,6 +114,10 @@
     <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Handlers\ResourceHandler.cs" />
     <Compile Include="Content\ContentLoader.cs" />
+    <Compile Include="Integrations\EdxIntegration.cs" />
+    <Compile Include="Integrations\GenericIntegration.cs" />
+    <Compile Include="Integrations\Integration.cs" />
+    <Compile Include="Integrations\MoodleIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\CefSharpBrowserControl.cs">
       <SubType>Component</SubType>
@@ -122,10 +127,13 @@
     </Compile>
     <Compile Include="Wrapper\Events\AuthCredentialsEventHandler.cs" />
     <Compile Include="Wrapper\Events\BeforeBrowseEventHandler.cs" />
+    <Compile Include="Wrapper\Events\BeforeContextMenuEventHandler.cs" />
     <Compile Include="Wrapper\Events\BeforeDownloadEventHandler.cs" />
     <Compile Include="Wrapper\Events\BeforeUnloadDialogEventHandler.cs" />
     <Compile Include="Wrapper\Events\CanDownloadEventHandler.cs" />
     <Compile Include="Wrapper\Events\ContextCreatedEventHandler.cs" />
+    <Compile Include="Wrapper\Events\ContextMenuCommandEventHandler.cs" />
+    <Compile Include="Wrapper\Events\ContextMenuDismissedEventHandler.cs" />
     <Compile Include="Wrapper\Events\ContextReleasedEventHandler.cs" />
     <Compile Include="Wrapper\Events\DialogClosedEventHandler.cs" />
     <Compile Include="Wrapper\Events\DownloadUpdatedEventHandler.cs" />
@@ -144,10 +152,12 @@
     <Compile Include="Wrapper\Events\ResetDialogStateEventHandler.cs" />
     <Compile Include="Wrapper\Events\ResourceRequestEventArgs.cs" />
     <Compile Include="Wrapper\Events\ResourceRequestEventHandler.cs" />
+    <Compile Include="Wrapper\Events\RunContextMenuEventHandler.cs" />
     <Compile Include="Wrapper\Events\SetFocusEventHandler.cs" />
     <Compile Include="Wrapper\Events\TakeFocusEventHandler.cs" />
     <Compile Include="Wrapper\Events\UncaughtExceptionEventHandler.cs" />
     <Compile Include="Wrapper\Extensions.cs" />
+    <Compile Include="Wrapper\Handlers\ContextMenuHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DialogHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DisplayHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DownloadHandlerSwitch.cs" />
@@ -227,10 +237,10 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\chromiumembeddedframework.runtime.win-x64.131.3.5\build\chromiumembeddedframework.runtime.win-x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\chromiumembeddedframework.runtime.win-x64.131.3.5\build\chromiumembeddedframework.runtime.win-x64.props'))" />
-    <Error Condition="!Exists('..\packages\chromiumembeddedframework.runtime.win-x86.131.3.5\build\chromiumembeddedframework.runtime.win-x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\chromiumembeddedframework.runtime.win-x86.131.3.5\build\chromiumembeddedframework.runtime.win-x86.props'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.props'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\packages\chromiumembeddedframework.runtime.win-x64.139.0.28\build\chromiumembeddedframework.runtime.win-x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\chromiumembeddedframework.runtime.win-x64.139.0.28\build\chromiumembeddedframework.runtime.win-x64.props'))" />
+    <Error Condition="!Exists('..\packages\chromiumembeddedframework.runtime.win-x86.139.0.28\build\chromiumembeddedframework.runtime.win-x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\chromiumembeddedframework.runtime.win-x86.139.0.28\build\chromiumembeddedframework.runtime.win-x86.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.targets'))" />
   </Target>
-  <Import Project="..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.131.3.50\build\CefSharp.Common.targets')" />
+  <Import Project="..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.139.0.280\build\CefSharp.Common.targets')" />
 </Project>

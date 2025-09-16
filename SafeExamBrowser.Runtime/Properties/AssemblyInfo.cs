@@ -16,6 +16,9 @@ using System.Windows;
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+
+// Required for mocking internal contracts with Moq
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("SafeExamBrowser.Runtime.UnitTests")]
 
 //In order to begin building localizable applications, set
@@ -48,6 +51,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.9.0.787")]
-[assembly: AssemblyFileVersion("3.9.0.787")]
-[assembly: AssemblyInformationalVersion("3.9.0.787")]
+[assembly: AssemblyVersion("3.10.0.826")]
+[assembly: AssemblyFileVersion("3.10.0.826")]
+[assembly: AssemblyInformationalVersion("3.10.0.826")]

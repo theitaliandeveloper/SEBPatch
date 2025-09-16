@@ -14,9 +14,14 @@ namespace SafeExamBrowser.WindowsApi.Types
 	internal enum KBDLLHOOKSTRUCTFlags
 	{
 		/// <summary>
-		/// Test the extended-key flag. 
+		/// Test the extended-key flag.
 		/// </summary>
 		LLKHF_EXTENDED = 0x01,
+
+		/// <summary>
+		/// Test the event-injected (from a process running at lower integrity level) flag.
+		/// </summary>
+		LLKHF_LOWER_IL_INJECTED = 0x02,
 
 		/// <summary>
 		/// Test the event-injected (from any process) flag.
@@ -24,12 +29,12 @@ namespace SafeExamBrowser.WindowsApi.Types
 		LLKHF_INJECTED = 0x10,
 
 		/// <summary>
-		/// Test the context code. 
+		/// Test the context code.
 		/// </summary>
 		LLKHF_ALTDOWN = 0x20,
 
 		/// <summary>
-		/// Test the transition-state flag. 
+		/// Test the transition-state flag.
 		/// </summary>
 		LLKHF_UP = 0x80
 	}

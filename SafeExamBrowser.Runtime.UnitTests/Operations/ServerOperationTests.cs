@@ -10,40 +10,45 @@ using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Core.Contracts.OperationModel.Events;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Operations;
-using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
 	[TestClass]
 	public class ServerOperationTests
 	{
-		private SessionContext context;
+		private RuntimeContext context;
 		private Mock<IFileSystem> fileSystem;
-		private Mock<ILogger> logger;
+		private Mock<IConfigurationRepository> repository;
 		private Mock<IServerProxy> server;
-		private Mock<IConfigurationRepository> configuration;
+		private Mock<IUserInterfaceFactory> uiFactory;
 
 		private ServerOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			configuration = new Mock<IConfigurationRepository>();
-			context = new SessionContext();
+			context = new RuntimeContext();
 			fileSystem = new Mock<IFileSystem>();
-			logger = new Mock<ILogger>();
+			repository = new Mock<IConfigurationRepository>();
 			server = new Mock<IServerProxy>();
+			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Current = new SessionConfiguration();
 			context.Current.AppConfig = new AppConfig();
@@ -52,7 +57,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			context.Next.AppConfig = new AppConfig();
 			context.Next.Settings = new AppSettings();
 
-			sut = new ServerOperation(new string[0], configuration.Object, fileSystem.Object, logger.Object, context, server.Object);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
+
+			sut = new ServerOperation(dependencies, fileSystem.Object, repository.Object, server.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
@@ -62,6 +75,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
 			var counter = 0;
 			var delete = 0;
+			var dialog = new Mock<IExamSelectionDialog>();
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSelection = 0;
 			var examSettings = new AppSettings();
@@ -72,7 +86,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var initialSettings = context.Next.Settings;
 			var serverSettings = context.Next.Settings.Server;
 
-			configuration
+			dialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true })
+				.Callback(() => examSelection = ++counter);
+			repository
 				.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>()))
 				.Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
@@ -83,21 +101,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			server
 				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
-				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)))
+				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default))
 				.Callback(() => getExams = ++counter);
 			server
 				.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>()))
 				.Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")))
 				.Callback(() => getConfiguration = ++counter);
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-					examSelection = ++counter;
-				}
-			};
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
 
 			var result = sut.Perform();
 
@@ -131,26 +141,21 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustFailIfSettingsCouldNotBeLoaded()
 		{
+			var dialog = new Mock<IExamSelectionDialog>();
 			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSettings = new AppSettings();
 			var initialSettings = context.Next.Settings;
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.UnexpectedError);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true });
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.UnexpectedError);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-				}
-			};
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
 
 			var result = sut.Perform();
 
@@ -177,30 +182,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
+			var examDialog = new Mock<IExamSelectionDialog>();
 			var examSettings = new AppSettings();
 			var messageShown = false;
+			var serverDialog = new Mock<IServerFailureDialog>();
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true });
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-				}
-
-				if (args is ServerFailureEventArgs s)
-				{
-					s.Abort = true;
-					messageShown = true;
-				}
-			};
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
+			serverDialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ServerFailureDialogResult { Abort = true })
+				.Callback(() => messageShown = true);
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
+			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
 
 			var result = sut.Perform();
 
@@ -220,30 +220,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
+			var examDialog = new Mock<IExamSelectionDialog>();
 			var examSettings = new AppSettings();
 			var messageShown = false;
+			var serverDialog = new Mock<IServerFailureDialog>();
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true });
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-				}
-
-				if (args is ServerFailureEventArgs s)
-				{
-					s.Fallback = true;
-					messageShown = true;
-				}
-			};
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
+			serverDialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ServerFailureDialogResult { Fallback = true })
+				.Callback(() => messageShown = true);
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
+			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
 
 			var result = sut.Perform();
 
@@ -266,8 +261,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSettings = new AppSettings();
 			var serverSettings = context.Next.Settings.Server;
+			var examDialog = new Mock<IExamSelectionDialog>();
+			var serverDialog = new Mock<IServerFailureDialog>();
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			context.Next.Settings.Server.ExamId = "some id";
 			fileSystem.Setup(f => f.Delete(It.IsAny<string>()));
@@ -277,7 +275,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
-			sut.ActionRequired += (args) => Assert.Fail();
+			serverDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
+			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
 
 			var result = sut.Perform();
 
@@ -298,13 +298,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var initialSettings = context.Next.Settings;
 
 			context.Next.Settings.SessionMode = SessionMode.Normal;
-			sut.ActionRequired += (_) => Assert.Fail();
 
 			var result = sut.Perform();
 
-			configuration.VerifyNoOtherCalls();
+			repository.VerifyNoOtherCalls();
 			fileSystem.VerifyNoOtherCalls();
 			server.VerifyNoOtherCalls();
+			uiFactory.VerifyNoOtherCalls();
 
 			Assert.AreSame(initialSettings, context.Next.Settings);
 			Assert.AreEqual(SessionMode.Normal, context.Next.Settings.SessionMode);
@@ -318,6 +318,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
 			var counter = 0;
 			var delete = 0;
+			var dialog = new Mock<IExamSelectionDialog>();
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSelection = 0;
 			var examSettings = new AppSettings();
@@ -328,7 +329,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var initialSettings = context.Next.Settings;
 			var serverSettings = context.Next.Settings.Server;
 
-			configuration
+			dialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true })
+				.Callback(() => examSelection = ++counter);
+			repository
 				.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>()))
 				.Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
@@ -339,21 +344,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			server
 				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
-				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)))
+				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default))
 				.Callback(() => getExams = ++counter);
 			server
 				.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>()))
 				.Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")))
 				.Callback(() => getConfiguration = ++counter);
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-					examSelection = ++counter;
-				}
-			};
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
 
 			var result = sut.Repeat();
 
@@ -391,22 +388,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSettings = new AppSettings();
 			var initialSettings = context.Next.Settings;
+			var dialog = new Mock<IExamSelectionDialog>();
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.UnexpectedError);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true });
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.UnexpectedError);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-				}
-			};
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
 
 			var result = sut.Repeat();
 
@@ -435,28 +427,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSettings = new AppSettings();
 			var messageShown = false;
+			var examDialog = new Mock<IExamSelectionDialog>();
+			var serverDialog = new Mock<IServerFailureDialog>();
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			examDialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true });
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-				}
-
-				if (args is ServerFailureEventArgs s)
-				{
-					s.Abort = true;
-					messageShown = true;
-				}
-			};
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
+			serverDialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ServerFailureDialogResult { Abort = true })
+				.Callback(() => messageShown = true);
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
+			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
 
 			var result = sut.Repeat();
 
@@ -478,28 +467,23 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSettings = new AppSettings();
 			var messageShown = false;
+			var examDialog = new Mock<IExamSelectionDialog>();
+			var serverDialog = new Mock<IServerFailureDialog>();
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true });
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
-			sut.ActionRequired += (args) =>
-			{
-				if (args is ExamSelectionEventArgs e)
-				{
-					e.Success = true;
-					e.SelectedExam = exam;
-				}
-
-				if (args is ServerFailureEventArgs s)
-				{
-					s.Fallback = true;
-					messageShown = true;
-				}
-			};
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
+			serverDialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ServerFailureDialogResult { Fallback = true })
+				.Callback(() => messageShown = true);
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
+			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
 
 			var result = sut.Repeat();
 
@@ -516,14 +500,93 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Repeat_MustCorrectlyReconfigureServerSession()
+		{
+			var connect = 0;
+			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
+			var counter = 0;
+			var delete = 0;
+			var dialog = new Mock<IExamSelectionDialog>();
+			var disconnect = 0;
+			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
+			var examSelection = 0;
+			var examSettings = new AppSettings();
+			var getConfiguration = 0;
+			var getConnection = 0;
+			var getExams = 0;
+			var initialize = 0;
+			var initialSettings = context.Next.Settings;
+			var serverSettings = context.Next.Settings.Server;
+
+			dialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true })
+				.Callback(() => examSelection = ++counter);
+			repository
+				.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>()))
+				.Returns(LoadStatus.Success);
+			context.Current.Settings.SessionMode = SessionMode.Server;
+			context.Next.Settings.SessionMode = SessionMode.Server;
+			fileSystem.Setup(f => f.Delete(It.IsAny<string>())).Callback(() => delete = ++counter);
+			server.Setup(s => s.Connect()).Returns(new ServerResponse(true)).Callback(() => connect = ++counter);
+			server.Setup(s => s.Disconnect()).Returns(new ServerResponse(true)).Callback(() => disconnect = ++counter);
+			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>())).Callback(() => initialize = ++counter);
+			server.Setup(s => s.GetConnectionInfo()).Returns(connection).Callback(() => getConnection = ++counter);
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
+			server
+				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
+				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default))
+				.Callback(() => getExams = ++counter);
+			server
+				.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>()))
+				.Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")))
+				.Callback(() => getConfiguration = ++counter);
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
+
+			var result = sut.Repeat();
+
+			Assert.AreEqual(OperationResult.Success, result);
+
+			fileSystem.Verify(f => f.Delete(It.IsAny<string>()), Times.Once);
+			server.Verify(s => s.Connect(), Times.Once);
+			server.Verify(s => s.Disconnect(), Times.Once);
+			server.Verify(s => s.Initialize(It.IsAny<ServerSettings>()), Times.Once);
+			server.Verify(s => s.GetAvailableExams(It.IsAny<string>()), Times.Once);
+			server.Verify(s => s.GetConfigurationFor(It.Is<Exam>(e => e == exam)), Times.Once);
+			server.Verify(s => s.GetConnectionInfo(), Times.Once);
+			server.Verify(s => s.SendSelectedExam(It.Is<Exam>(e => e == exam)), Times.Once);
+
+			Assert.AreEqual(1, disconnect);
+			Assert.AreEqual(2, initialize);
+			Assert.AreEqual(3, connect);
+			Assert.AreEqual(4, getExams);
+			Assert.AreEqual(5, examSelection);
+			Assert.AreEqual(6, getConfiguration);
+			Assert.AreEqual(7, getConnection);
+			Assert.AreEqual(8, delete);
+			Assert.AreEqual(connection.Api, context.Next.AppConfig.ServerApi);
+			Assert.AreEqual(connection.ConnectionToken, context.Next.AppConfig.ServerConnectionToken);
+			Assert.AreEqual(connection.Oauth2Token, context.Next.AppConfig.ServerOauth2Token);
+			Assert.AreEqual(exam.Id, context.Next.AppConfig.ServerExamId);
+			Assert.AreEqual(exam.Url, context.Next.Settings.Browser.StartUrl);
+			Assert.AreSame(examSettings, context.Next.Settings);
+			Assert.AreSame(serverSettings, context.Next.Settings.Server);
+			Assert.AreNotSame(initialSettings, context.Next.Settings);
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.AreEqual(SessionMode.Server, context.Next.Settings.SessionMode);
+		}
+
+		[TestMethod]
 		public void Repeat_MustAutomaticallySelectExam()
 		{
 			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
 			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
 			var examSettings = new AppSettings();
 			var serverSettings = context.Next.Settings.Server;
+			var dialog = new Mock<IExamSelectionDialog>();
 
-			configuration.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			context.Next.Settings.Server.ExamId = "some id";
 			fileSystem.Setup(f => f.Delete(It.IsAny<string>()));
@@ -533,7 +596,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
-			sut.ActionRequired += (args) => Assert.Fail();
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
 
 			var result = sut.Repeat();
 
@@ -549,49 +612,19 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Repeat_MustNotAllowToReconfigureServerSession()
-		{
-			var args = default(ActionRequiredEventArgs);
-
-			context.Current.AppConfig.ServerApi = "api";
-			context.Current.AppConfig.ServerConnectionToken = "token";
-			context.Current.AppConfig.ServerExamId = "id";
-			context.Current.AppConfig.ServerOauth2Token = "oauth2";
-			context.Current.Settings.SessionMode = SessionMode.Server;
-			context.Next.Settings.SessionMode = SessionMode.Server;
-
-			sut.ActionRequired += (a) =>
-			{
-				args = a;
-			};
-
-			var result = sut.Repeat();
-
-			configuration.VerifyNoOtherCalls();
-			fileSystem.VerifyNoOtherCalls();
-			server.VerifyNoOtherCalls();
-
-			Assert.IsNull(context.Next.AppConfig.ServerApi);
-			Assert.IsNull(context.Next.AppConfig.ServerConnectionToken);
-			Assert.IsNull(context.Next.AppConfig.ServerOauth2Token);
-			Assert.IsInstanceOfType(args, typeof(MessageEventArgs));
-			Assert.AreEqual(OperationResult.Aborted, result);
-		}
-
-		[TestMethod]
 		public void Repeat_MustDoNothingIfNormalSession()
 		{
 			var initialSettings = context.Next.Settings;
 
 			context.Current.Settings.SessionMode = SessionMode.Normal;
 			context.Next.Settings.SessionMode = SessionMode.Normal;
-			sut.ActionRequired += (_) => Assert.Fail();
 
 			var result = sut.Repeat();
 
-			configuration.VerifyNoOtherCalls();
+			repository.VerifyNoOtherCalls();
 			fileSystem.VerifyNoOtherCalls();
 			server.VerifyNoOtherCalls();
+			uiFactory.VerifyNoOtherCalls();
 
 			Assert.AreSame(initialSettings, context.Next.Settings);
 			Assert.AreEqual(SessionMode.Normal, context.Next.Settings.SessionMode);
@@ -646,13 +679,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Revert_MustDoNothingIfNormalSession()
 		{
 			context.Current.Settings.SessionMode = SessionMode.Normal;
-			sut.ActionRequired += (_) => Assert.Fail();
 
 			var result = sut.Revert();
 
-			configuration.VerifyNoOtherCalls();
+			repository.VerifyNoOtherCalls();
 			fileSystem.VerifyNoOtherCalls();
 			server.VerifyNoOtherCalls();
+			uiFactory.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}

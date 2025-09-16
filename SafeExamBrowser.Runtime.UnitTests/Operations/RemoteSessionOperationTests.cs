@@ -8,22 +8,26 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
-using SafeExamBrowser.Runtime.Operations;
-using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
 	[TestClass]
 	public class RemoteSessionOperationTests
 	{
-		private SessionContext context;
+		private RuntimeContext context;
 		private Mock<IRemoteSessionDetector> detector;
-		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
 		private AppSettings settings;
 
 		private RemoteSessionOperation sut;
@@ -31,14 +35,23 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
-			context = new SessionContext();
+			context = new RuntimeContext();
 			detector = new Mock<IRemoteSessionDetector>();
-			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
 			settings = new AppSettings();
 
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = settings;
-			sut = new RemoteSessionOperation(detector.Object, logger.Object, context);
+
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				messageBox.Object,
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
+
+			sut = new RemoteSessionOperation(dependencies, detector.Object);
 		}
 
 		[TestMethod]
@@ -48,13 +61,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			detector.Setup(d => d.IsRemoteSession()).Returns(true);
 			settings.Service.DisableRemoteConnections = true;
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Perform();
 
@@ -71,13 +81,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			detector.Setup(d => d.IsRemoteSession()).Returns(true);
 			settings.Service.DisableRemoteConnections = false;
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Perform();
 
@@ -94,13 +101,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			detector.Setup(d => d.IsRemoteSession()).Returns(false);
 			settings.Service.DisableRemoteConnections = true;
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Perform();
 
@@ -117,13 +121,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			detector.Setup(d => d.IsRemoteSession()).Returns(true);
 			settings.Service.DisableRemoteConnections = true;
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Repeat();
 
@@ -140,13 +141,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			detector.Setup(d => d.IsRemoteSession()).Returns(true);
 			settings.Service.DisableRemoteConnections = false;
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Repeat();
 
@@ -163,13 +161,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			detector.Setup(d => d.IsRemoteSession()).Returns(false);
 			settings.Service.DisableRemoteConnections = true;
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Repeat();
 
@@ -186,13 +181,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			detector.Setup(d => d.IsRemoteSession()).Returns(true);
 			settings.Service.DisableRemoteConnections = false;
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Revert();
 

@@ -12,10 +12,10 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Browser;
-using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
@@ -112,7 +112,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a new dialog to display the status of the proctoring finalization.
 		/// </summary>
-		IProctoringFinalizationDialog CreateProctoringFinalizationDialog();
+		IProctoringFinalizationDialog CreateProctoringFinalizationDialog(bool requiresPassword);
 
 		/// <summary>
 		/// Creates a new proctoring window loaded with the given proctoring control.
@@ -120,9 +120,9 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		IProctoringWindow CreateProctoringWindow(IProctoringControl control);
 
 		/// <summary>
-		/// Creates a new notification control for the raise hand functionality of a remote proctoring session.
+		/// Creates a new notification control for the raise hand functionality of a server session.
 		/// </summary>
-		INotificationControl CreateRaiseHandControl(IProctoringController controller, Location location, ProctoringSettings settings);
+		INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, InvigilationSettings settings);
 
 		/// <summary>
 		/// Creates a new runtime window which runs on its own thread.

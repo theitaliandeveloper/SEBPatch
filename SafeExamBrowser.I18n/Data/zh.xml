@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         终止安全考试浏览器。警告：将无法保存数据或执行任何其他操作，系统将立即关闭！
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        活动用户已更改！要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         置顶
     </Entry>
@@ -420,12 +423,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         屏幕监考
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        已经有一个 SEB 服务器会话正在运行。 不允许为另一个 SEB 服务器会话重新配置。
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        不允许重新配置
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         防作弊考试专用浏览器服务初始化失败。防作弊考试专用浏览器现将终止，因为该服务被配置为强制项。
     </Entry>
@@ -555,6 +552,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         初始化全屏模式
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        初始化权限
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         初始化远程监理
     </Entry>
@@ -575,6 +575,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeSystemEvents">
         初始化系统事件
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        初始化窗口防护装置
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         初始化工作区域
@@ -701,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         屏幕监考正在执行剩余操作，请稍候。这可能需要一段时间，具体取决于网络和屏幕监考服务状态。
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        请输入退出密码以取消执行其余操作：
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         执行 %%_TOTAL_%% 的传输操作 %%_COUNT_%%。

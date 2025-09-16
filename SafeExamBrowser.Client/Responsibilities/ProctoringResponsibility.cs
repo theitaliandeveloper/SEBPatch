@@ -7,21 +7,33 @@
  */
 
 using System.Threading.Tasks;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring.Events;
 
 namespace SafeExamBrowser.Client.Responsibilities
 {
 	internal class ProctoringResponsibility : ClientResponsibility
 	{
+		private readonly IMessageBox messageBox;
 		private readonly IUserInterfaceFactory uiFactory;
+
+		private bool cancel;
 
 		private IProctoringController Proctoring => Context.Proctoring;
 
-		public ProctoringResponsibility(ClientContext context, ILogger logger, IUserInterfaceFactory uiFactory) : base(context, logger)
+		public ProctoringResponsibility(
+			ClientContext context,
+			ILogger logger,
+			IMessageBox messageBox,
+			IUserInterfaceFactory uiFactory) : base(context, logger)
 		{
+			this.messageBox = messageBox;
 			this.uiFactory = uiFactory;
 		}
 
@@ -37,8 +49,10 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			if (Proctoring != default && Proctoring.HasRemainingWork())
 			{
-				var dialog = uiFactory.CreateProctoringFinalizationDialog();
-				var handler = new RemainingWorkUpdatedEventHandler((args) => dialog.Update(args));
+				var dialog = uiFactory.CreateProctoringFinalizationDialog(!Context.QuitPasswordValidated);
+				var handler = new RemainingWorkUpdatedEventHandler((args) => Proctoring_RemainingWorkUpdated(dialog, args));
+
+				dialog.CancellationRequested += new CancellationRequestedEventHandler(() => Dialog_CancellationRequested(dialog));
 
 				Task.Run(() =>
 				{
@@ -49,6 +63,29 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 				dialog.Show();
 			}
+		}
+
+		private void Dialog_CancellationRequested(IProctoringFinalizationDialog dialog)
+		{
+			var alreadyValidated = Context.QuitPasswordValidated;
+
+			if (alreadyValidated || IsValidQuitPassword(dialog.QuitPassword))
+			{
+				cancel = true;
+				Logger.Info($"The user {(alreadyValidated ? "already " : "")}entered the correct quit password, cancelling remaining work...");
+			}
+			else
+			{
+				cancel = false;
+				Logger.Info("The user entered the wrong quit password, remaining work will continue.");
+				messageBox.Show(TextKey.MessageBox_InvalidQuitPassword, TextKey.MessageBox_InvalidQuitPasswordTitle, icon: MessageBoxIcon.Warning, parent: dialog);
+			}
+		}
+
+		private void Proctoring_RemainingWorkUpdated(IProctoringFinalizationDialog dialog, RemainingWorkUpdatedEventArgs args)
+		{
+			dialog.Update(args);
+			args.CancellationRequested = cancel;
 		}
 	}
 }

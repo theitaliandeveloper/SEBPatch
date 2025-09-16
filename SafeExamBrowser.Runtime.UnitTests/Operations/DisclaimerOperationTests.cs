@@ -8,35 +8,47 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Operations;
-using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
 	[TestClass]
 	public class DisclaimerOperationTests
 	{
-		private Mock<ILogger> logger;
+		private RuntimeContext context;
+		private Mock<IMessageBox> messageBox;
 		private AppSettings settings;
-		private SessionContext context;
 
 		private DisclaimerOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			context = new SessionContext();
-			logger = new Mock<ILogger>();
+			context = new RuntimeContext();
+			messageBox = new Mock<IMessageBox>();
 			settings = new AppSettings();
 
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = settings;
-			sut = new DisclaimerOperation(logger.Object, context);
+
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				messageBox.Object,
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
+
+			sut = new DisclaimerOperation(dependencies);
 		}
 
 		[TestMethod]
@@ -45,15 +57,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var count = 0;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
-
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs m)
-				{
-					count++;
-					m.Result = MessageBoxResult.Ok;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => count++)
+				.Returns(MessageBoxResult.Ok);
 
 			var result = sut.Perform();
 
@@ -67,15 +74,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var disclaimerShown = false;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
-
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs m)
-				{
-					disclaimerShown = true;
-					m.Result = MessageBoxResult.Cancel;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => disclaimerShown = true)
+				.Returns(MessageBoxResult.Cancel);
 
 			var result = sut.Repeat();
 
@@ -88,14 +90,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs m)
-				{
-					disclaimerShown = true;
-					m.Result = MessageBoxResult.Cancel;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => disclaimerShown = true)
+				.Returns(MessageBoxResult.Cancel);
 
 			var result = sut.Perform();
 
@@ -109,15 +107,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var count = 0;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
-
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs m)
-				{
-					count++;
-					m.Result = MessageBoxResult.Ok;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => count++)
+				.Returns(MessageBoxResult.Ok);
 
 			var result = sut.Perform();
 
@@ -131,15 +124,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var disclaimerShown = false;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
-
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs m)
-				{
-					disclaimerShown = true;
-					m.Result = MessageBoxResult.Cancel;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => disclaimerShown = true)
+				.Returns(MessageBoxResult.Cancel);
 
 			var result = sut.Repeat();
 
@@ -152,14 +140,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs m)
-				{
-					disclaimerShown = true;
-					m.Result = MessageBoxResult.Cancel;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => disclaimerShown = true)
+				.Returns(MessageBoxResult.Cancel);
 
 			var result = sut.Repeat();
 
@@ -172,14 +156,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs m)
-				{
-					disclaimerShown = true;
-					m.Result = MessageBoxResult.Cancel;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => disclaimerShown = true)
+				.Returns(MessageBoxResult.Cancel);
 
 			var result = sut.Revert();
 

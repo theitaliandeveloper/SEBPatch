@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Pengguna aktif telah berubah! Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Selalu di atas
     </Entry>
@@ -420,12 +423,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sesi dengan Screen Proctoring
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Terdapat sesi SEB Server yang sedang berjalan. Tidak diperbolehkan melakukan konfigurasi ulang untuk sesi SEB Server lain.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Konfigurasi Ulang Tidak Diizinkan
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Gagal menginisialisasi layanan SEB! SEB sekarang akan dihentikan karena layanan dikonfigurasi menjadi wajib.
     </Entry>
@@ -555,6 +552,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Menginisialisasi mode kios
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Menginisialisasi izin
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Menginisialisasi pengawasan jarak jauh
     </Entry>
@@ -575,6 +575,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeSystemEvents">
         Menginisialisasi peristiwa sistem
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Menginisialisasi pelindung jendela
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Menginisialisasi area kerja
@@ -701,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Harap tunggu sementara proktor layar menjalankan operasi yang tersisa. Hal ini mungkin memerlukan waktu beberapa saat, tergantung pada jaringan dan status layanan pemeriksaan layar.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Masukkan kata sandi keluar untuk membatalkan eksekusi operasi yang tersisa:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Menjalankan operasi transmisi %%_COUNT_%% dari %%_TOTAL_%%.

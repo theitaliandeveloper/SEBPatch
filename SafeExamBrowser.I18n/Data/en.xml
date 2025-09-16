@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        The active user has changed! In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Always on top
     </Entry>
@@ -420,12 +423,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Session with Screen Proctoring
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        There is already a SEB Server session running. It is not allowed to reconfigure for another SEB Server session.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Reconfiguration Not Allowed
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Failed to initialize the SEB service! SEB will now terminate since the service is configured to be mandatory.
     </Entry>
@@ -555,6 +552,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Initializing kiosk mode
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Initializing permissions
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Initializing remote proctoring
     </Entry>
@@ -575,6 +575,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeSystemEvents">
         Initializing system events
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Initializing window guard
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Initializing working area
@@ -691,7 +694,7 @@
         Password Required
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Abort">
-        Abort
+        Quit
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirm
@@ -701,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Please wait while the screen procotoring is executing its remaining operations. This may take a while, depending on the network and screen proctoring service status.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Please enter the quit password to cancel the execution of the remaining operations:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Executing transmission operation %%_COUNT_%% of %%_TOTAL_%%.

@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        L'utilisateur actif a changé! Afin de déverrouiller SEB, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Toujours au premier plan
     </Entry>
@@ -420,12 +423,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Session avec Screen Proctoring
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Une session SEB Server est déjà en cours d'exécution. Il n'est pas permis de reconfigurer pour une autre session SEB Server.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Reconfiguration non autorisée
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Le service SEB n'a pas été initialisé! Le service SEB va maintenant se terminer puisque le service obligatoire.
     </Entry>
@@ -555,6 +552,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Initialisation du mode kiosque
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Initialisation des autorisations
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Initialisation de la surveillance à distance
     </Entry>
@@ -575,6 +575,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeSystemEvents">
         Initialisation des événements système
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Initialisation de la protection des fenêtres
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Initialisation de l’espace de travail
@@ -701,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Veuillez patienter pendant que le procotoring d'écran exécute les opérations restantes. Cela peut prendre un certain temps, en fonction du réseau et de l'état du service de projection d'écran.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Veuillez saisir le mot de passe de sortie pour annuler l'exécution des opérations restantes:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Exécution de l'opération de transmission %%_COUNT_%% de %%_TOTAL_%%.

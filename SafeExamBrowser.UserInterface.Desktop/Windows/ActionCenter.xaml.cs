@@ -96,12 +96,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		public void Promote()
 		{
-			//Task.Run(() =>
-			//{
-			//	Dispatcher.Invoke(ShowAnimated);
-			//	Thread.Sleep(2000);
-			//	Dispatcher.Invoke(HideAnimated);
-			//});
+			Task.Run(() =>
+			{
+				Dispatcher.Invoke(ShowAnimated);
+				Thread.Sleep(2000);
+				Dispatcher.Invoke(HideAnimated);
+			});
 		}
 
 		public void Register(IActionCenterActivator activator)

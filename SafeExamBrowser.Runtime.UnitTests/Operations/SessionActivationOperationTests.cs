@@ -8,12 +8,17 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Logging;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -24,8 +29,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<ILogger> logger;
 		private SessionConfiguration nextSession;
 		private AppSettings nextSettings;
-		private SessionContext sessionContext;
-
+		private RuntimeContext runtimeContext;
 		private SessionActivationOperation sut;
 
 		[TestInitialize]
@@ -35,25 +39,33 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			logger = new Mock<ILogger>();
 			nextSession = new SessionConfiguration();
 			nextSettings = new AppSettings();
-			sessionContext = new SessionContext();
+			runtimeContext = new RuntimeContext();
 
 			nextSession.Settings = nextSettings;
-			sessionContext.Current = currentSession;
-			sessionContext.Next = nextSession;
+			runtimeContext.Current = currentSession;
+			runtimeContext.Next = nextSession;
 
-			sut = new SessionActivationOperation(logger.Object, sessionContext);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), runtimeContext),
+				logger.Object,
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				runtimeContext,
+				Mock.Of<IText>());
+
+			sut = new SessionActivationOperation(dependencies);
 		}
 
 		[TestMethod]
 		public void Perform_MustCorrectlyActivateFirstSession()
 		{
-			sessionContext.Current = null;
+			runtimeContext.Current = null;
 
 			var result = sut.Perform();
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreSame(sessionContext.Current, nextSession);
-			Assert.IsNull(sessionContext.Next);
+			Assert.AreSame(runtimeContext.Current, nextSession);
+			Assert.IsNull(runtimeContext.Next);
 		}
 
 		[TestMethod]
@@ -72,8 +84,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Repeat();
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreSame(sessionContext.Current, nextSession);
-			Assert.IsNull(sessionContext.Next);
+			Assert.AreSame(runtimeContext.Current, nextSession);
+			Assert.IsNull(runtimeContext.Next);
 		}
 
 		[TestMethod]

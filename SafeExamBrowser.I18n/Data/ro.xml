@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Utilizatorul activ s-a schimbat! Pentru a debloca SEB, vă rugăm să selectați una dintre opțiunile disponibile și să introduceți parola de deblocare corectă.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Întotdeauna în prim-plan
     </Entry>
@@ -420,12 +423,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sesiune cu supraveghere ecran
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        O sesiune SEB Server este deja activă. Nu este permisă reconfigurarea pentru o altă sesiune SEB Server.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Reconfigurare nepermisă
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Eșec la inițializarea serviciului SEB! SEB va fi închis acum deoarece serviciul este configurat ca fiind obligatoriu.
     </Entry>
@@ -555,6 +552,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Inițializează modul kiosk
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Inițializează permisiunilor
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Inițializează supravegherea la distanță
     </Entry>
@@ -575,6 +575,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeSystemEvents">
         Inițializează evenimentele sistemului
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Inițializarea ferestrei de protecție
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Inițializează zona de lucru
@@ -701,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Vă rugăm să așteptați în timp ce supravegherea ecranului finalizează operațiunile rămase. Acest lucru poate dura ceva timp, în funcție de rețea și de starea serviciului de supraveghere ecran.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Vă rugăm să introduceți parola de renunțare pentru a anula executarea operațiunilor rămase:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Executarea operațiunii de transfer %%_COUNT_%% din %%_TOTAL_%%.

@@ -46,7 +46,6 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(NullReferenceException))]
 		public void MustNotInstantiateOperationOnRevert()
 		{
 			IOperation initialize()
@@ -56,7 +55,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 
 			var sut = new LazyInitializationOperation(initialize);
 
-			sut.Revert();
+			Assert.ThrowsExactly<NullReferenceException>(() => sut.Revert());
 		}
 
 		[TestMethod]
@@ -86,39 +85,28 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				return operationMock.Object;
 			};
 
-			var actionRequired = 0;
-			var actionRequiredHandler = new ActionRequiredEventHandler(args => actionRequired++);
 			var statusChanged = 0;
 			var statusChangedHandler = new StatusChangedEventHandler(t => statusChanged++);
 			var sut = new LazyInitializationOperation(initialize);
 
-			sut.ActionRequired += actionRequiredHandler;
 			sut.StatusChanged += statusChangedHandler;
 
 			sut.Perform();
 
-			operationMock.Raise(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
 			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
 
-			Assert.AreEqual(1, actionRequired);
 			Assert.AreEqual(1, statusChanged);
 
-			sut.ActionRequired -= actionRequiredHandler;
 			sut.StatusChanged -= statusChangedHandler;
 
-			operationMock.Raise(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
 			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
 
-			Assert.AreEqual(1, actionRequired);
 			Assert.AreEqual(1, statusChanged);
 
-			sut.ActionRequired += actionRequiredHandler;
 			sut.StatusChanged += statusChangedHandler;
 
-			operationMock.Raise(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
 			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
 
-			Assert.AreEqual(2, actionRequired);
 			Assert.AreEqual(2, statusChanged);
 		}
 
@@ -153,10 +141,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		{
 			var sut = new LazyInitializationOperation(() => default);
 
-			sut.ActionRequired += default;
 			sut.StatusChanged += default;
-
-			sut.ActionRequired -= default;
 			sut.StatusChanged -= default;
 		}
 	}

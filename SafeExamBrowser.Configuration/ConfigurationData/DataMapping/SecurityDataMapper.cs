@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
@@ -34,6 +35,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Security.AllowVirtualMachine:
 					MapVirtualMachinePolicy(settings, value);
+					break;
+				case Keys.Security.AllowWindowCapture:
+					MapAllowWindowCapture(settings, value);
 					break;
 				case Keys.Security.ClipboardPolicy:
 					MapClipboardPolicy(settings, value);
@@ -99,6 +103,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.AllowTermination = allow;
 			//}
 			settings.Security.AllowTermination = true;
+		}
+		private void MapAllowWindowCapture(AppSettings settings, object value)
+		{
+			//if (value is bool allow)
+			//{
+			//	settings.Security.AllowWindowCapture = allow;
+			//}
+			settings.Security.AllowWindowCapture = true;
 		}
 
 		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)

@@ -74,15 +74,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void InitializeClipboardSettings(AppSettings settings)
 		{
-			settings.Browser.UseIsolatedClipboard = false;
-			settings.Keyboard.AllowCtrlC = true;
-			settings.Keyboard.AllowCtrlV = true;
-			settings.Keyboard.AllowCtrlX = true;
+			settings.Browser.UseIsolatedClipboard = settings.Security.ClipboardPolicy == ClipboardPolicy.Isolated;
+			settings.Keyboard.AllowCtrlC = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
+			settings.Keyboard.AllowCtrlV = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
+			settings.Keyboard.AllowCtrlX = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
 		}
 
 		private void InitializeProctoringSettings(AppSettings settings)
 		{
-			settings.Proctoring.Enabled = false;
+			settings.Proctoring.Enabled = settings.Proctoring.ScreenProctoring.Enabled;
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)

@@ -230,6 +230,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Активный пользователь изменился! Чтобы разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Всегда на высоте
     </Entry>
@@ -420,12 +423,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Сессия с прокторингом экрана
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Сеанс сервера SEB уже запущен. Перенастройка для другого сеанса сервера SEB запрещена.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Перенастройка не разрешена
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Не удалось инициализировать службу SEB! Теперь SEB завершит работу, поскольку служба настроена как обязательная.
     </Entry>
@@ -556,6 +553,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Инициализация режима киоска
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Инициализация разрешений
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Инициализация удаленного прокторинга
     </Entry>
@@ -576,6 +576,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeSystemEvents">
         Инициализация системных событий
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Инициализация защиты окна
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Инициализация рабочей области
@@ -702,6 +705,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Пожалуйста, подождите, пока прокторинг экрана выполнит оставшиеся операции. Это может занять некоторое время, в зависимости от состояния сети и службы прокторинга экрана.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Введите пароль выхода, чтобы отменить выполнение оставшихся операций:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Выполняется операция передачи %%_COUNT_%% из %%_TOTAL_%%.
