@@ -35,17 +35,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void AllowBrowserToolbarForReloading(AppSettings settings)
 		{
-			//if (settings.Browser.AdditionalWindow.AllowReloading && settings.Browser.AdditionalWindow.ShowReloadButton)
-			//{
-			//	settings.Browser.AdditionalWindow.ShowToolbar = true;
-			//}
+			if (settings.Browser.AdditionalWindow.AllowReloading && settings.Browser.AdditionalWindow.ShowReloadButton)
+			{
+				settings.Browser.AdditionalWindow.ShowToolbar = true;
+			}
 
-			//if (settings.Browser.MainWindow.AllowReloading && settings.Browser.MainWindow.ShowReloadButton)
-			//{
-			//	settings.Browser.MainWindow.ShowToolbar = true;
-			//}
-			settings.Browser.MainWindow.ShowToolbar = true;
-			settings.Browser.AdditionalWindow.ShowToolbar = true;
+			if (settings.Browser.MainWindow.AllowReloading && settings.Browser.MainWindow.ShowReloadButton)
+			{
+				settings.Browser.MainWindow.ShowToolbar = true;
+			}
 		}
 
 		private void CalculateConfigurationKey(IDictionary<string, object> rawData, AppSettings settings)

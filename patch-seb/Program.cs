@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace patch_seb
@@ -17,8 +14,16 @@ namespace patch_seb
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-			// Checks
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\System32\wpeinit.exe"))
+			// Warn the user if running a debug/beta build
+#if DEBUG
+			var dialog = MessageBox.Show("You're about to run a Debug/Beta build. These builds are NOT production ready, and you should be using them only for testing.\n\nARE YOU SURE TO CONTINUE, KNOWING THE AUTHOR WILL PROVIDE NO SUPPORT FOR YOU?","Safe Exam Browser Patcher",MessageBoxButtons.YesNo,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2);
+			if (dialog == DialogResult.No)
+			{
+				return;
+			}
+#endif
+			// Check if we're running in Windows PE
+			if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\System32\wpeinit.exe"))
 			{
 				// Running in Windows PE environment, launch the offline patcher
 				Application.Run(new OfflinePatcher());

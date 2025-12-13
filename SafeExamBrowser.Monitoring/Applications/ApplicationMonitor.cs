@@ -53,43 +53,43 @@ namespace SafeExamBrowser.Monitoring.Applications
 			var result = new InitializationResult();
 
 			InitializeProcesses();
-			//InitializeBlacklist(settings, result);
-			//InitializeWhitelist(settings, result);
+			InitializeBlacklist(settings, result);
+			InitializeWhitelist(settings, result);
 
 			return result;
 		}
 
 		public void Start()
 		{
-			//timer.AutoReset = false;
-			//timer.Elapsed += Timer_Elapsed;
-			//timer.Start();
+			timer.AutoReset = false;
+			timer.Elapsed += Timer_Elapsed;
+			timer.Start();
 			logger.Info("Started monitoring applications.");
 
-			//captureHookId = nativeMethods.RegisterSystemCaptureStartEvent(SystemEvent_WindowChanged);
-			//logger.Info($"Registered system capture start event with ID = {captureHookId}.");
+			captureHookId = nativeMethods.RegisterSystemCaptureStartEvent(SystemEvent_WindowChanged);
+			logger.Info($"Registered system capture start event with ID = {captureHookId}.");
 
-			//foregroundHookId = nativeMethods.RegisterSystemForegroundEvent(SystemEvent_WindowChanged);
-			//logger.Info($"Registered system foreground event with ID = {foregroundHookId}.");
+			foregroundHookId = nativeMethods.RegisterSystemForegroundEvent(SystemEvent_WindowChanged);
+			logger.Info($"Registered system foreground event with ID = {foregroundHookId}.");
 		}
 
 		public void Stop()
 		{
-			//timer.Stop();
-			//timer.Elapsed -= Timer_Elapsed;
+			timer.Stop();
+			timer.Elapsed -= Timer_Elapsed;
 			logger.Info("Stopped monitoring applications.");
 
-			//if (captureHookId.HasValue)
-			//{
-			//	nativeMethods.DeregisterSystemEventHook(captureHookId.Value);
-			//	logger.Info($"Unregistered system capture start event with ID = {captureHookId}.");
-			//}
+			if (captureHookId.HasValue)
+			{
+				nativeMethods.DeregisterSystemEventHook(captureHookId.Value);
+				logger.Info($"Unregistered system capture start event with ID = {captureHookId}.");
+			}
 
-			//if (foregroundHookId.HasValue)
-			//{
-			//	nativeMethods.DeregisterSystemEventHook(foregroundHookId.Value);
-			//	logger.Info($"Unregistered system foreground event with ID = {foregroundHookId}.");
-			//}
+			if (foregroundHookId.HasValue)
+			{
+				nativeMethods.DeregisterSystemEventHook(foregroundHookId.Value);
+				logger.Info($"Unregistered system foreground event with ID = {foregroundHookId}.");
+			}
 		}
 
 		public bool TryGetActiveApplication(out ActiveApplication application)
@@ -255,10 +255,10 @@ namespace SafeExamBrowser.Monitoring.Applications
 			isRuntime &= process.Name == "SafeExamBrowser.exe";
 			isRuntime &= process.OriginalName == "SafeExamBrowser.exe";
 
-//#if !DEBUG
-//			isClient &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
-//			isRuntime &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
-//#endif
+#if !DEBUG
+			isClient &= process.Signature == "ecac9df025f5d208f6190fc4d6f9d329576598c7";
+			isRuntime &= process.Signature == "ecac9df025f5d208f6190fc4d6f9d329576598c7";
+#endif
 
 			return isClient || isRuntime;
 		}

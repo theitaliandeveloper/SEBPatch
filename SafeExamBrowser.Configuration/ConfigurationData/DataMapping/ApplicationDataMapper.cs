@@ -78,7 +78,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//		}
 			//	}
 			//}
-		}
+							}
 
 		private void MapApplicationWhitelist(AppSettings settings, object value)
 		{

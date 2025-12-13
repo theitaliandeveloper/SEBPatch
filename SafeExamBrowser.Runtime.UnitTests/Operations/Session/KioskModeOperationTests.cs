@@ -21,7 +21,7 @@ using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.WindowsApi.Contracts;
 
-namespace SafeExamBrowser.Runtime.UnitTests.Operations
+namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 {
 	[TestClass]
 	public class KioskModeOperationTests
@@ -478,6 +478,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, performResult);
 			Assert.AreEqual(OperationResult.Success, revertResult);
+		}
+
+		[TestMethod]
+		public void Revert_MustNotFailIfNotInitialized()
+		{
+			desktopFactory.Reset();
+			nextSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
+
+			try
+			{
+				sut.Perform();
+			}
+			catch
+			{
+			}
+
+			var result = sut.Revert();
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]

@@ -193,7 +193,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				settings.Browser.MainWindow.AllowAddressBar = allow;
 			}
-			//settings.Browser.MainWindow.AllowAddressBar = false;
 		}
 
 		private void MapAllowAddressBarAdditionalWindow(AppSettings settings, object value)
@@ -202,7 +201,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				settings.Browser.AdditionalWindow.AllowAddressBar = allow;
 			}
-			//settings.Browser.AdditionalWindow.AllowAddressBar = false;
 		}
 
 		private void MapAllowConfigurationDownloads(AppSettings settings, object value)
@@ -212,7 +210,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowConfigurationDownloads = allow;
 			//}
 			settings.Browser.AllowConfigurationDownloads = true;
-		}
+			}
 
 		private void MapAllowCustomDownloadLocation(AppSettings settings, object value)
 		{
@@ -221,7 +219,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowCustomDownAndUploadLocation = allow;
 			//}
 			settings.Browser.AllowCustomDownAndUploadLocation = true;
-		}
+			}
 
 		private void MapAllowDeveloperConsole(AppSettings settings, object value)
 		{
@@ -232,7 +230,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//}
 			settings.Browser.MainWindow.AllowDeveloperConsole = true;
 			settings.Browser.AdditionalWindow.AllowDeveloperConsole = true;
-		}
+			}
 
 		private void MapAllowDownloads(AppSettings settings, object value)
 		{
@@ -241,7 +239,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowDownloads = allow;
 			//}
 			settings.Browser.AllowDownloads = true;
-		}
+			}
 
 		private void MapAllowFind(AppSettings settings, object value)
 		{
@@ -250,7 +248,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowFind = allow;
 			//}
 			settings.Browser.AllowFind = true;
-		}
+			}
 
 		private void MapAllowNavigation(AppSettings settings, object value)
 		{
@@ -261,7 +259,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//}
 			settings.Browser.MainWindow.AllowBackwardNavigation = true;
 			settings.Browser.MainWindow.AllowForwardNavigation = true;
-		}
+			}
 
 		private void MapAllowNavigationAdditionalWindow(AppSettings settings, object value)
 		{
@@ -272,7 +270,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//}
 			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;
 			settings.Browser.AdditionalWindow.AllowForwardNavigation = true;
-		}
+			}
 
 		private void MapAllowPageZoom(AppSettings settings, object value)
 		{
@@ -281,7 +279,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowPageZoom = allow;
 			//}
 			settings.Browser.AllowPageZoom = true;
-		}
+			}
 
 		private void MapAllowPdfReaderToolbar(AppSettings settings, object value)
 		{
@@ -290,7 +288,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowPdfReaderToolbar = allow;
 			//}
 			settings.Browser.AllowPdfReaderToolbar = true;
-		}
+			}
 
 		private void MapAllowPrint(AppSettings settings, object value)
 		{
@@ -299,7 +297,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowPrint = allow;
 			//}
 			settings.Browser.AllowPrint = true;
-		}
+			}
 
 		private void MapAllowReload(AppSettings settings, object value)
 		{
@@ -308,7 +306,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.MainWindow.AllowReloading = allow;
 			//}
 			settings.Browser.MainWindow.AllowReloading = true;
-		}
+			}
 
 		private void MapAllowReloadAdditionalWindow(AppSettings settings, object value)
 		{
@@ -317,7 +315,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AdditionalWindow.AllowReloading = allow;
 			//}
 			settings.Browser.AdditionalWindow.AllowReloading = true;
-		}
+			}
 
 		private void MapAllowSpellChecking(AppSettings settings, object value)
 		{
@@ -326,7 +324,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowSpellChecking = allow;
 			//}
 			settings.Browser.AllowSpellChecking = true;
-		}
+			}
 
 		private void MapAllowUploads(AppSettings settings, object value)
 		{
@@ -335,7 +333,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowUploads = allow;
 			//}
 			settings.Browser.AllowUploads = true;
-		}
+			}
 
 		private void MapDeleteCacheOnShutdown(AppSettings settings, object value)
 		{
@@ -384,7 +382,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.EnableBrowser = enable;
 			//}
 			settings.Browser.EnableBrowser = true;
-		}
+			}
 
 		private void MapExamKeySalt(AppSettings settings, object value)
 		{
@@ -409,7 +407,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.HomeNavigationRequiresPassword = requires;
 			//}
 			settings.Browser.HomeNavigationRequiresPassword = false;
-		}
+			}
 
 		private void MapHomeButtonUrl(AppSettings settings, object value)
 		{
@@ -418,7 +416,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.HomeUrl = url;
 			//}
 			settings.Browser.HomeUrl = "https://google.com";
-		}
+			}
 
 		private void MapHomeButtonUseStartUrl(AppSettings settings, object value)
 		{
@@ -427,7 +425,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.UseStartUrlAsHomeUrl = use;
 			//}
 			settings.Browser.UseStartUrlAsHomeUrl = false;
-		}
+			}
 
 		private void MapMainWindowMode(AppSettings settings, object value)
 		{
@@ -531,7 +529,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.ShowFileSystemElementPath = show;
 			//}
 			settings.Browser.ShowFileSystemElementPath = true;
-		}
+			}
 
 		private void MapShowReloadWarningAdditionalWindow(AppSettings settings, object value)
 		{

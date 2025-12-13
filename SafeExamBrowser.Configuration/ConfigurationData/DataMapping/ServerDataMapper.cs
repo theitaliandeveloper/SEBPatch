@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Server.FallbackPasswordHash = hash;
 			//}
 			settings.Server.FallbackPasswordHash = "";
-		}
+			}
 
 		private void MapPerformFallback(AppSettings settings, object value)
 		{

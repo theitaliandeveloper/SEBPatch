@@ -25,7 +25,7 @@ using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.WindowsApi.Contracts;
 
-namespace SafeExamBrowser.Runtime.UnitTests.Operations
+namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 {
 	[TestClass]
 	public class ClientOperationTests
@@ -196,7 +196,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustKillClientIfStoppingFailed()
 		{
-			process.Setup(p => p.TryKill(It.IsAny<int>())).Callback(() => process.SetupGet(p => p.HasTerminated).Returns(true));
+			process.Setup(p => p.TryKill(It.IsAny<int>())).Returns(true).Callback(() => process.SetupGet(p => p.HasTerminated).Returns(true));
 
 			PerformNormally();
 			sut.Revert();

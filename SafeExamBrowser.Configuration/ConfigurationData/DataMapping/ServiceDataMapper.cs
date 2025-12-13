@@ -75,7 +75,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableChromeNotifications = !enable;
 			//}
 			settings.Service.DisableChromeNotifications = false;
-		}
+			}
 
 		private void MapEnableEaseOfAccessOptions(AppSettings settings, object value)
 		{
@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableEaseOfAccessOptions = !enable;
 			//}
 			settings.Service.DisableEaseOfAccessOptions = false;
-		}
+			}
 
 		private void MapEnableFindPrinter(AppSettings settings, object value)
 		{
@@ -93,7 +93,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableFindPrinter = !enable;
 			//}
 			settings.Service.DisableFindPrinter = false;
-		}
+			}
 
 		private void MapEnableNetworkOptions(AppSettings settings, object value)
 		{
@@ -102,7 +102,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableNetworkOptions = !enable;
 			//}
 			settings.Service.DisableNetworkOptions = false;
-		}
+			}
 
 		private void MapEnablePasswordChange(AppSettings settings, object value)
 		{
@@ -111,7 +111,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisablePasswordChange = !enable;
 			//}
 			settings.Service.DisablePasswordChange = false;
-		}
+			}
 
 		private void MapEnablePowerOptions(AppSettings settings, object value)
 		{
@@ -120,7 +120,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisablePowerOptions = !enable;
 			//}
 			settings.Service.DisablePowerOptions = false;
-		}
+			}
 
 		private void MapEnableRemoteConnections(AppSettings settings, object value)
 		{
@@ -129,7 +129,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableRemoteConnections = !enable;
 			//}
 			settings.Service.DisableRemoteConnections = false;
-		}
+			}
 
 		private void MapEnableSignout(AppSettings settings, object value)
 		{
@@ -147,7 +147,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableTaskManager = !enable;
 			//}
 			settings.Service.DisableTaskManager = false;
-		}
+			}
 
 		private void MapEnableUserLock(AppSettings settings, object value)
 		{
@@ -156,7 +156,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableUserLock = !enable;
 			//}
 			settings.Service.DisableUserLock = false;
-		}
+			}
 
 		private void MapEnableUserSwitch(AppSettings settings, object value)
 		{
@@ -165,7 +165,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableUserSwitch = !enable;
 			//}
 			settings.Service.DisableUserSwitch = false;
-		}
+			}
 
 		private void MapEnableVmwareOverlay(AppSettings settings, object value)
 		{
@@ -183,7 +183,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Service.DisableWindowsUpdate = !enable;
 			//}
 			settings.Service.DisableWindowsUpdate = false;
-		}
+			}
 
 		private void MapIgnoreService(AppSettings settings, object value)
 		{

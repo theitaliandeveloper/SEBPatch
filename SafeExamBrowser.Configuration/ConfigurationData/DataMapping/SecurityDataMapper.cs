@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
@@ -76,7 +75,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.AdminPasswordHash = hash;
 			//}
 			settings.Security.AdminPasswordHash = "";
-		}
+			}
 
 		private void MapAllowReconfiguration(AppSettings settings, object value)
 		{
@@ -85,7 +84,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.AllowReconfiguration = allow;
 			//}
 			settings.Security.AllowReconfiguration = true;
-		}
+			}
 
 		private void MapAllowStickyKeys(AppSettings settings, object value)
 		{
@@ -94,7 +93,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.AllowStickyKeys = allow;
 			//}
 			settings.Security.AllowStickyKeys = true;
-		}
+			}
 
 		private void MapAllowTermination(AppSettings settings, object value)
 		{
@@ -103,7 +102,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.AllowTermination = allow;
 			//}
 			settings.Security.AllowTermination = true;
-		}
+			}
 		private void MapAllowWindowCapture(AppSettings settings, object value)
 		{
 			//if (value is bool allow)
@@ -111,7 +110,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.AllowWindowCapture = allow;
 			//}
 			settings.Security.AllowWindowCapture = true;
-		}
+			}
 
 		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)
 		{
@@ -152,8 +151,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//{
 			//	settings.Security.KioskMode = KioskMode.None;
 			//}
-			settings.Security.KioskMode = KioskMode.None;
-		}
+				settings.Security.KioskMode = KioskMode.None;
+			}
 
 		private void MapQuitPasswordHash(AppSettings settings, object value)
 		{
@@ -162,7 +161,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.QuitPasswordHash = hash;
 			//}
 			settings.Security.QuitPasswordHash = "";
-		}
+			}
 
 		private void MapClipboardPolicy(AppSettings settings, object value)
 		{
@@ -174,7 +173,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.ClipboardPolicy = policy == ALLOW ? ClipboardPolicy.Allow : (policy == BLOCK ? ClipboardPolicy.Block : ClipboardPolicy.Isolated);
 			//}
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
-		}
+			}
 
 		private void MapDisableSessionChangeLockScreen(AppSettings settings, object value)
 		{
@@ -183,7 +182,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.DisableSessionChangeLockScreen = disable;
 			//}
 			settings.Security.DisableSessionChangeLockScreen = false;
-		}
+			}
 
 		private void MapVirtualMachinePolicy(AppSettings settings, object value)
 		{
@@ -192,7 +191,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny;
 			//}
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
-		}
+			}
 
 		private void MapReconfigurationUrl(AppSettings settings, object value)
 		{
@@ -209,7 +208,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.VerifyCursorConfiguration = verify;
 			//}
 			settings.Security.VerifyCursorConfiguration = false;
-		}
+			}
 
 		private void MapVerifySessionIntegrity(AppSettings settings, object value)
 		{
@@ -218,7 +217,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.VerifySessionIntegrity = verify;
 			//}
 			settings.Security.VerifySessionIntegrity = false;
-		}
+			}
 
 		private void MapVersionRestrictions(AppSettings settings, object value)
 		{

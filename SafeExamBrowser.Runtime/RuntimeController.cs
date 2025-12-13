@@ -11,7 +11,6 @@ using SafeExamBrowser.Core.Contracts.ResponsibilityModel;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Responsibilities;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
-using System.Deployment.Internal;
 
 namespace SafeExamBrowser.Runtime
 {
@@ -45,6 +44,7 @@ namespace SafeExamBrowser.Runtime
 		internal bool TryStart()
 		{
 			logger.Info("Initiating startup procedure...");
+
 			// We need to show the runtime window here already, this way implicitly setting it as the runtime application's main window.
 			// Otherwise, the splash screen is considered as the main window and thus the operating system and/or WPF does not correctly
 			// activate the runtime window once bootstrapping has finished, which in turn leads to undesired user interface behavior.

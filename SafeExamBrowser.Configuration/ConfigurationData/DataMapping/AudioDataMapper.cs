@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Audio.InitialVolume = volume;
 			//}
 			settings.Audio.InitialVolume = 67;
-		}
+			}
 
 		private void MapMuteAudio(AppSettings settings, object value)
 		{

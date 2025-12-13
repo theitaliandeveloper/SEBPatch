@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Display.AllowedDisplays = count;
 			//}
 			settings.Display.AllowedDisplays = 500;
-		}
+			}
 
 		private void MapAlwaysOn(AppSettings settings, object value)
 		{

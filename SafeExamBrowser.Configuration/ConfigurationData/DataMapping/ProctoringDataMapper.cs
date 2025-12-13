@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Configuration;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Proctoring;
 

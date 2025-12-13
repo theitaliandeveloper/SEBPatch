@@ -83,7 +83,7 @@ namespace SafeExamBrowser.Client.Operations
 			InitializeSystemComponents();
 			InitializeActionCenter();
 			InitializeTaskbar();
-			//InitializeTaskview();
+			InitializeTaskview();
 			InitializeActivators();
 			InitializeAlwaysOnState();
 
@@ -112,11 +112,11 @@ namespace SafeExamBrowser.Client.Operations
 					actionCenterActivator.Start();
 				}
 
-				//if (Context.Settings.Keyboard.AllowAltTab && activator is ITaskviewActivator taskViewActivator)
-				//{
-				//	taskview.Register(taskViewActivator);
-				//	taskViewActivator.Start();
-				//}
+				if (Context.Settings.Keyboard.AllowAltTab && activator is ITaskviewActivator taskViewActivator)
+				{
+					taskview.Register(taskViewActivator);
+					taskViewActivator.Start();
+				}
 
 				if (Context.Settings.Security.AllowTermination && activator is ITerminationActivator terminationActivator)
 				{
