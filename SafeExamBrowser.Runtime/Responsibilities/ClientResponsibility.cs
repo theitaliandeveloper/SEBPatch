@@ -86,7 +86,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 				Context.Responsibilities.Delegate(RuntimeTask.StopSession);
 			}
 
-			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
+			//messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 			shutdown.Invoke();
 		}
 	}

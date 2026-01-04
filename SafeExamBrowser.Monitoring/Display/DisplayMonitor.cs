@@ -95,7 +95,7 @@ namespace SafeExamBrowser.Monitoring.Display
 			else
 			{
 				result.IsAllowed = settings.IgnoreError;
-				logger.Warn($"Failed to validate display configuration, {(result.IsAllowed ? "ignoring error" : "active configuration is not allowed")}.");
+				//logger.Warn($"Failed to validate display configuration, {(result.IsAllowed ? "ignoring error" : "active configuration is not allowed")}.");
 			}
 
 			return result;
@@ -199,7 +199,7 @@ namespace SafeExamBrowser.Monitoring.Display
 			catch (Exception e)
 			{
 				success = false;
-				logger.Error("Failed to query displays!", e);
+				//logger.Error("Failed to query displays!", e);
 			}
 
 			foreach (var display in displays)

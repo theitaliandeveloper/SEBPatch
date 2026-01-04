@@ -110,20 +110,20 @@ namespace SafeExamBrowser.Client
 			responsibilities.Delegate(ClientTask.RegisterEvents);
 			responsibilities.Delegate(ClientTask.ShowShell);
 			responsibilities.Delegate(ClientTask.AutoStartApplications);
-			responsibilities.Delegate(ClientTask.ScheduleIntegrityVerification);
-			responsibilities.Delegate(ClientTask.StartMonitoring);
+			//responsibilities.Delegate(ClientTask.ScheduleIntegrityVerification);
+			//responsibilities.Delegate(ClientTask.StartMonitoring);
 		}
 
 		private void DelegateClientReadyResponsibilities()
 		{
-			responsibilities.Delegate(ClientTask.VerifySessionIntegrity);
+			//responsibilities.Delegate(ClientTask.VerifySessionIntegrity);
 		}
 
 		private void DelegateShutdownResponsibilities()
 		{
 			responsibilities.Delegate(ClientTask.CloseShell);
 			responsibilities.Delegate(ClientTask.DeregisterEvents);
-			responsibilities.Delegate(ClientTask.UpdateSessionIntegrity);
+			//responsibilities.Delegate(ClientTask.UpdateSessionIntegrity);
 		}
 
 		private bool TryInformRuntime()

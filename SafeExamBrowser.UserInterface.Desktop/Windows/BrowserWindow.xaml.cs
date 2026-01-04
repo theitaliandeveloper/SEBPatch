@@ -242,7 +242,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		{
 			if (isMainWindow)
 			{
-				e.Cancel = true;
+				//e.Cancel = true;
+				Dispatcher.Invoke(() =>
+				{
+					Closing -= BrowserWindow_Closing;
+					closing?.Invoke();
+					base.Close();
+				});
 			}
 			else
 			{
@@ -346,7 +352,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 			if (isMainWindow)
 			{
-				this.DisableCloseButton();
+				//this.DisableCloseButton();
 			}
 		}
 
