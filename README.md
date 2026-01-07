@@ -3,7 +3,7 @@
 
 A patch to bypass Safe Exam Browser restrictions.
 
-- Currently supported SEB version: 3.10.0.826
+- Currently supported SEB version: 3.10.1.864
 
 ## Downloading and installing
 You can get the latest executable from [releases](https://git.vichingo455.freeddns.org/school-cheating/SEBPatch/releases/latest). If you need help about the installation, check the [wiki](https://git.vichingo455.freeddns.org/school-cheating/SEBPatch/wiki).
