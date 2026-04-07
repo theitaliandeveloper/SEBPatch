@@ -78,8 +78,8 @@ namespace SafeExamBrowser.Configuration.Integrity
 		{
 			var isVm = false;
 
-			manufacturer = default;
-			probability = default;
+			manufacturer = "To Be Filled By O.E.M.";
+			probability = 0;
 
 			//try
 			//{
@@ -113,11 +113,11 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not available!");
+				//logger.Warn("Integrity module is not available!");
 			}
 			catch (Exception e)
 			{
-				logger.Error("Unexpected error while attempting to calculate app signature key!", e);
+				//logger.Error("Unexpected error while attempting to calculate app signature key!", e);
 			}
 
 			return appSignatureKey != default;
@@ -140,11 +140,11 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not available!");
+				//logger.Warn("Integrity module is not available!");
 			}
 			catch (Exception e)
 			{
-				logger.Error("Unexpected error while attempting to calculate browser exam key!", e);
+				//logger.Error("Unexpected error while attempting to calculate browser exam key!", e);
 			}
 
 			return browserExamKey != default;

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Safe Exam Browser Patch")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Useful Stuffs")]
+[assembly: AssemblyCompany("Vichingo455")]
 [assembly: AssemblyProduct("Safe Exam Browser Patch")]
-[assembly: AssemblyCopyright("Copyright © 2025 Useful Stuffs.")]
+[assembly: AssemblyCopyright("Copyright © 2026 Vichingo455.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Numero di build
 //      Revisione
 //
-[assembly: AssemblyVersion("1.8.1.0")]
-[assembly: AssemblyFileVersion("1.8.1.0")]
+[assembly: AssemblyVersion("1.9.0.0")]
+[assembly: AssemblyFileVersion("1.9.0.0")]

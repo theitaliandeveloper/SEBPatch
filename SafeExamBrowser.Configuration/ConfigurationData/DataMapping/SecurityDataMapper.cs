@@ -134,8 +134,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapKioskMode(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			//var hasCreateNewDesktop = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var createNewDesktop);
-			//var hasDisableExplorerShell = rawData.TryGetValue(Keys.Security.KioskModeDisableExplorerShell, out var disableExplorerShell);
+			var hasCreateNewDesktop = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var createNewDesktop);
+			var hasDisableExplorerShell = rawData.TryGetValue(Keys.Security.KioskModeDisableExplorerShell, out var disableExplorerShell);
 
 			//if (hasDisableExplorerShell && disableExplorerShell as bool? == true)
 			//{
@@ -151,8 +151,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//{
 			//	settings.Security.KioskMode = KioskMode.None;
 			//}
+			//settings.Security.KioskMode = KioskMode.DisableExplorerShell;
+
+			if (hasCreateNewDesktop && hasDisableExplorerShell && createNewDesktop as bool? == false && disableExplorerShell as bool? == false)
+			{
 				settings.Security.KioskMode = KioskMode.None;
 			}
+			else
+			{
+				settings.Security.KioskMode = KioskMode.DisableExplorerShell;
+			}
+		}
 
 		private void MapQuitPasswordHash(AppSettings settings, object value)
 		{

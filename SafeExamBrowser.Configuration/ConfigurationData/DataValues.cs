@@ -260,7 +260,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.AllowStickyKeys = true;
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
 			settings.Security.DisableSessionChangeLockScreen = false;
-			settings.Security.KioskMode = KioskMode.None;
+			settings.Security.KioskMode = KioskMode.DisableExplorerShell;
 			settings.Security.VerifyCursorConfiguration = false;
 			settings.Security.VerifySessionIntegrity = false;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
@@ -295,7 +295,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.System.AlwaysOn = false;
 
-			settings.UserInterface.ActionCenter.EnableActionCenter = false;
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
 			settings.UserInterface.ActionCenter.ShowApplicationInfo = true;
 			settings.UserInterface.ActionCenter.ShowApplicationLog = false;
 			settings.UserInterface.ActionCenter.ShowClock = true;
@@ -303,7 +303,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.UserInterface.ActionCenter.ShowNetwork = false;
 			settings.UserInterface.LockScreen.BackgroundColor = "#ff0000";
 			settings.UserInterface.Mode = UserInterfaceMode.Desktop;
-			settings.UserInterface.Taskbar.EnableTaskbar = false;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
 			settings.UserInterface.Taskbar.ShowApplicationInfo = false;
 			settings.UserInterface.Taskbar.ShowApplicationLog = false;
 			settings.UserInterface.Taskbar.ShowClock = true;
