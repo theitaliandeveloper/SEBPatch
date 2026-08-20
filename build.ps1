@@ -28,6 +28,7 @@ foreach ($arch in @("x64", "x86")) {
         /p:Configuration=$Configuration `
         /p:Platform=$arch `
 	/p:RestoreSources="https://api.nuget.org/v3/index.json" `
+	/p:RestorePackagesConfig=true `
         /verbosity:minimal `
         /t:Restore
 
