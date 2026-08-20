@@ -1,4 +1,4 @@
-param(
+Param(
     [ValidateSet("Debug", "Release")]
     [string]$Configuration = "Debug"
 )
@@ -22,18 +22,28 @@ $projects = @{
 foreach ($arch in @("x64", "x86")) {
 
     Write-Host ""
-    Write-Host "=== Building $Configuration | $arch ===" -ForegroundColor Cyan
+    Write-Host "=== Restoring & Building $Configuration | $arch ===" -ForegroundColor Cyan
 
-    # Build the solution using the specified Configuration and Platform.
     msbuild $solution `
         /p:Configuration=$Configuration `
         /p:Platform=$arch `
-	/verbosity:minimal `
+        /verbosity:minimal `
+        /t:Restore
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error -Message "Failed restoring packages (configuration: $Configuration, arch: $arch)." -Category InvalidResult
+        exit 1
+    }
+
+    msbuild $solution `
+        /p:Configuration=$Configuration `
+        /p:Platform=$arch `
+        /verbosity:minimal `
         /t:Build
 
     if ($LASTEXITCODE -ne 0) {
         Write-Error -Message "Failed compiling Safe Exam Browser Patch files (configuration: $Configuration, arch: $arch)." -Category InvalidResult
-	exit 1
+        exit 1
     }
 
     $resourceDir = Join-Path $PSScriptRoot "patch-seb\Resources\$arch"
@@ -45,18 +55,18 @@ foreach ($arch in @("x64", "x86")) {
         $file = $projects[$project]
 
         if ($project -eq "SafeExamBrowser") {
-		$source = Join-Path `
-            $PSScriptRoot `
-            "$project.Runtime\bin\$arch\$Configuration\$file"
-	} else {
-		$source = Join-Path `
-            $PSScriptRoot `
-            "$project\bin\$arch\$Configuration\$file"
-	}
+            $source = Join-Path `
+                $PSScriptRoot `
+                "$project.Runtime\bin\$arch\$Configuration\$file"
+        } else {
+            $source = Join-Path `
+                $PSScriptRoot `
+                "$project\bin\$arch\$Configuration\$file"
+        }
 
         if (!(Test-Path $source)) {
             Write-Error -Message "Expected output not found: $source" -Category ObjectNotFound
-	    exit 1
+            exit 1
         }
 
         Copy-Item $source $resourceDir -Force
@@ -70,13 +80,16 @@ Write-Host "Safe Exam Browser Patch files compiled successfully!" -ForegroundCol
 Write-Host ""
 Write-Host "Compiling patcher..."
 $project = Join-Path $PSScriptRoot "patch-seb\patch-seb.csproj"
+
 msbuild $project `
         /p:Configuration=$Configuration `
+        /verbosity:minimal `
         /t:Build
+
 if ($LASTEXITCODE -ne 0) {
-        Write-Error -Message "Failed compiling Safe Exam Browser patcher (configuration: $Configuration)." -Category InvalidResult
-	exit 1
+    Write-Error -Message "Failed compiling Safe Exam Browser patcher (configuration: $Configuration)." -Category InvalidResult
+    exit 1
 } else {
-	Write-Host ""
-	Write-Host "Patcher compiled successfully!" -ForegroundColor Green
+    Write-Host ""
+    Write-Host "Patcher compiled successfully!" -ForegroundColor Green
 }
