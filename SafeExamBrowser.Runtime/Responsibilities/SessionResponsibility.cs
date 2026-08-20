@@ -127,8 +127,8 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 			//{
 			//	runtimeWindow.Hide();
 			//}
-			runtimeWindow.Hide();
-		}
+				runtimeWindow.Hide();
+			}
 
 		private void HandleSessionStartFailure()
 		{
@@ -164,7 +164,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 				//{
 				//	runtimeWindow.Hide();
 				//}
-				runtimeWindow.Hide();
+					runtimeWindow.Hide();
 
 				Context.ClientProxy.InformReconfigurationAborted();
 			}

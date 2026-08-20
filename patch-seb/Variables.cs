@@ -8,6 +8,6 @@ namespace patch_seb
 {
     internal class Variables
     {
-		public static string SupportedSEB = "3.10.1.864";
+		public static string SupportedSEB = "3.10.2.920";
 	}
 }

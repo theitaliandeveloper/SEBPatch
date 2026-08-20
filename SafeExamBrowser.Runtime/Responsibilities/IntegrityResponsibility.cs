@@ -1,0 +1,94 @@
+﻿/*
+ * Copyright (c) 2026 ETH Zürich, IT Services
+ * 
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System;
+using System.Timers;
+using SafeExamBrowser.Configuration.Contracts.Integrity;
+using SafeExamBrowser.Logging.Contracts;
+
+namespace SafeExamBrowser.Runtime.Responsibilities
+{
+	internal class IntegrityResponsibility : RuntimeResponsibility
+	{
+		private readonly IIntegrityModule integrityModule;
+		private readonly Action shutdown;
+		private readonly Timer timer;
+
+		public IntegrityResponsibility(
+			IIntegrityModule integrityModule,
+			ILogger logger,
+			RuntimeContext runtimeContext,
+			Action shutdown) : base(logger, runtimeContext)
+		{
+			this.integrityModule = integrityModule;
+			this.shutdown = shutdown;
+			this.timer = new Timer();
+		}
+
+		public override void Assume(RuntimeTask task)
+		{
+			switch (task)
+			{
+				case RuntimeTask.StartIntegrityMonitoring:
+					StartIntegrityMonitoring();
+					break;
+				case RuntimeTask.StopIntegrityMonitoring:
+					StopIntegrityMonitoring();
+					break;
+			}
+		}
+
+		private void StartIntegrityMonitoring()
+		{
+			const int FIVE_SECONDS = 5000;
+
+			timer.AutoReset = false;
+			timer.Interval = FIVE_SECONDS;
+			timer.Elapsed += Timer_Elapsed;
+			timer.Start();
+
+			Logger.Info("Started monitoring runtime integrity.");
+		}
+
+		private void StopIntegrityMonitoring()
+		{
+			timer.Stop();
+			timer.Elapsed -= Timer_Elapsed;
+
+			Logger.Info("Stopped monitoring runtime integrity.");
+		}
+
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			Logger.Info("Attempting to verify runtime integrity...");
+
+			if (integrityModule.TryVerifyRuntimeIntegrity(out var isValid))
+			{
+				HandleRuntimeIntegrityStatus(isValid);
+			}
+			else
+			{
+				Logger.Warn("Failed to verify runtime integrity!");
+			}
+
+			timer.Start();
+		}
+
+		private void HandleRuntimeIntegrityStatus(bool isValid)
+		{
+			if (isValid)
+			{
+				Logger.Info("Runtime integrity successfully verified.");
+			}
+			else
+			{
+				Logger.Warn("Runtime integrity is compromised!");
+			}
+		}
+	}
+}

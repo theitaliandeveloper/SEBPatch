@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 			//	nativeMethods.DeregisterSystemEventHook(foregroundHookId.Value);
 			//	logger.Info($"Unregistered system foreground event with ID = {foregroundHookId}.");
 			//}
-		}
+			}
 
 		public bool TryGetActiveApplication(out ActiveApplication application)
 		{
@@ -126,8 +126,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			if (handle != IntPtr.Zero && activeWindow?.Handle != handle)
 			{
-				var title = nativeMethods.GetWindowTitle(handle);
-				var window = new Window { Handle = handle, Title = title };
+				var window = CreateWindowFor(handle);
 
 				logger.Debug($"Window has changed from {activeWindow} to {window}.");
 				activeWindow = window;
@@ -142,43 +141,10 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
 		{
-			var failed = new List<RunningApplication>();
-			var running = processFactory.GetAllRunning();
-			var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
-			var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
-
-			foreach (var process in started)
-			{
-				logger.Debug($"Process {process} has been started [{process.GetAdditionalInfo()}].");
-				processes.Add(process);
-
-				if (process.Name == "explorer.exe")
-				{
-					HandleExplorerStart(process);
-				}
-				else if (!IsAllowed(process) && !TryTerminate(process))
-				{
-					AddFailed(process, failed);
-				}
-				else if (IsWhitelisted(process, out var applicationId))
-				{
-					HandleInstanceStart(applicationId.Value, process);
-				}
-			}
-
-			foreach (var process in terminated)
-			{
-				logger.Debug($"Process {process} has been terminated.");
-				processes.Remove(process);
-			}
-
-			if (failed.Any())
-			{
-				logger.Warn($"Failed to terminate these blacklisted applications: {string.Join(", ", failed.Select(a => a.Name))}.");
-				TerminationFailed?.Invoke(failed);
-			}
+			MonitorProcesses();
+			MonitorWindows();
 
 			timer.Start();
 		}
@@ -265,8 +231,44 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		private void Close(Window window)
 		{
+			var processId = Convert.ToInt32(nativeMethods.GetProcessIdFor(window.Handle));
+
 			nativeMethods.SendCloseMessageTo(window.Handle);
 			logger.Info($"Sent close message to window {window}.");
+
+			Task.Delay(1000).ContinueWith((_) =>
+			{
+				var closed = !nativeMethods.IsExistingWindow(window.Handle) || processId != nativeMethods.GetProcessIdFor(window.Handle);
+
+				if (closed)
+				{
+					logger.Info($"Successfully closed window {window}.");
+				}
+				else
+				{
+					logger.Warn($"Failed to close window {window}! Attempting to terminate its process...");
+
+					if (TryGetProcessFor(window, out var process))
+					{
+						TryTerminate(process, gracefully: false);
+					}
+				}
+			});
+		}
+
+		private Window CreateWindowFor(IntPtr handle)
+		{
+			var style = nativeMethods.GetWindowStyle(handle);
+			var window = new Window
+			{
+				Handle = handle,
+				IsMinimized = nativeMethods.IsMinimizedWindow(handle),
+				IsOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost,
+				IsVisible = style.IsVisible,
+				Title = nativeMethods.GetWindowTitle(handle)
+			};
+
+			return window;
 		}
 
 		private void HandleExplorerStart(IProcess process)
@@ -400,6 +402,72 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return false;
 		}
 
+		private void MonitorProcesses()
+		{
+			try
+			{
+				var failed = new List<RunningApplication>();
+				var running = processFactory.GetAllRunning();
+				var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
+				var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
+
+				foreach (var process in started)
+				{
+					logger.Debug($"Process {process} has been started [{process.GetAdditionalInfo()}].");
+					processes.Add(process);
+
+					if (process.Name == "explorer.exe")
+					{
+						HandleExplorerStart(process);
+					}
+					else if (!IsAllowed(process) && !TryTerminate(process))
+					{
+						AddFailed(process, failed);
+					}
+					else if (IsWhitelisted(process, out var applicationId))
+					{
+						HandleInstanceStart(applicationId.Value, process);
+					}
+				}
+
+				foreach (var process in terminated)
+				{
+					logger.Debug($"Process {process} has been terminated.");
+					processes.Remove(process);
+				}
+
+				if (failed.Any())
+				{
+					logger.Warn($"Failed to terminate these blacklisted applications: {string.Join(", ", failed.Select(a => a.Name))}.");
+					TerminationFailed?.Invoke(failed);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to monitor processes!", e);
+			}
+		}
+
+		private void MonitorWindows()
+		{
+			try
+			{
+				foreach (var handle in nativeMethods.GetAllWindows())
+				{
+					var window = CreateWindowFor(handle);
+
+					if (window.IsVisible && !window.IsMinimized && !IsAllowed(window) && !TryHide(window))
+					{
+						Close(window);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to monitor windows!", e);
+			}
+		}
+
 		private bool TryGetProcessFor(Window window, out IProcess process)
 		{
 			var processId = Convert.ToInt32(nativeMethods.GetProcessIdFor(window.Handle));
@@ -428,20 +496,23 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return success;
 		}
 
-		private bool TryTerminate(IProcess process)
+		private bool TryTerminate(IProcess process, bool gracefully = true, bool kill = true)
 		{
 			const int MAX_ATTEMPTS = 5;
 			const int TIMEOUT = 500;
 
-			for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
+			if (gracefully)
 			{
-				if (process.TryClose(TIMEOUT))
+				for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
 				{
-					break;
+					if (process.TryClose(TIMEOUT))
+					{
+						break;
+					}
 				}
 			}
 
-			if (!process.HasTerminated)
+			if (!process.HasTerminated && kill)
 			{
 				for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
 				{

@@ -259,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# Safe Exam Browser Patched files
+patch-seb\Resources\x64\
+patch-seb\Resources\x86\

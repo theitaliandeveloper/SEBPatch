@@ -288,7 +288,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowPdfReaderToolbar = allow;
 			//}
 			settings.Browser.AllowPdfReaderToolbar = true;
-			}
+		}
 
 		private void MapAllowPrint(AppSettings settings, object value)
 		{
@@ -436,7 +436,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.MainWindow.FullScreenMode = mode == FULLSCREEN;
 			//}
 			settings.Browser.MainWindow.FullScreenMode = false;
-		}
+			}
 
 		private void MapPopupPolicy(IDictionary<string, object> rawData, AppSettings settings)
 		{
@@ -494,7 +494,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//}
 			settings.Browser.AdditionalWindow.ShowReloadButton = true;
 			settings.Browser.MainWindow.ShowReloadButton = true;
-		}
+			}
 
 		private void MapRequestFilter(IDictionary<string, object> rawData, AppSettings settings)
 		{

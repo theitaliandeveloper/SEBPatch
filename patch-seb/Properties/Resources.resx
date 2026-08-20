@@ -148,16 +148,4 @@
   <data name="SafeExamBrowser_Monitoring1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\x86\SafeExamBrowser.Monitoring.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SafeExamBrowser_UserInterface_Desktop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x64\SafeExamBrowser.UserInterface.Desktop.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SafeExamBrowser_UserInterface_Desktop1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x86\SafeExamBrowser.UserInterface.Desktop.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SafeExamBrowser_UserInterface_Mobile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x64\SafeExamBrowser.UserInterface.Mobile.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SafeExamBrowser_UserInterface_Mobile1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x86\SafeExamBrowser.UserInterface.Mobile.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
 </root>

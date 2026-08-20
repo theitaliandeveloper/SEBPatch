@@ -243,12 +243,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			if (isMainWindow)
 			{
 				e.Cancel = true;
-				//Dispatcher.Invoke(() =>
-				//{
-				//	Closing -= BrowserWindow_Closing;
-				//	closing?.Invoke();
-				//	base.Close();
-				//});
 			}
 			else
 			{

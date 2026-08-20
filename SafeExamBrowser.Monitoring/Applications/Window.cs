@@ -13,12 +13,16 @@ namespace SafeExamBrowser.Monitoring.Applications
 {
 	internal class Window : IWindow
 	{
+		internal bool IsMinimized { get; set; }
+		internal bool IsOverlay { get; set; }
+		internal bool IsVisible { get; set; }
+
 		public IntPtr Handle { get; set; }
 		public string Title { get; set; }
 
 		public override string ToString()
 		{
-			return $"'{Title}' ({Handle})";
+			return $"'{Title}' ({Handle}{(IsOverlay ? ", Overlay" : "")})";
 		}
 	}
 }

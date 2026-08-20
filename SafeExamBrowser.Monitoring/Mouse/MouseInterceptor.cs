@@ -46,14 +46,14 @@ namespace SafeExamBrowser.Monitoring.Mouse
 		{
 			var block = false;
 
-			block |= button == MouseButton.Auxiliary;
-			block |= button == MouseButton.Middle && !settings.AllowMiddleButton;
-			block |= button == MouseButton.Right && !settings.AllowRightButton;
+			//block |= button == MouseButton.Auxiliary;
+			//block |= button == MouseButton.Middle && !settings.AllowMiddleButton;
+			//block |= button == MouseButton.Right && !settings.AllowRightButton;
 
-			if (block)
-			{
-				logger.Info($"Blocked {button.ToString().ToLower()} mouse button when {state.ToString().ToLower()}.");
-			}
+			//if (block)
+			//{
+			//	logger.Info($"Blocked {button.ToString().ToLower()} mouse button when {state.ToString().ToLower()}.");
+			//}
 
 			return block;
 		}

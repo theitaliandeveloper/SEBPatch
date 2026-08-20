@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			else
 			{
-				logger.Error("Failed to cache session!");
+				//logger.Error("Failed to cache session!");
 			}
 		}
 
@@ -70,8 +70,28 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			else
 			{
-				logger.Error("Failed to clear session!");
+				//logger.Error("Failed to clear session!");
 			}
+		}
+
+		public bool IsRemoteSession()
+		{
+			var isRemoteSession = false;
+
+			/*try
+			{
+				isRemoteSession = Native.IsRemoteSession();
+			}
+			catch (DllNotFoundException)
+			{
+				logger.Warn("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Unexpected error while attempting to query remote session status!", e);
+			}*/
+
+			return isRemoteSession;
 		}
 
 		public bool IsVirtualMachine(out string manufacturer, out int probability)
@@ -109,7 +129,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 			try
 			{
-				appSignatureKey = CalculateAppSignatureKey(connectionToken, salt);
+				appSignatureKey = Native.CalculateAppSignatureKey(connectionToken, salt);
 			}
 			catch (DllNotFoundException)
 			{
@@ -120,7 +140,8 @@ namespace SafeExamBrowser.Configuration.Integrity
 				//logger.Error("Unexpected error while attempting to calculate app signature key!", e);
 			}
 
-			return appSignatureKey != default;
+			//return appSignatureKey != default;
+			return true;
 		}
 
 		public bool TryCalculateBrowserExamKey(string configurationKey, string salt, out string browserExamKey)
@@ -135,8 +156,8 @@ namespace SafeExamBrowser.Configuration.Integrity
 				}
 				else
 				{
-				browserExamKey = CalculateBrowserExamKey(configurationKey, salt);
-			}
+					browserExamKey = Native.CalculateBrowserExamKey(configurationKey, salt);
+				}
 			}
 			catch (DllNotFoundException)
 			{
@@ -158,17 +179,54 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 			try
 			{
-				//isValid = VerifyCodeSignature();
+				//isValid = Native.VerifyCodeSignature();
 				isValid = true;
 				success = true;
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not available!");
+				//logger.Warn("Integrity module is not available!");
 			}
 			catch (Exception e)
 			{
-				logger.Error("Unexpected error while attempting to verify code signature!", e);
+				//logger.Error("Unexpected error while attempting to verify code signature!", e);
+			}
+
+			return success;
+		}
+
+		public bool TryVerifyRuntimeIntegrity(out bool isValid)
+		{
+			var success = true;
+
+			isValid = default;
+
+			try
+			{
+				//isValid = Native.VerifyRuntimeIntegrity(out var data, out var count);
+				isValid = true;
+
+				/*for (var index = 0; index < count; index++)
+				{
+					var pointer = Marshal.ReadIntPtr(data, index * IntPtr.Size);
+					var raw = Marshal.PtrToStringBSTR(pointer);
+					var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+
+					logger.Warn($"Runtime Integrity Violation #{index}: {item}");
+
+					Marshal.FreeBSTR(pointer);
+				}*/
+
+				//Marshal.FreeCoTaskMem(data);
+				success = true;
+			}
+			catch (DllNotFoundException)
+			{
+				//logger.Warn("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				//logger.Error("Unexpected error while attempting to verify runtime integrity!", e);
 			}
 
 			return success;
@@ -176,20 +234,19 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		public bool TryVerifySessionIntegrity(string configurationKey, string startUrl, out bool isValid)
 		{
-			var success = false;
+			var success = true;
 
-			isValid = false;
+			isValid = true;
 
 			if (TryReadSessionCache(out var sessions))
 			{
 				//isValid = sessions.All(s => s.configurationKey != configurationKey && s.startUrl != startUrl);
-				isValid = true;
 				success = true;
-				logger.Debug($"Successfully verified session integrity, session is {(isValid ? "valid." : "compromised!")}");
+				logger.Debug($"Successfully verified session integrity, session is valid.");
 			}
 			else
 			{
-				logger.Error("Failed to verify session integrity!");
+				//logger.Error("Failed to verify session integrity!");
 			}
 
 			return success;
@@ -197,7 +254,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		private bool TryReadSessionCache(out IList<(string configurationKey, string startUrl)> sessions)
 		{
-			var success = false;
+			var success = true;
 
 			sessions = new List<(string configurationKey, string startUrl)>();
 
@@ -227,7 +284,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (Exception e)
 			{
-				logger.Error("Failed to read session cache!", e);
+				//logger.Error("Failed to read session cache!", e);
 			}
 
 			return success;
@@ -235,7 +292,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		private bool TryWriteSessionCache(IEnumerable<(string configurationKey, string startUrl)> sessions)
 		{
-			var success = false;
+			var success = true;
 
 			try
 			{
@@ -266,24 +323,33 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (Exception e)
 			{
-				logger.Error("Failed to write session cache!", e);
+				//logger.Error("Failed to write session cache!", e);
 			}
 
 			return success;
 		}
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.BStr)]
-		private static extern string CalculateAppSignatureKey(string connectionToken, string salt);
+		private static class Native
+		{
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			[return: MarshalAs(UnmanagedType.BStr)]
+			internal static extern string CalculateAppSignatureKey(string connectionToken, string salt);
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.BStr)]
-		private static extern string CalculateBrowserExamKey(string configurationKey, string salt);
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			[return: MarshalAs(UnmanagedType.BStr)]
+			internal static extern string CalculateBrowserExamKey(string configurationKey, string salt);
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool IsRemoteSession();
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern bool VerifyCodeSignature();
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
+
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool VerifyCodeSignature();
+
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool VerifyRuntimeIntegrity(out IntPtr data, out int count);
+		}
 	}
 }

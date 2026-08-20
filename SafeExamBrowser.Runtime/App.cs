@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Runtime
 				// Safe Exam Browser Patch first use dialog.
 				if (!CheckRegistry(Microsoft.Win32.RegistryHive.CurrentUser, @"Software\Vichingo455\SEBPatch", "FirstOpeningDialogShown"))
 				{
-					MessageBox.Show("This patch has been created by Vichingo455.\nIt patches Safe Exam Browser functions to escape its kiosk mode, as well as allowing copy paste and more.\nAfter you finished using Safe Exam Browser, you can quit it using CTRL+Q or the X of the window for a forced close (the PC may freeze for a while, just wait).\nAfter closing SEB you may notice that the taskbar tends to disappear, just log off and log back in (or restart all explorer.exe processes from Task Manager) and everything will be back to normal.\n\nThis message is only shown once, click OK when you finished reading.", "Safe Exam Browser Patch by Vichingo455", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+					MessageBox.Show("This patch has been created by Vichingo455.\nIt patches Safe Exam Browser functions to escape its kiosk mode, as well as allowing copy paste and more.\nAfter you finished using Safe Exam Browser, you can quit it using CTRL+Q or the button at the bottom.\nRemember to never run explorer.exe or you will mess up the mask (I will laugh at you if you get caught this way).\n\nThis message is only shown once, click OK when you finished reading.", "Safe Exam Browser Patch by Vichingo455", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 					try
 					{
 						Microsoft.Win32.RegistryKey rk = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"Software\Vichingo455\SEBPatch");

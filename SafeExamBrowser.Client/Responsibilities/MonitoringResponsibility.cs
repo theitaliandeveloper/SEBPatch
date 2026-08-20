@@ -86,11 +86,6 @@ namespace SafeExamBrowser.Client.Responsibilities
 			sentinel.StickyKeysChanged -= Sentinel_StickyKeysChanged;
 		}
 
-		private void StopMonitoring()
-		{
-			sentinel.StopMonitoring();
-		}
-
 		private void RegisterEvents()
 		{
 			applicationMonitor.ExplorerStarted += ApplicationMonitor_ExplorerStarted;
@@ -120,6 +115,11 @@ namespace SafeExamBrowser.Client.Responsibilities
 			{
 				sentinel.StartMonitoringEaseOfAccess();
 			}
+		}
+
+		private void StopMonitoring()
+		{
+			sentinel.StopMonitoring();
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()
@@ -172,7 +172,9 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 			Logger.Info("Desktop successfully restored.");
 
-			if (!displayMonitor.ValidateConfiguration(Settings.Display).IsAllowed)
+			var allowed = displayMonitor.ValidateConfiguration(Settings.Display).IsAllowed;
+
+			if (!allowed && coordinator.RequestSessionLock())
 			{
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_DisplayConfigurationContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_DisplayConfigurationTerminateOption) };
@@ -185,6 +187,12 @@ namespace SafeExamBrowser.Client.Responsibilities
 					Logger.Info("Attempting to shutdown as requested by the user...");
 					TryRequestShutdown();
 				}
+
+				coordinator.ReleaseSessionLock();
+			}
+			else if (!allowed)
+			{
+				Logger.Info("Display configuration is not allowed but lock screen is already active.");
 			}
 		}
 

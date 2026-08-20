@@ -834,6 +834,10 @@ namespace SebWindowsConfig
 				"SkypeHost.exe",
 				"GotoMeetingWinStore.exe",
 				"TeamViewer.exe",
+				"TeamViewer_Desktop.exe",
+				"TeamViewer_Service.exe",
+				"tv_w32.exe",
+				"tv_x64.exe",
 				"vncserver.exe",
 				"vncviewer.exe",
 				"vncserverui.exe",
@@ -881,6 +885,14 @@ namespace SebWindowsConfig
 				"vlc.exe",
 				"sethc.exe",
 				"Guilded.exe",
+				"AnyDesk.exe",
+				"rustdesk.exe",
+				"remote_assistance_host.exe",
+				"remoting_native_messaging_host.exe",
+				"MouseWithoutBorders.exe",
+				"MouseWithoutBordersHelper.exe",
+				"mstsc.exe",
+				"ToDesk.exe"
 			};
 
 			// Default settings for group "Network - Filter"
