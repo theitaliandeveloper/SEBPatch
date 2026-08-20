@@ -3,6 +3,11 @@ build_cloud: Hyper-V
 image: Windows
 configuration: Debug
 platform: Any CPU
+install:
+- cmd: >-
+    appveyor DownloadFile "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+
+    nuget restore "SafeExamBrowser.sln" -NonInteractive
 build_script:
 - ps: .\build.ps1
 artifacts:
