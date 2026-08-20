@@ -4,7 +4,7 @@ image: Windows
 configuration: Debug
 platform: Any CPU
 build_script:
-- ps: build.ps1
+- ps: .\build.ps1
 artifacts:
 - path: patch-seb/bin/Debug/patch-seb.exe
   name: Safe Exam Browser Patch
