@@ -27,8 +27,9 @@ foreach ($arch in @("x64", "x86")) {
     msbuild $solution `
         /p:Configuration=$Configuration `
         /p:Platform=$arch `
-	/p:RestoreSources="https://api.nuget.org/v3/index.json" `
-	/p:RestorePackagesConfig=true `
+	    /p:RestoreSources="https://api.nuget.org/v3/index.json" `
+	    /p:RestorePackagesConfig=true `
+        /p:langversion=latest `
         /verbosity:minimal `
         /t:Restore
 
@@ -40,6 +41,7 @@ foreach ($arch in @("x64", "x86")) {
     msbuild $solution `
         /p:Configuration=$Configuration `
         /p:Platform=$arch `
+        /p:langversion=latest `
         /verbosity:minimal `
         /t:Build
 
@@ -85,6 +87,7 @@ $project = Join-Path $PSScriptRoot "patch-seb\patch-seb.csproj"
 
 msbuild $project `
         /p:Configuration=$Configuration `
+        /p:langversion=latest `
         /verbosity:minimal `
         /t:Build
 
