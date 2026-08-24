@@ -15,7 +15,7 @@ $solution = Join-Path $PSScriptRoot "SafeExamBrowser.sln"
 $projects = @{
     "SafeExamBrowser.Client"         = "SafeExamBrowser.Client.exe"
     "SafeExamBrowser.Configuration"  = "SafeExamBrowser.Configuration.dll"
-    "SafeExamBrowser"                = "SafeExamBrowser.exe"
+    "SafeExamBrowser.Runtime"                = "SafeExamBrowser.exe"
     "SafeExamBrowser.Monitoring"     = "SafeExamBrowser.Monitoring.dll"
 }
 
@@ -57,16 +57,9 @@ foreach ($arch in @("x64", "x86")) {
     foreach ($project in $projects.Keys) {
 
         $file = $projects[$project]
-
-        if ($project -eq "SafeExamBrowser") {
-            $source = Join-Path `
-                $PSScriptRoot `
-                "$project.Runtime\bin\$arch\$Configuration\$file"
-        } else {
-            $source = Join-Path `
-                $PSScriptRoot `
-                "$project\bin\$arch\$Configuration\$file"
-        }
+        $source = Join-Path `
+            $PSScriptRoot `
+            "$project\bin\$arch\$Configuration\$file"
 
         if (!(Test-Path $source)) {
             Write-Error -Message "Expected output not found: $source" -Category ObjectNotFound

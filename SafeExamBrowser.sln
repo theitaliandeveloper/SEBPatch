@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33414.496
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12105.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Runtime", "SafeExamBrowser.Runtime\SafeExamBrowser.Runtime.csproj", "{E3AED2F8-B5DF-45D1-AC19-48066923D6D8}"
 EndProject
@@ -469,13 +469,9 @@ Global
 		{FC6D80EC-8611-4287-87E2-17C028A10858}.Release|x64.ActiveCfg = Release|x64
 		{FC6D80EC-8611-4287-87E2-17C028A10858}.Release|x86.ActiveCfg = Release|x86
 		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Debug|x64.Build.0 = Debug|Any CPU
 		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Debug|x86.Build.0 = Debug|Any CPU
 		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Release|x64.ActiveCfg = Release|Any CPU
-		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Release|x64.Build.0 = Release|Any CPU
 		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Release|x86.ActiveCfg = Release|Any CPU
-		{71C95790-DE7D-4F88-BB74-B17A26ED5E44}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
