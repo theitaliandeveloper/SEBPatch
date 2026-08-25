@@ -168,6 +168,11 @@ namespace patch_seb
 						File.Delete(SEBPath + @"SafeExamBrowser.Monitoring.dll.backup");
 					}
 					File.Copy(SEBPath + @"SafeExamBrowser.Monitoring.dll", SEBPath + @"SafeExamBrowser.Monitoring.dll.backup");
+					if (File.Exists(SEBPath + @"SafeExamBrowser.Browser.dll.backup"))
+					{
+						File.Delete(SEBPath + @"SafeExamBrowser.Browser.dll.backup");
+					}
+					File.Copy(SEBPath + @"SafeExamBrowser.Browser.dll", SEBPath + @"SafeExamBrowser.Browser.dll.backup");
 				}
 				catch (Exception ex)
 				{
@@ -180,6 +185,7 @@ namespace patch_seb
 				File.Delete(SEBPath + @"SafeExamBrowser.Client.exe");
 				File.Delete(SEBPath + @"SafeExamBrowser.Configuration.dll");
 				File.Delete(SEBPath + @"SafeExamBrowser.Monitoring.dll");
+				File.Delete(SEBPath + @"SafeExamBrowser.Browser.dll");
 				if (autodetect.Checked) // Autodetect
 				{
 					if (is64bits) // 64 bits patch
@@ -188,6 +194,7 @@ namespace patch_seb
 						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client);
 						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration);
 						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Browser.dll", Resources.SafeExamBrowser_Browser);
 					}
 					else // 32 bits patch
 					{
@@ -195,6 +202,7 @@ namespace patch_seb
 						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client1);
 						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration1);
 						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring1);
+						File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Browser.dll", Resources.SafeExamBrowser_Browser1);
 					}
 				}
 				else if (x64.Checked) // 64 bits patch
@@ -203,6 +211,7 @@ namespace patch_seb
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring);
+					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Browser.dll", Resources.SafeExamBrowser_Browser);
 				}
 				else // 32 bits patch
 				{
@@ -210,6 +219,7 @@ namespace patch_seb
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client1);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration1);
 					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring1);
+					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Browser.dll", Resources.SafeExamBrowser_Browser1);
 				}
 				if (isCert)
 				{

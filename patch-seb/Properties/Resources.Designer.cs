@@ -105,6 +105,26 @@ namespace patch_seb.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] SafeExamBrowser_Browser {
+            get {
+                object obj = ResourceManager.GetObject("SafeExamBrowser_Browser", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SafeExamBrowser_Browser1 {
+            get {
+                object obj = ResourceManager.GetObject("SafeExamBrowser_Browser1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] SafeExamBrowser_Client {
             get {
                 object obj = ResourceManager.GetObject("SafeExamBrowser_Client", resourceCulture);

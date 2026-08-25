@@ -13,6 +13,7 @@ if (-not (Get-Command msbuild -ErrorAction SilentlyContinue)) {
 $solution = Join-Path $PSScriptRoot "SafeExamBrowser.sln"
 
 $projects = @{
+    "SafeExamBrowser.Browser"        = "SafeExamBrowser.Browser.dll"
     "SafeExamBrowser.Client"         = "SafeExamBrowser.Client.exe"
     "SafeExamBrowser.Configuration"  = "SafeExamBrowser.Configuration.dll"
     "SafeExamBrowser.Runtime"        = "SafeExamBrowser.exe"

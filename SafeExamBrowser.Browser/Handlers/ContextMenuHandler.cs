@@ -14,7 +14,6 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		public void OnBeforeContextMenu(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
 		{
-			model.Clear();
 		}
 
 		public bool OnContextMenuCommand(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
