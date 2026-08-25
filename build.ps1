@@ -15,7 +15,7 @@ $solution = Join-Path $PSScriptRoot "SafeExamBrowser.sln"
 $projects = @{
     "SafeExamBrowser.Client"         = "SafeExamBrowser.Client.exe"
     "SafeExamBrowser.Configuration"  = "SafeExamBrowser.Configuration.dll"
-    "SafeExamBrowser.Runtime"                = "SafeExamBrowser.exe"
+    "SafeExamBrowser.Runtime"        = "SafeExamBrowser.exe"
     "SafeExamBrowser.Monitoring"     = "SafeExamBrowser.Monitoring.dll"
 }
 
@@ -34,7 +34,7 @@ foreach ($arch in @("x64", "x86")) {
         /t:Restore
 
     if ($LASTEXITCODE -ne 0) {
-        Write-Error -Message "Failed restoring packages (configuration: $Configuration, arch: $arch)." -Category InvalidResult
+        Write-Error -Message "Failed restoring packages (configuration: $Configuration, arch: $arch): msbuild returned error code $LASTEXITCODE." -Category InvalidResult
         exit 1
     }
 
@@ -46,7 +46,7 @@ foreach ($arch in @("x64", "x86")) {
         /t:Build
 
     if ($LASTEXITCODE -ne 0) {
-        Write-Error -Message "Failed compiling Safe Exam Browser Patch files (configuration: $Configuration, arch: $arch)." -Category InvalidResult
+        Write-Error -Message "Failed compiling Safe Exam Browser Patch files (configuration: $Configuration, arch: $arch): msbuild returned error code $LASTEXITCODE." -Category InvalidResult
         exit 1
     }
 
@@ -85,7 +85,7 @@ msbuild $project `
         /t:Build
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Error -Message "Failed compiling Safe Exam Browser patcher (configuration: $Configuration)." -Category InvalidResult
+    Write-Error -Message "Failed compiling Safe Exam Browser patcher (configuration: $Configuration): msbuild returned error code $LASTEXITCODE." -Category InvalidResult
     exit 1
 } else {
     Write-Host ""
