@@ -264,7 +264,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.VerifyCursorConfiguration = false;
 			settings.Security.VerifySessionIntegrity = false;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
-			settings.Security.AllowWindowCapture = false;
+			settings.Security.AllowWindowCapture = true;
 
 			settings.Server.Invigilation.ForceRaiseHandMessage = false;
 			settings.Server.Invigilation.ShowRaiseHandNotification = true;
