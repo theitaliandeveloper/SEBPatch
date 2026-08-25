@@ -80,6 +80,7 @@ $project = Join-Path $PSScriptRoot "patch-seb\patch-seb.csproj"
 
 msbuild $project `
         /p:Configuration=$Configuration `
+        /p:Platform=AnyCPU `
         /p:langversion=latest `
         /verbosity:minimal `
         /t:Build
