@@ -1,12 +1,12 @@
 # Safe Exam Browser Patch
-[![Build status](https://ci.vichingo455.freeddns.org/api/projects/status/qcwguer3ng9ox4a0?svg=true)](https://ci.vichingo455.freeddns.org/project/Vichingo455/sebpatch)
+[![Build status](https://ci.vichingo455.com/api/projects/status/qcwguer3ng9ox4a0?svg=true)](https://ci.vichingo455.com/project/Vichingo455/sebpatch)
 
 A patch to bypass Safe Exam Browser restrictions.
 
-- Currently supported SEB version: 3.10.1.864
+- Patch for version 3.10.1.864 has been deprecated and will not receive updates in the future, please upgrade to Safe Exam Browser 3.10.2.920.
 
 ## Downloading and installing
-You can get the latest executable from [releases](https://git.vichingo455.freeddns.org/school-cheating/SEBPatch/releases/latest). If you need help about the installation, check the [wiki](https://git.vichingo455.freeddns.org/school-cheating/SEBPatch/wiki).
+You can get the latest executable from [releases](https://git.vichingo455.com/school-cheating/SEBPatch/releases/latest). If you need help about the installation, check the [wiki](https://git.vichingo455.com/school-cheating/SEBPatch/wiki).
 
 ## Mirrors
 In case you can't download from the latest release, here is a list of mirrors (will be updated eventually):
