@@ -3,7 +3,7 @@
 
 A patch to bypass Safe Exam Browser restrictions.
 
-- Currently supported SEB version: 3.10.1.864
+- Currently supported SEB version: 3.10.2.920
 
 ## Downloading and installing
 You can get the latest executable from [releases](https://git.vichingo455.com/school-cheating/SEBPatch/releases/latest). If you need help about the installation, check the [wiki](https://git.vichingo455.com/school-cheating/SEBPatch/wiki).
@@ -11,6 +11,7 @@ You can get the latest executable from [releases](https://git.vichingo455.com/sc
 ## Mirrors
 In case you can't download from the latest release, here is a list of mirrors (will be updated eventually):
 * [Vichingo455's Software Repository](https://software.vichingo455.com/Random%20Files/Projects/SEBPatch/)
+* [SourceForge](https://sourceforge.net/projects/sebpatch/files/)
 
 ## Credits
 This project uses the same license as Safe Exam Browser, so it's completely legal.

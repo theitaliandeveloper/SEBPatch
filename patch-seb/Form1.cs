@@ -12,18 +12,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using patch_seb.Properties;
+using static patch_seb.Variables;
 
 namespace patch_seb
 {
     public partial class Form1 : Form
     {
-		public static bool isBackup;
-		public static bool started = false;
-		public static bool alreadyPatched = false;
-		public static string SEBPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\SafeExamBrowser\Application\";
-		public static int something = 0;
-		public static bool isCert;
-
 		public Form1()
         {
             InitializeComponent();
@@ -36,9 +30,9 @@ namespace patch_seb
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			#if DEBUG
-				AddLog("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + " (Safe Exam Browser v" + Variables.SupportedSEB + ")");
+				AddLog("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + " (Safe Exam Browser v" + SupportedSEB + ")");
 			#else
-				AddLog("Safe Exam Browser Patch v" + Application.ProductVersion + " (Safe Exam Browser v" + Variables.SupportedSEB + ")");
+				AddLog("Safe Exam Browser Patch v" + Application.ProductVersion + " (Safe Exam Browser v" + SupportedSEB + ")");
 			#endif
 			AddLog("");
 			if (Environment.Is64BitOperatingSystem)
@@ -64,12 +58,12 @@ namespace patch_seb
 			{
 				FileVersionInfo SEBVersion = FileVersionInfo.GetVersionInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\SafeExamBrowser\Application\SafeExamBrowser.exe");
 				FileVersionInfo SEBDLLVersion = FileVersionInfo.GetVersionInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + @"\SafeExamBrowser\Application\SafeExamBrowser.Configuration.dll");
-				if (SEBVersion.FileVersion != Variables.SupportedSEB)
+				if (SEBVersion.FileVersion != SupportedSEB)
 				{
 					AddLog("[ERROR] Found unsupported Safe Exam Browser version.");
 					button1.Enabled = false;
 				}
-				else if (SEBVersion.ProductVersion == Variables.SupportedSEB || SEBDLLVersion.ProductVersion == "1.0.0.0") // Somehow the patched version string differs from the official version string.
+				else if (SEBVersion.ProductVersion == SupportedSEB || SEBDLLVersion.ProductVersion == "1.0.0.0") // Somehow the patched version string differs from the official version string.
 				{
 					checkBox1.Checked = false;
 					checkBox1.Enabled = false;
@@ -112,31 +106,13 @@ namespace patch_seb
 			{
 				try
 				{
-					if (File.Exists(SEBPath + @"SafeExamBrowser.exe.backup"))
+					for (int i = 0; i < files.Length; i++)
 					{
-						File.Delete(SEBPath + @"SafeExamBrowser.exe.backup");
+#if DEBUG
+						AddLog($"[DEBUG] Backing up {files[i]}...");
+#endif
+						Helpers.BackupFile(SEBPath + files[i], SEBPath + files[i] + ".backup");
 					}
-					File.Copy(SEBPath + @"SafeExamBrowser.exe", SEBPath + @"SafeExamBrowser.exe.backup");
-					if (File.Exists(SEBPath + @"SafeExamBrowser.Client.exe.backup"))
-					{
-						File.Delete(SEBPath + @"SafeExamBrowser.Client.exe.backup");
-					}
-					File.Copy(SEBPath + @"SafeExamBrowser.Client.exe", SEBPath + @"SafeExamBrowser.Client.exe.backup");
-					if (File.Exists(SEBPath + @"SafeExamBrowser.Configuration.dll.backup"))
-					{
-						File.Delete(SEBPath + @"SafeExamBrowser.Configuration.dll.backup");
-					}
-					File.Copy(SEBPath + @"SafeExamBrowser.Configuration.dll", SEBPath + @"SafeExamBrowser.Configuration.dll.backup");
-					if (File.Exists(SEBPath + @"SafeExamBrowser.Monitoring.dll.backup"))
-					{
-						File.Delete(SEBPath + @"SafeExamBrowser.Monitoring.dll.backup");
-					}
-					File.Copy(SEBPath + @"SafeExamBrowser.Monitoring.dll", SEBPath + @"SafeExamBrowser.Monitoring.dll.backup");
-					if (File.Exists(SEBPath + @"SafeExamBrowser.Browser.dll.backup"))
-					{
-						File.Delete(SEBPath + @"SafeExamBrowser.Browser.dll.backup");
-					}
-					File.Copy(SEBPath + @"SafeExamBrowser.Browser.dll", SEBPath + @"SafeExamBrowser.Browser.dll.backup");
 				}
 				catch (Exception ex)
 				{
@@ -145,29 +121,31 @@ namespace patch_seb
 			}
 			try
 			{
-				File.Delete(SEBPath + @"SafeExamBrowser.exe");
-				File.Delete(SEBPath + @"SafeExamBrowser.Client.exe");
-				File.Delete(SEBPath + @"SafeExamBrowser.Configuration.dll");
-				File.Delete(SEBPath + @"SafeExamBrowser.Monitoring.dll");
-				File.Delete(SEBPath + @"SafeExamBrowser.Browser.dll");
 				if (Environment.Is64BitOperatingSystem) // 64 bits patch
 				{
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.exe", Resources.SafeExamBrowser);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Browser.dll", Resources.SafeExamBrowser_Browser);
+					for (int i = 0; i < files.Length; i++)
+					{
+#if DEBUG
+						AddLog($"[DEBUG] Patching {files[i]}...");
+#endif
+						Helpers.PatchFile(SEBPath + files[i],patchedFiles64[i]);
+					}
 				}
 				else // 32 bits patch
 				{
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.exe", Resources.SafeExamBrowser1);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Client.exe", Resources.SafeExamBrowser_Client1);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Configuration.dll", Resources.SafeExamBrowser_Configuration1);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Monitoring.dll", Resources.SafeExamBrowser_Monitoring1);
-					File.WriteAllBytes(SEBPath + @"SafeExamBrowser.Browser.dll", Resources.SafeExamBrowser_Browser1);
+					for (int i = 0; i < files.Length; i++)
+					{
+#if DEBUG
+						AddLog($"[DEBUG] Patching {files[i]}...");
+#endif
+						Helpers.PatchFile(SEBPath + files[i], patchedFiles32[i]);
+					}
 				}
 				if (isCert)
 				{
+#if DEBUG
+					AddLog("[DEBUG] Installing certificate...");
+#endif
 					File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Temp\SEB.reg", Resources.cert);
 					ProcessStartInfo info = new ProcessStartInfo
 					{
@@ -194,9 +172,9 @@ namespace patch_seb
 			{
 				something = 0;
 				#if DEBUG
-					MessageBox.Show("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				#else
-					MessageBox.Show("Safe Exam Browser Patch v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + Variables.SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("Safe Exam Browser Patch v" + Application.ProductVersion + "\nFor Safe Exam Browser version " + SupportedSEB + "\nCreated with love by Vichingo455\n\nBecause Freedom is a right, respect it.", "Safe Exam Browser Patch", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				#endif
 			}
 			else
