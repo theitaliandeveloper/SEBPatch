@@ -1,1 +1,5 @@
 blank_issues_enabled: false
+contact_links:
+  - name: Issues related to SEB (not patch related)
+    url: https://github.com/SafeExamBrowser/seb-win-refactoring/issues
+    about: If it's not related to my SEB patch, please ask it here.

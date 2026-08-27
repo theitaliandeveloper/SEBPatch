@@ -1,9 +1,9 @@
 ---
 name: Feature Request
-about: Suggest an idea or new feature for Safe Exam Browser.
+about: Suggest an idea or new feature for the Safe Exam Browser patch.
 title: ''
 labels: ''
-assignees: dbuechel
+assignees: theitaliandeveloper
 
 ---
 
