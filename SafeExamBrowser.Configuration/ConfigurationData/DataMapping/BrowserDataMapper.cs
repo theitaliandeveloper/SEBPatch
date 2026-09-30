@@ -252,25 +252,21 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapAllowNavigation(AppSettings settings, object value)
 		{
-			//if (value is bool allow)
-			//{
-			//	settings.Browser.MainWindow.AllowBackwardNavigation = allow;
-			//	settings.Browser.MainWindow.AllowForwardNavigation = allow;
-			//}
-			settings.Browser.MainWindow.AllowBackwardNavigation = true;
-			settings.Browser.MainWindow.AllowForwardNavigation = true;
+			if (value is bool allow)
+			{
+				settings.Browser.MainWindow.AllowBackwardNavigation = allow;
+				settings.Browser.MainWindow.AllowForwardNavigation = allow;
 			}
+		}
 
 		private void MapAllowNavigationAdditionalWindow(AppSettings settings, object value)
 		{
-			//if (value is bool allow)
-			//{
-			//	settings.Browser.AdditionalWindow.AllowBackwardNavigation = allow;
-			//	settings.Browser.AdditionalWindow.AllowForwardNavigation = allow;
-			//}
-			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;
-			settings.Browser.AdditionalWindow.AllowForwardNavigation = true;
+			if (value is bool allow)
+			{
+				settings.Browser.AdditionalWindow.AllowBackwardNavigation = allow;
+				settings.Browser.AdditionalWindow.AllowForwardNavigation = allow;
 			}
+		}
 
 		private void MapAllowPageZoom(AppSettings settings, object value)
 		{
@@ -411,21 +407,19 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapHomeButtonUrl(AppSettings settings, object value)
 		{
-			//if (value is string url)
-			//{
-			//	settings.Browser.HomeUrl = url;
-			//}
-			settings.Browser.HomeUrl = "https://google.com";
+			if (value is string url)
+			{
+				settings.Browser.HomeUrl = url;
 			}
+		}
 
 		private void MapHomeButtonUseStartUrl(AppSettings settings, object value)
 		{
-			//if (value is bool use)
-			//{
-			//	settings.Browser.UseStartUrlAsHomeUrl = use;
-			//}
-			settings.Browser.UseStartUrlAsHomeUrl = false;
+			if (value is bool use)
+			{
+				settings.Browser.UseStartUrlAsHomeUrl = use;
 			}
+		}
 
 		private void MapMainWindowMode(AppSettings settings, object value)
 		{

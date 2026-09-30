@@ -154,9 +154,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			//settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Zoom.exe", OriginalName = "Zoom.exe" });
 
 			settings.Browser.AdditionalWindow.AllowAddressBar = false;
-			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;
+			settings.Browser.AdditionalWindow.AllowBackwardNavigation = false;
 			settings.Browser.AdditionalWindow.AllowDeveloperConsole = true;
-			settings.Browser.AdditionalWindow.AllowForwardNavigation = true;
+			settings.Browser.AdditionalWindow.AllowForwardNavigation = false;
 			settings.Browser.AdditionalWindow.AllowReloading = true;
 			settings.Browser.AdditionalWindow.FullScreenMode = false;
 			settings.Browser.AdditionalWindow.Position = WindowPosition.Right;
@@ -180,9 +180,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.DeleteCookiesOnStartup = true;
 			settings.Browser.EnableBrowser = true;
 			settings.Browser.MainWindow.AllowAddressBar = false;
-			settings.Browser.MainWindow.AllowBackwardNavigation = true;
+			settings.Browser.MainWindow.AllowBackwardNavigation = false;
 			settings.Browser.MainWindow.AllowDeveloperConsole = true;
-			settings.Browser.MainWindow.AllowForwardNavigation = true;
+			settings.Browser.MainWindow.AllowForwardNavigation = false;
 			settings.Browser.MainWindow.AllowReloading = true;
 			settings.Browser.MainWindow.FullScreenMode = false;
 			settings.Browser.MainWindow.RelativeHeight = 100;
@@ -309,8 +309,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.UserInterface.Taskbar.ShowClock = true;
 			settings.UserInterface.Taskbar.ShowKeyboardLayout = true;
 			settings.UserInterface.Taskbar.ShowNetwork = false;
-
-			settings.Browser.HomeUrl = "https://google.com";
 
 			return settings;
 		}
