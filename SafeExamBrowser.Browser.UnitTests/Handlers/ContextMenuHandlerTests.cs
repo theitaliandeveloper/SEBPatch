@@ -25,16 +25,16 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		}
 
 		[TestMethod]
-		public void MustAllowContextMenu()
+		public void MustClearContextMenu()
 		{
 			var menu = new Mock<IMenuModel>();
 
 			sut.OnBeforeContextMenu(default(IWebBrowser), default(IBrowser), default(IFrame), default(IContextMenuParams), menu.Object);
-			menu.Verify(m => m.Clear(), Times.Never);
+			menu.Verify(m => m.Clear(), Times.Once);
 		}
 
 		[TestMethod]
-		public void MustAllowContextMenuDisplay()
+		public void MustBlockContextMenu()
 		{
 			var command = sut.OnContextMenuCommand(default(IWebBrowser), default(IBrowser), default(IFrame), default(IContextMenuParams), default(CefMenuCommand), default(CefEventFlags));
 			var run = sut.RunContextMenu(default(IWebBrowser), default(IBrowser), default(IFrame), default(IContextMenuParams), default(IMenuModel), default(IRunContextMenuCallback));

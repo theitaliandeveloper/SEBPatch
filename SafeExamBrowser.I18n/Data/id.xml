@@ -390,6 +390,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Muat Ulang?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Inisialisasi fungsi pengawasan telah gagal (misalnya karena kesalahan koneksi). Silakan periksa berkas log untuk informasi lebih lanjut. SEB sekarang akan dimatikan...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Kegagalan Inisialisasi Pengawasan
+    </Entry>
     <Entry key="MessageBox_Quit">
         Apakah Anda ingin keluar dari SEB?
     </Entry>
@@ -639,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Memvalidasi kebijakan mesin virtual
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Memverifikasi integritas
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

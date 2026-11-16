@@ -96,7 +96,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		public bool IsVirtualMachine(out string manufacturer, out int probability)
 		{
-			var isVm = false;
+			var isVirtualMachine = false;
 
 			manufacturer = "To Be Filled By O.E.M.";
 			probability = 0;
@@ -120,7 +120,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			//	logger.Error("Unexpected error while attempting to query virtual machine information!", e);
 			//}
 
-			return isVm;
+			return isVirtualMachine;
 		}
 
 		public bool TryCalculateAppSignatureKey(string connectionToken, string salt, out string appSignatureKey)
@@ -156,8 +156,8 @@ namespace SafeExamBrowser.Configuration.Integrity
 				}
 				else
 				{
-					browserExamKey = Native.CalculateBrowserExamKey(configurationKey, salt);
-				}
+				browserExamKey = Native.CalculateBrowserExamKey(configurationKey, salt);
+			}
 			}
 			catch (DllNotFoundException)
 			{
@@ -171,7 +171,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			return browserExamKey != default;
 		}
 
-		public bool TryVerifyCodeSignature(out bool isValid)
+		public bool TryVerifyApplicationIntegrity(out bool isValid)
 		{
 			var success = false;
 
@@ -195,38 +195,34 @@ namespace SafeExamBrowser.Configuration.Integrity
 			return success;
 		}
 
-		public bool TryVerifyRuntimeIntegrity(out bool isValid)
+		public bool TryVerifyRuntimeIntegrity(out RuntimeIntegrityViolation violations)
 		{
 			var success = true;
 
-			isValid = default;
+			violations = default;
 
 			try
 			{
-				//isValid = Native.VerifyRuntimeIntegrity(out var data, out var count);
-				isValid = true;
+				var behaviorValid = Native.VerifyRuntimeBehavior(out var details);
+				var componentsValid = Native.VerifyRuntimeComponents(out var data, out var count);
 
-				/*for (var index = 0; index < count; index++)
-				{
-					var pointer = Marshal.ReadIntPtr(data, index * IntPtr.Size);
-					var raw = Marshal.PtrToStringBSTR(pointer);
-					var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+				/*
+				LogRuntimeBehaviorViolation(details);
+				LogRuntimeComponentsViolation(data, count);
 
-					logger.Warn($"Runtime Integrity Violation #{index}: {item}");
-
-					Marshal.FreeBSTR(pointer);
-				}*/
-
-				//Marshal.FreeCoTaskMem(data);
+				violations |= !behaviorValid ? RuntimeIntegrityViolation.Behavior : violations;
+				violations |= !componentsValid ? RuntimeIntegrityViolation.Components : violations;
+				*/
+				violations = RuntimeIntegrityViolation.None;
 				success = true;
 			}
 			catch (DllNotFoundException)
 			{
-				//logger.Warn("Integrity module is not available!");
+				logger.Warn("Integrity module is not available!");
 			}
 			catch (Exception e)
 			{
-				//logger.Error("Unexpected error while attempting to verify runtime integrity!", e);
+				logger.Error("Unexpected error while attempting to verify runtime integrity!", e);
 			}
 
 			return success;
@@ -252,6 +248,36 @@ namespace SafeExamBrowser.Configuration.Integrity
 			return success;
 		}
 
+		/*
+		private void LogRuntimeBehaviorViolation(IntPtr details)
+		{
+			if (details != IntPtr.Zero)
+			{
+				var raw = Marshal.PtrToStringBSTR(details);
+				var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+
+				logger.Warn($"Runtime Behavior Violation: {item}");
+
+				Marshal.FreeBSTR(details);
+			}
+		}
+
+		private void LogRuntimeComponentsViolation(IntPtr data, int count)
+		{
+			for (var index = 0; index < count; index++)
+			{
+				var pointer = Marshal.ReadIntPtr(data, index * IntPtr.Size);
+				var raw = Marshal.PtrToStringBSTR(pointer);
+				var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+
+				logger.Warn($"Runtime Component Violation #{index}: {item}");
+
+				Marshal.FreeBSTR(pointer);
+			}
+
+			Marshal.FreeCoTaskMem(data);
+		}
+		*/
 		private bool TryReadSessionCache(out IList<(string configurationKey, string startUrl)> sessions)
 		{
 			var success = true;
@@ -267,9 +293,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 					using (var stream = new CryptoStream(file, aes.CreateDecryptor(SESSION_DATA_KEY, SESSION_DATA_IV), CryptoStreamMode.Read))
 					using (var reader = new StreamReader(stream))
 					{
-						var line = reader.ReadLine();
-
-						if (line != default)
+						for (var line = reader.ReadLine(); line != default; line = reader.ReadLine())
 						{
 							var session = line.Split(new string[] { SESSION_DATA_SEPARATOR }, StringSplitOptions.None);
 							var configurationKey = session[0];
@@ -346,10 +370,13 @@ namespace SafeExamBrowser.Configuration.Integrity
 			internal static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
 
 			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-			internal static extern bool VerifyCodeSignature();
+			internal static extern bool VerifyApplicationIntegrity();
 
 			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-			internal static extern bool VerifyRuntimeIntegrity(out IntPtr data, out int count);
+			internal static extern bool VerifyRuntimeBehavior(out IntPtr details);
+
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool VerifyRuntimeComponents(out IntPtr data, out int count);
 		}
 	}
 }

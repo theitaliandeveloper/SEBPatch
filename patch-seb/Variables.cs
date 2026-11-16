@@ -9,7 +9,7 @@ namespace patch_seb
     internal class Variables
     {
 		// Supported SEB version
-		public static readonly string SupportedSEB = "3.10.2.920";
+		public static readonly string SupportedSEB = "3.10.3.960";
 		// Files to patch
 		public static readonly string[] files =
 		{

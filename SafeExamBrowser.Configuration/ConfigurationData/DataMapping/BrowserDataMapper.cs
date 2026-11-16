@@ -284,7 +284,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Browser.AllowPdfReaderToolbar = allow;
 			//}
 			settings.Browser.AllowPdfReaderToolbar = true;
-		}
+			}
 
 		private void MapAllowPrint(AppSettings settings, object value)
 		{

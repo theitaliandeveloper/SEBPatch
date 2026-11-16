@@ -61,11 +61,13 @@ namespace patch_seb
 
         private void OfflinePatcher_Load(object sender, EventArgs e)
         {
-			#if DEBUG
-				AddLog("Safe Exam Browser Offline Patch (Debug/Beta) v" + Application.ProductVersion + " (Safe Exam Browser v" + SupportedSEB + ")");
-			#else
-				AddLog("Safe Exam Browser Offline Patch v" + Application.ProductVersion + " (Safe Exam Browser v" + SupportedSEB + ")");
-			#endif
+#if DEBUG
+			AddLog("Safe Exam Browser Offline Patch (Debug/Beta) v" + Application.ProductVersion + " (for Safe Exam Browser v" + SupportedSEB + ")");
+			checkBox2.Enabled = false;
+			checkBox2.Checked = false;
+#else
+			AddLog("Safe Exam Browser Offline Patch v" + Application.ProductVersion + " (for Safe Exam Browser v" + SupportedSEB + ")");
+#endif
 			AddLog("");
 			partitionComboBox.Items.Clear();
 			AddLog("[INFO] Searching for suitable partitions...");

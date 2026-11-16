@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 			//	nativeMethods.DeregisterSystemEventHook(foregroundHookId.Value);
 			//	logger.Info($"Unregistered system foreground event with ID = {foregroundHookId}.");
 			//}
-			}
+		}
 
 		public bool TryGetActiveApplication(out ActiveApplication application)
 		{

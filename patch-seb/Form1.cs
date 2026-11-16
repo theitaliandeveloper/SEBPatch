@@ -29,11 +29,13 @@ namespace patch_seb
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			#if DEBUG
-				AddLog("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + " (Safe Exam Browser v" + SupportedSEB + ")");
-			#else
-				AddLog("Safe Exam Browser Patch v" + Application.ProductVersion + " (Safe Exam Browser v" + SupportedSEB + ")");
-			#endif
+#if DEBUG
+			AddLog("Safe Exam Browser Patch (Debug/Beta) v" + Application.ProductVersion + " (for Safe Exam Browser v" + SupportedSEB + ")");
+			checkBox2.Enabled = false;
+			checkBox2.Checked = false;
+#else
+			AddLog("Safe Exam Browser Patch v" + Application.ProductVersion + " (for Safe Exam Browser v" + SupportedSEB + ")");
+#endif
 			AddLog("");
 			if (Environment.Is64BitOperatingSystem)
 			{
@@ -63,7 +65,7 @@ namespace patch_seb
 					AddLog("[ERROR] Found unsupported Safe Exam Browser version.");
 					button1.Enabled = false;
 				}
-				else if (SEBVersion.ProductVersion == SupportedSEB || SEBDLLVersion.ProductVersion == "1.0.0.0") // Somehow the patched version string differs from the official version string.
+				else if (SEBVersion.ProductVersion == SupportedSEB || SEBDLLVersion.ProductVersion == "1.0.0.0")
 				{
 					checkBox1.Checked = false;
 					checkBox1.Enabled = false;

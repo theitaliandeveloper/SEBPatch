@@ -230,6 +230,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Keyboard.AllowF10 = true;
 			settings.Keyboard.AllowF11 = true;
 			settings.Keyboard.AllowF12 = true;
+			settings.Keyboard.AllowInjected = true;
 			settings.Keyboard.AllowPrintScreen = true;
 			settings.Keyboard.AllowSystemKey = true;
 
@@ -252,19 +253,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = true;
+			settings.Proctoring.ShowDisclaimer = true;
 			settings.Proctoring.ShowTaskbarNotification = true;
 
 			settings.Security.AllowApplicationLogAccess = false;
-			settings.Security.AllowTermination = true;
 			settings.Security.AllowReconfiguration = true;
 			settings.Security.AllowStickyKeys = true;
+			settings.Security.AllowTermination = true;
+			settings.Security.AllowWindowCapture = true;
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
 			settings.Security.DisableSessionChangeLockScreen = false;
 			settings.Security.KioskMode = KioskMode.DisableExplorerShell;
 			settings.Security.VerifyCursorConfiguration = false;
 			settings.Security.VerifySessionIntegrity = false;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
-			settings.Security.AllowWindowCapture = true;
 
 			settings.Server.Invigilation.ForceRaiseHandMessage = false;
 			settings.Server.Invigilation.ShowRaiseHandNotification = true;

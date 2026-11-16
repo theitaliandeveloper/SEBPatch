@@ -160,7 +160,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			else
 			{
 				settings.Security.KioskMode = KioskMode.DisableExplorerShell;
-			}
+		}
 		}
 
 		private void MapQuitPasswordHash(AppSettings settings, object value)
@@ -170,7 +170,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//	settings.Security.QuitPasswordHash = hash;
 			//}
 			settings.Security.QuitPasswordHash = "";
-			}
+		}
 
 		private void MapClipboardPolicy(AppSettings settings, object value)
 		{

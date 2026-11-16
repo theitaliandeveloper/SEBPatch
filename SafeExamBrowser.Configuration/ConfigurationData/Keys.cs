@@ -208,6 +208,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string EnableF10 = "enableF10";
 			internal const string EnableF11 = "enableF11";
 			internal const string EnableF12 = "enableF12";
+			internal const string EnableInjected = "enableInjected";
 			internal const string EnablePrintScreen = "enablePrintScreen";
 			internal const string EnableSystemKey = "enableStartMenu";
 		}
@@ -230,6 +231,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Proctoring
 		{
+			internal const string ShowDisclaimer = "showProctoringDisclaimer";
 			internal const string ShowTaskbarNotification = "showProctoringViewButton";
 
 			internal static class ScreenProctoring

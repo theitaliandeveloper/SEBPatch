@@ -68,6 +68,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Keyboard.EnableF12:
 					MapEnableF12(settings, value);
 					break;
+				case Keys.Keyboard.EnableInjected:
+					MapEnableInjected(settings, value);
+					break;
 				case Keys.Keyboard.EnablePrintScreen:
 					MapEnablePrintScreen(settings, value);
 					break;
@@ -235,6 +238,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			//}
 				settings.Keyboard.AllowF12 = enabled;
 			}
+
+		private void MapEnableInjected(AppSettings settings, object value)
+		{
+			//if (value is bool enabled)
+			//{
+			//	settings.Keyboard.AllowInjected = enabled;
+			//}
+			settings.Keyboard.AllowInjected = enabled;
+		}
 
 		private void MapEnablePrintScreen(AppSettings settings, object value)
 		{

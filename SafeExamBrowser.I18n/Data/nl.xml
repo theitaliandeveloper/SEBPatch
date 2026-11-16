@@ -390,6 +390,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Herladen?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Het initialiseren van de toezichtfunctie is mislukt (bijvoorbeeld vanwege een verbindingsfout). Raadpleeg de logbestanden voor meer informatie. SEB wordt nu afgesloten...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Fout bij het initialiseren van het toezicht
+    </Entry>
     <Entry key="MessageBox_Quit">
         Wil je SEB sluiten?
     </Entry>
@@ -639,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Beleid voor virtuele machines aan het valideren
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Integriteit aan het verifiëren
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">
